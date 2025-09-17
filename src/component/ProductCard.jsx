@@ -11,7 +11,7 @@ export default function ProductCard({ imgsrc, catagoryname, shortdecription, pri
   }
 
   return (
-    <div className="my-4 w-[400px] flex flex-col items-center rounded-lg text-black bg-white mobile-card shadow-[inset_1px_1px_8px_rgba(34,197,94,0.6)]">
+    <div className="my-4 w-[400px] mobail-product-card flex flex-col items-center rounded-lg text-black bg-white mobile-card shadow-[inset_1px_1px_8px_rgba(34,197,94,0.6)]">
        <img
         src={imgsrc || "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"}
         alt="Product Image"

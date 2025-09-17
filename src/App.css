@@ -83,7 +83,7 @@ a {
   }
 
   .mobile-card .img-size {
-    height: 140px;
+    height: 280px;
   }
 
   .mobile-card h3 {
@@ -116,5 +116,14 @@ a {
   .mobile-quntity button {
     font-size: 20px;
   }
+  .mobail-a{
+    flex-basis: 20%;
+    font-size: 10px;
+  }
+  .mobail-product-card{
+    box-sizing: border-box;
+    width: 375px;
+  }
+  
 
 }
