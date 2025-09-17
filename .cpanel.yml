@@ -1,0 +1,8 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH= /dev.poxygenbd.com
+    - cd /home/bijbdcom/repositories/ab-seed-company
+    - /bin/npm install
+    - /bin/npm run build
+    - /bin/rm -rf $DEPLOYPATH/*
+    - /bin/cp -r dist/* $DEPLOYPATH/
