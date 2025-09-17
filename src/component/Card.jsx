@@ -13,7 +13,11 @@ export default function Card({ imgsrc, catagoryname, shortdecription, price }) {
         <p className="text-center">{shortdecription}</p>
         <h4 className="text-md font-bold ">{`${price} BDT`}</h4>
 
-        <button className="rounded-[8px] bg-gray-500  py-2 mt-3 hover:text-blue-600 ">
+        <button className="bg-gray-500  py-2 mt-3 hover:text-blue-600 " style={{
+          borderRadius: "8px",
+          textAlign: "center",
+          padding: "10px"
+        }}>
           Add To Cart
         </button>
       </div>
