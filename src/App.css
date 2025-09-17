@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+a {
+  color: black;
+  width: inherit;
+  text-align: center;
+  direction: none;
+}
+
+.img-green{
+   filter: grayscale(100%) brightness(100%) sepia(100%) hue-rotate(90deg) saturate(500%);
+} 
+.img-scale{
+  transform: scale(1.5);
+}
+.text-size {
+  font-size: 150px;
+}
+
+.fist-index-green{
+  color: green;
+}
+
+.text-size:focus,
+.text-size:focus-visible {
+  outline: none;
+}
+
+
+
+
+
+@media (max-width: 640px) {
+  body {
+    font-size: 12px;
+  }
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    font-size: 15px;
+  }
+
+  .lable {
+    width: 100px;
+    margin: 0;
+    padding: 5px 0 5px 0;
+    font-size: small;
+    text-align: center;
+  }
+
+  .img {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+  }
+
+  .font-size-small {
+    box-sizing: border-box;
+    font-size: 10px;
+  }
+
+
+  a {
+    width: 100px;
+  }
+
+  .mobile-div {
+    height: 50px;
+  }
+
+  .mobile-card {
+    width: 180px;
+
+  }
+
+  .mobile-card .img-size {
+    height: 140px;
+  }
+
+  .mobile-card h3 {
+    font-size: 20px;
+  }
+
+  .size-font {
+    display: none;
+  }
+
+
+
+  .mobile-view-h1 {
+    font-size: 25px;
+  }
+
+  .mobile-quntity {
+    width: 80px;
+    font-size: 10px;
+  }
+
+  .mobile-quntity span {
+    display: none;
+  }
+
+  .mobile-quntity input {
+    width: 25px;
+  }
+
+  .mobile-quntity button {
+    font-size: 20px;
+  }
+
+}

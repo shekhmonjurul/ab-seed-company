@@ -1,0 +1,94 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #dbffcc;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+
+}
+
+a {
+  font-weight: 500;
+  color: black;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: green;
+  filter: grayscale(100%) brightness(100%) sepia(100%) hue-rotate(90deg) saturate(500%);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #dbffcc;
+}
+
+h1 {
+  font-size: 45px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 20px;
+  padding: 10px 0 0 10px;
+  text-align: left;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: inherit;
+  font-weight: 500;
+  text-align: center;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+
+
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #dbffcc;
+  }
+
+  a:hover {
+    color: green;
+  }
+
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
