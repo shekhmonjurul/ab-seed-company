@@ -22,7 +22,7 @@ const actionbuttons = [
 
 export default function PostCard({profile}) {
     return (
-        <div className="bg-white border-2 text-[#7F7F7F] rounded-lg">
+        <div className="bg-white border-2 text-[#7F7F7F] rounded-lg w-[375px]">
             <div className="text-black my-4">
                 <div className="m-4">
                     <div className="flex items-center">
