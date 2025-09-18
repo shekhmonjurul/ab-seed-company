@@ -1,11 +1,23 @@
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import Icon from '@mui/material/Icon';
+import { useState } from 'react';
 import { FaRegComment } from "react-icons/fa6";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
+export default function PostCard({profile}) {
+const [tumclick, setTumcick] = useState(false)
+
 const actionbuttons = [
     {
         name: "Shear",
-        function: ()=> console.log("i amr clike"),
+        function: ()=>{
+            navigator.share({
+                title: "AB Seed Company",
+                text: "Ab Seed Company",
+                url: "http://localhost:5173/comunity"
+            })
+        },
         icon: <ReplyOutlinedIcon className='transform scale-x-[-1]'/>
     },
     {
@@ -15,12 +27,13 @@ const actionbuttons = [
     },
     {
         name: "Like",
-        function: ()=> console.log("i amr clike"),
-        icon: <ThumbUpAltOutlinedIcon />
+        function: ()=> {
+            setTumcick(true)
+        },
+        icon: tumclick ? <ThumbUpIcon className='text-blue-700'/> : <ThumbUpAltOutlinedIcon />
     },
 ]
 
-export default function PostCard({profile}) {
     return (
         <div className="bg-white border-2 text-[#7F7F7F] rounded-lg w-[375px]">
             <div className="text-black my-4">
