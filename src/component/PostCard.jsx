@@ -28,7 +28,9 @@ const actionbuttons = [
     {
         name: "Like",
         function: ()=> {
-            setTumcick(!tumclick)
+            setTumcick(!tumclick
+                
+            )
         },
         icon: tumclick ? <ThumbUpIcon className='text-blue-700'/> : <ThumbUpAltOutlinedIcon />
     },
