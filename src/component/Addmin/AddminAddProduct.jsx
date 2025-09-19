@@ -89,7 +89,7 @@ export default function AddminAddProduct() {
     return (
         <>
             <div className="text-black bg-white border-2 p-4 rounded-2xl">
-                <form action="http://localhost:5173/addmin/product/list" method="post" className="flex flex-col" onSubmit={handelSubmit}>
+                <form action="/addmin/product/list" method="get" className="flex flex-col" onSubmit={handelSubmit}>
                     <div className="flex flex-row">
 
                         <div className="flex flex-col">
