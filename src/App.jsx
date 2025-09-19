@@ -9,17 +9,21 @@ import Newoffer from './pages/Newoffer'
 import OrderCart from './pages/OrderCart'
 import Notifaciton from './pages/Notifactin'
 import Profile from './Profile'
+import ProductList from './pages/Addmin/ProductList'
+import AddProduct from './pages/Addmin/AddProduct'
 
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/order", element: <OrderPage /> },
-  { path: "/productlist-addmin", element: <Productlist/> },
-  { path: "/allproduct", element: <AllProduct/> },
-  { path: "/comunity", element: <Comunity/> },
-  {path: "/newoffer", element: <Newoffer/>},
-  {path: "ordercart", element: <OrderCart/>},
-  {path: "/notifaction", element: <Notifaciton/>},
-  {path: "/profile", element: <Profile/>}
+  { path: "/productlist-addmin", element: <Productlist /> },
+  { path: "/allproduct", element: <AllProduct /> },
+  { path: "/comunity", element: <Comunity /> },
+  { path: "/newoffer", element: <Newoffer /> },
+  { path: "ordercart", element: <OrderCart /> },
+  { path: "/notifaction", element: <Notifaciton /> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/addmin/product/list", element: <ProductList/> },
+  { path: "/addmin/product/add", element: <AddProduct/>}
 ]
 
 function App() {

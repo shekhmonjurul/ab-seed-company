@@ -1,14 +1,35 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PopupForm from "./PopupForm"
 
 export default function Pluse() {
-    const [popup, setPopup] = useState(false)
-    const handelPopup = (value) => () => setPopup(value)
+    const [imgeurl, setImge] = useState([])
+
+
+    const hnadelChange = (e) => {
+        const file = e.target?.files
+        console.log(file)
+        if (!file) {
+            alert("Slect A Product Imge")
+            return
+        }
+        const files = Object.values(file)
+        setImge([...imgeurl, ...files.map((filename) => URL.createObjectURL(filename))])
+
+    }
     return (
         <>
-            {popup ? <PopupForm handelPopup={handelPopup(false)}/> : <button className="font-bold text-size w-[300px] flex justify-center items-center h-[393px] my-4 mobile-card" onClick={handelPopup(true)} >
+
+            {
+                imgeurl && imgeurl.map((url, index) => (
+                    <img src={url} alt="product imge" className="w-40 h-40 rounded-2xl" key={index} />
+                ))
+
+            }
+
+            <label htmlFor="product-photo-grllary" className="font-bold text-size w-40 flex justify-center items-center h-40 my-4 mobile-card pb-20 box-border" >
                 +
-            </button>}
+                <input type="file" className="hidden" id="product-photo-grllary" onChange={hnadelChange} multiple />
+            </label>
         </>
     )
 }
