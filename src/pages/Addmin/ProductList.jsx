@@ -7,7 +7,7 @@ export default function ProductList() {
         name: "Apple",
         catagorys: []
     }
-    const demoarr = [1, 2, 3, 4, 5]
+    const demoarr = [1, 2, 3, 4, 5, 5, 6, 8, 7, 8, 8, 8, 8, 9, 1]
     return (
         <>
             <div className="mx-4">
@@ -27,13 +27,15 @@ export default function ProductList() {
                         </h2>
                         <h2>50 of 200</h2>
                     </div>
-                    {
+                   <div className="overflow-scroll h-[670px]">
+                     {
                         demoarr.map((demo, index) => (
                             <div key={index} className="mt-4">
                                 <ProductCardAddmin productdetailes={productdetailes} />
                             </div>
                         ))
                     }
+                   </div>
                 </div>
             </div>
         </>

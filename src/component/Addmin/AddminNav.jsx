@@ -22,7 +22,7 @@ export default function AddminNav() {
         },
     ]
     return (
-            <div className="flex justify-between border-2 p-4 rounded-2xl text-[#000000]">
+            <div className="flex justify-between border-2 p-4 rounded-2xl text-[#000000]  bg-[#dbffcc]">
               {
                 actionbutton.map((action, index)=>(
                     <Button key={index}>
