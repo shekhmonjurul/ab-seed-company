@@ -11,6 +11,7 @@ import Notifaciton from './pages/Notifactin'
 import Profile from './Profile'
 import ProductList from './pages/Addmin/ProductList'
 import AddProduct from './pages/Addmin/AddProduct'
+import OrderRoute from './routes/addmin/e-com/OrderRoute'
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -22,8 +23,8 @@ const routes = [
   { path: "ordercart", element: <OrderCart /> },
   { path: "/notifaction", element: <Notifaciton /> },
   { path: "/profile", element: <Profile /> },
-  { path: "/addmin/product/list", element: <ProductList/> },
-  { path: "/addmin/product/add", element: <AddProduct/>}
+  { path: "/addmin/product/list", element: <ProductList /> },
+  { path: "/addmin/product/add", element: <AddProduct /> }
 ]
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             ))
           }
         </Routes>
+        <OrderRoute />
       </BrowserRouter>
     </>
   )
