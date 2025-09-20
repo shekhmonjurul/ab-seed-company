@@ -1,11 +1,7 @@
 
 import SearchIcon from '@mui/icons-material/Search';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
-import { useLocation } from 'react-router-dom';
-
-
-
-
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
     const routename = useLocation()
@@ -42,12 +38,12 @@ export default function Header() {
                 <div className='bg-white flex justify-around border-b pt-4'>
                     {
                         actionbuttons.map((action, index) => (
-                            <a href={action.href} key={index} className='font-size-small flex justify-center items-center flex-col mb-2 hover:text-green-700'>
+                            <Link to={action.href} key={index} className='font-size-small flex justify-center items-center flex-col mb-2 hover:text-green-700'>
                                 {
                                     routename.pathname === action.href ? <img src={action.icon} alt="icon" className='w-[100px] h-[50px] mb-2 img img-green img-scale' /> : <img src={action.icon} alt="icon" className='w-[100px] h-[50px] mb-2 img' />
                                 }
                                 {routename.pathname === action.href ? "" : action.name}
-                            </a>
+                            </Link>
                         ))
                     }
                 </div>
