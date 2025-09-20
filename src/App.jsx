@@ -16,7 +16,7 @@ import OrderRoute from './routes/addmin/e-com/OrderRoute'
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/order", element: <OrderPage /> },
-  { path: "/productlist-addmin", element: <Productlist /> },
+  { path: "/productlist/addmin", element: <Productlist /> },
   { path: "/allproduct", element: <AllProduct /> },
   { path: "/comunity", element: <Comunity /> },
   { path: "/newoffer", element: <Newoffer /> },
