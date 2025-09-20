@@ -19,10 +19,7 @@ export default function OrderNav() {
                         : "bg-white hover:shadow"}`}
                     key={index}
                 >
-                    <Link
-                        to={navlink.href}
-
-                    >
+                    <Link to={navlink.href} >
                         {navlink.name}
                     </Link>
                 </div>
