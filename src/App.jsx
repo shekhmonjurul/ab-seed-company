@@ -8,10 +8,10 @@ import Comunity from './pages/Comunity'
 import Newoffer from './pages/Newoffer'
 import OrderCart from './pages/OrderCart'
 import Notifaciton from './pages/Notifactin'
-import Profile from './Profile'
 import ProductList from './pages/Addmin/ProductList'
 import AddProduct from './pages/Addmin/AddProduct'
 import OrderRoute from './routes/addmin/e-com/OrderRoute'
+import Profile from './pages/Profile'
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -22,7 +22,7 @@ const routes = [
   { path: "/newoffer", element: <Newoffer /> },
   { path: "ordercart", element: <OrderCart /> },
   { path: "/notifaction", element: <Notifaciton /> },
-  { path: "/profile", element: <Profile /> },
+  { path: "/profile", element: <Profile/> },
   { path: "/addmin/product/list", element: <ProductList /> },
   { path: "/addmin/product/add", element: <AddProduct /> }
 ]
