@@ -18,36 +18,36 @@ export default function NewOrder() {
     const [subtotal, setSubtotal] = useState(89)
     const [deliverycharge, setDelivercharge] = useState(50)
     const [discount, setDiscount] = useState(0)
-    const [advance,setAdvance] = useState(0)
+    const [advance, setAdvance] = useState(0)
     const [grandtotal, setGrandtotal] = useState(50)
 
 
-    useEffect(()=>{
+    useEffect(() => {
         let grandTotal = parseInt(subtotal) + parseInt(deliverycharge) - parseInt(discount) - parseInt(advance)
         setGrandtotal(grandTotal)
 
     }, [deliverycharge, discount, advance, subtotal])
-    
+
     const handelSubmit = (e) => {
         e.preventDefault()
     }
 
 
-    const handelDiscount = (e)=>{
+    const handelDiscount = (e) => {
         setDiscount(e.target.value)
     }
-    const handelSubtotal = (e)=>{
+    const handelSubtotal = (e) => {
         setSubtotal(e.target.value)
     }
-    const handelDeliverycharge = (e)=>{
+    const handelDeliverycharge = (e) => {
         setDelivercharge(e.target.value)
     }
-    const handelAdvance = (e)=>{
+    const handelAdvance = (e) => {
         setAdvance(e.target.value)
     }
 
-    const reciveSubtotal = (data)=>{
-        setSubtotal(data+subtotal)
+    const reciveSubtotal = (data) => {
+        setSubtotal(data + subtotal)
     }
 
     return (
@@ -76,7 +76,7 @@ export default function NewOrder() {
                             <h1>Ordered Products</h1>
                             <div className="mt-4">
                                 <div className="w-[500px] h-[500px] overflow-scroll flex flex-col gap-4">
-                                    <ProductInfo variant={""} sendData={reciveSubtotal}/>
+                                    <ProductInfo variant={""} sendData={reciveSubtotal} />
                                     {/* <ProductInfo />
                                     <ProductInfo />
                                     <ProductInfo />
@@ -136,7 +136,7 @@ export default function NewOrder() {
                         <Input
                             labelname={"Discount"}
                             variant="small-width"
-                            value ={discount}
+                            value={discount}
                             onChange={handelDiscount}
                             type="number"
                         />
@@ -158,7 +158,7 @@ export default function NewOrder() {
                             disabled
                         />
 
-                      
+
 
                         <Input
                             labelname={"Delivery Charge"}
