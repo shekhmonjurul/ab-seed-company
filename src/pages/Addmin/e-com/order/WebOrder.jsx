@@ -118,9 +118,13 @@ export default function WebOrder() {
 
     }
     useEffect(() => {
-        const filterorder = rows.filter((row)=> row.id === parseInt(search) || row.customer.phonenumber === search)
-        setOrder(filterorder)
-       
+        if (search) {
+            const filterorder = rows.filter((row) => row.id === parseInt(search) || row.customer.phonenumber === search)
+            setOrder(filterorder)
+
+        }else{
+            setOrder(rows)
+        }
     }, [search])
     return (
         <div>
@@ -132,7 +136,7 @@ export default function WebOrder() {
                     value={search}
                 />
 
-                <div className={""} >
+                <div>
                     <DataGrid
                         rows={order}
                         columns={columns}
