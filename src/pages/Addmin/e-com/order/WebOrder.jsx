@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import NewSearch from "../../../../component/Addmin/e-com/order/NewSearch";
 import OrderNav from "../../../../component/Addmin/e-com/order/OrderNav";
 import ProductInfo from "../../../../component/Addmin/e-com/order/ProductInfo";
-import StatusButton from "../../../../component/Addmin/e-com/order/StatusButton";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link,} from "react-router-dom";
+import ButtonList from "../../../../component/Addmin/e-com/order/ButtonList";
+import StatusButton from "../../../../component/Addmin/e-com/order/StatusButton";
+import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
 
 const columns = [
     { field: "id", headerName: "ID", width: 80 },
@@ -108,43 +110,23 @@ const rows = [
 ];
 
 
+const statusbuttons = [
+    { name: "PROCESSING", number: 9, params: "PROCESSING" },
+    { name: "INCOMPLETE", number: 37, params: "INCOMPLETE" },
+    { name: "GOOD_BUT_NO_RESPONSE", number: 23, params: "GOOD_BUT_NO_RESPONSE" },
+    { name: "NO_RESPONSE", number: 45, params: "NO_RESPONSE" },
+    { name: "ADVANCE_PAYMENT", number: 12, params: "ADVANCE_PAYMENT" },
+    { name: "ON_HOLD", number: 42, params: "ON_HOLD" },
+    { name: "COMPLETE", number: 21622, params: "COMPLETE" },
+    { name: "CANCEL", number: 14510, params: "CANCEL" },
+    { name: "ALL", number: 36300, params: "ALL" },
+];
+
 
 export default function WebOrder() {
-    const [search, setSearch] = useState("")
-    const [order, setOrder] = useState(rows)
-    const handelChange = (event) => {
-        const input = event.target.value
-        setSearch(input)
-
-    }
-    useEffect(() => {
-        if (search) {
-            const filterorder = rows.filter((row) => row.id === parseInt(search) || row.customer.phonenumber === search)
-            setOrder(filterorder)
-
-        }else{
-            setOrder(rows)
-        }
-    }, [search])
     return (
         <div>
-            <OrderNav />
-            <div className="mt-4 bg-white text-left px-4">
-                <StatusButton />
-                <NewSearch
-                    handelChange={handelChange}
-                    value={search}
-                />
-
-                <div>
-                    <DataGrid
-                        rows={order}
-                        columns={columns}
-                        getRowHeight={() => 'auto'}
-                        hideFooter
-                    />
-                </div>
-            </div>
+            <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons}/>
         </div>
     )
 }
