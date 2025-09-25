@@ -16,9 +16,6 @@ export default function OpenOrder() {
             </div>
             <div className="w-full flex flex-wrap bg-white">
                 <CreateOrder />
-                <div className="w-full h-full">
-                    <OrderSummary/>
-                </div>
             </div>
         </div>
     )
