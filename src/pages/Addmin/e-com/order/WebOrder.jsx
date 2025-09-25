@@ -81,8 +81,8 @@ const rows = [
         },
         note: "Please deliver fast",
         orderitems: [
-            { img: "/images/product1.png", id: 1, productname: "Laptop" },
-            { img: "/images/product2.png", id: 2, productname: "Mouse" }
+            { img: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce", id: 1, productname: "Laptop" },
+            { img: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce", id: 2, productname: "Mouse" }
         ],
         successrate: 90,
         tag: ["electronics", "priority"],
@@ -100,7 +100,7 @@ const rows = [
         },
         note: "Gift wrap this item",
         orderitems: [
-            { img: "/images/product3.png", id: 3, productname: "Mobile Phone" }
+            { img: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce", id: 3, productname: "Mobile Phone" }
         ],
         successrate: 100,
         tag: ["mobile", "gift"],
