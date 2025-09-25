@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const navlinks = [
@@ -11,19 +12,21 @@ export default function OrderNav() {
     const urlname = useLocation().pathname;
 
     return (
-        <div className="flex justify-around h-10 items-center bg-white py-10">
-            {navlinks.map((navlink, index) => (
-                <div className={`p-3 text-[15px] rounded-2xl w-[150px] shadow-2xl text-center transition 
+        <div className="bg-white py-5">
+            <div className="flex  h-10 w-[50%] gap-x-5 px-4 items-center bg-white">
+                {navlinks.map((navlink, index) => (
+                    <div className={`p-1 text-[14px] rounded-2xl w-[100px] drop-shadow-2xl text-center transition 
             ${urlname === navlink.href
-                        ? "bg-green-700 text-white"
-                        : "bg-white hover:shadow"}`}
-                    key={index}
-                >
-                    <Link to={navlink.href} >
-                        {navlink.name}
-                    </Link>
-                </div>
-            ))}
+                            ? "bg-green-700 text-white opacity-100"
+                            : "bg-white hover:drop-shadow opacity-50"}`}
+                        key={index}
+                    >
+                        <Link to={navlink.href}>
+                            {navlink.name}
+                        </Link>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

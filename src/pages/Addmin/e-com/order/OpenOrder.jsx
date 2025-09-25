@@ -1,9 +1,11 @@
+import { useSearchParams } from "react-router-dom";
 import CreateOrder from "../../../../component/Addmin/e-com/order/CreateOrder";
 import DeliveryCard from "../../../../component/Addmin/e-com/order/DelivaryCard";
 import OrderNav from "../../../../component/Addmin/e-com/order/OrderNav";
 import OrderSummary from "../../../../component/Addmin/e-com/order/OrderSummary";
 
 export default function OpenOrder() {
+    const [serachprams, setSearchprams] = useSearchParams()
     return (
         <div>
             <OrderNav />

@@ -1,11 +1,4 @@
-import { useEffect, useState } from "react";
-import NewSearch from "../../../../component/Addmin/e-com/order/NewSearch";
-import OrderNav from "../../../../component/Addmin/e-com/order/OrderNav";
-import ProductInfo from "../../../../component/Addmin/e-com/order/ProductInfo";
-import { DataGrid } from "@mui/x-data-grid";
 import { Link,} from "react-router-dom";
-import ButtonList from "../../../../component/Addmin/e-com/order/ButtonList";
-import StatusButton from "../../../../component/Addmin/e-com/order/StatusButton";
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
 
 const columns = [

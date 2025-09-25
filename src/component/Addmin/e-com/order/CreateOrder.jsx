@@ -3,16 +3,7 @@ import ProductInfo from "./ProductInfo";
 import { useState, useEffect } from "react";
 
 
-const inputs = [
-    { labelname: "Name", variant: "big-width", placeholder: "Customer Name" },
-    { labelname: "Mobile Number", variant: "big-width", placeholder: "Mobile Number" },
-    { labelname: "Address", variant: "textarea", placeholder: "Enter address" },
-    {
-        labelname: "Shipping Note",
-        variant: "textarea",
-        placeholder: "নোট  দিলে হবে (আমরা নোট ফলো করি)  বিশেষ সমস্যা হলে কল করবেন । ( আমাদের নোট ছাড়া পার্সেল রিটার্ন করবেন না )",
-    },
-];
+
 
 export default function CreateOrder() {
     const [subtotal, setSubtotal] = useState(89)
@@ -20,6 +11,24 @@ export default function CreateOrder() {
     const [discount, setDiscount] = useState(0)
     const [advance, setAdvance] = useState(0)
     const [grandtotal, setGrandtotal] = useState(50)
+    const [number, setNumber] = useState("01716550180")
+
+
+
+    const inputs = [
+        { labelname: "Name", variant: "big-width", placeholder: "Customer Name" },
+        {
+            labelname: "Mobile Number", variant: "big-width", placeholder: "Mobile Number", function: (e) => {
+                setNumber(e.target.value)
+            }, value: number
+        },
+        { labelname: "Address", variant: "textarea", placeholder: "Enter address" },
+        {
+            labelname: "Shipping Note",
+            variant: "textarea",
+            placeholder: "নোট  দিলে হবে (আমরা নোট ফলো করি)  বিশেষ সমস্যা হলে কল করবেন । ( আমাদের নোট ছাড়া পার্সেল রিটার্ন করবেন না )",
+        },
+    ];
 
 
     useEffect(() => {
@@ -49,6 +58,49 @@ export default function CreateOrder() {
     const reciveSubtotal = (data) => {
         setSubtotal(data + subtotal)
     }
+
+
+
+    const inputFields = [
+        {
+            labelname: "Discount",
+            variant: "small-width",
+            value: discount,
+            onChange: handelDiscount,
+            type: "number",
+        },
+        {
+            labelname: "Advance",
+            variant: "small-width",
+            value: advance,
+            onChange: handelAdvance,
+            type: "number",
+        },
+        {
+            labelname: "Sub Total",
+            variant: "small-width",
+            value: subtotal,
+            onChange: handelSubtotal,
+            type: "number",
+            disabled: true,
+        },
+        {
+            labelname: "Delivery Charge",
+            variant: "small-width",
+            value: deliverycharge,
+            onChange: handelDeliverycharge,
+            type: "number",
+        },
+        {
+            labelname: "Grand Total",
+            variant: "small-width",
+            value: grandtotal,
+            type: "number",
+            disabled: true,
+        }
+    ];
+
+
     return (
         <div>
             <form action="" method="get" onSubmit={handelSubmit}>
@@ -61,6 +113,8 @@ export default function CreateOrder() {
                                     variant={input.variant}
                                     placeholder={input.placeholder}
                                     labelname={input.labelname}
+                                    onChange={input?.function}
+                                    value={input?.value}
                                 />
                             </div>
                         ))}
@@ -130,48 +184,18 @@ export default function CreateOrder() {
                     </div>
 
                     <div className="flex justify-start gap-4 my-6">
-                        <Input
-                            labelname={"Discount"}
-                            variant="small-width"
-                            value={discount}
-                            onChange={handelDiscount}
-                            type="number"
-                        />
+                        {inputFields.map((input, index) => (
+                            <Input
+                                key={index}
+                                labelname={input.labelname}
+                                variant={input.variant}
+                                value={input.value}
+                                onChange={input.onChange}
+                                type={input.type}
+                                disabled={input.disabled || false}
+                            />
+                        ))}
 
-                        <Input
-                            labelname={"Advance"}
-                            variant="small-width"
-                            value={advance}
-                            onChange={handelAdvance}
-                            type="number"
-                        />
-
-                        <Input
-                            labelname={"Sub Total"}
-                            variant="small-width"
-                            value={subtotal}
-                            onChange={handelSubtotal}
-                            type="number"
-                            disabled
-                        />
-
-
-
-                        <Input
-                            labelname={"Delivery Charge"}
-                            variant="small-width"
-                            value={deliverycharge}
-                            type="number"
-                            onChange={handelDeliverycharge}
-                        />
-
-                        <Input
-                            labelname={"Grand Total"}
-                            variant="small-width"
-                            value={grandtotal}
-                            type="number"
-                            disabled
-                        />
                     </div>
                     <button type="submit" className="drop-shadow-2xl hover:drop-shadow hover:bg-amber-300 bg-green-600 p-4 text-2xl w-2xl"
                         style={{
