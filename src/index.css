@@ -46,17 +46,6 @@ h2 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: inherit;
-  text-align: center;
-  font-family: inherit;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-
-
-
 
 @media (prefers-color-scheme: light) {
   :root {

@@ -5,6 +5,7 @@ export default function ProductInfo({ variant, sendData}) {
     const [total, setTotal] = useState(90)
     const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState(1)
+   
 
     const sendSubtotal = () => {
         sendData(total)
