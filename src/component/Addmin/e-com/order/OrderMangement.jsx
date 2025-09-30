@@ -16,7 +16,7 @@ export default function OrderMangement({ rows, columns, statusbuttons }) {
     }
     useEffect(() => {
         if (search) {
-            const filterorder = rows.filter((row) => row.id === parseInt(search) || row.customer.phonenumber === search)
+            const filterorder = rows.filter((row) => row.pid === parseInt(search) || row.customer.number === search)
             setOrder(filterorder)
 
         } else {

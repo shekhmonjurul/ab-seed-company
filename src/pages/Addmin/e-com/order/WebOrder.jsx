@@ -1,59 +1,43 @@
-import { useEffect, useState } from "react";
-import NewSearch from "../../../../component/Addmin/e-com/order/NewSearch";
-import OrderNav from "../../../../component/Addmin/e-com/order/OrderNav";
-import ProductInfo from "../../../../component/Addmin/e-com/order/ProductInfo";
-import { DataGrid } from "@mui/x-data-grid";
-import { Link,} from "react-router-dom";
-import ButtonList from "../../../../component/Addmin/e-com/order/ButtonList";
-import StatusButton from "../../../../component/Addmin/e-com/order/StatusButton";
+import { Link } from "react-router-dom";
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
 
 const columns = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "ordered", headerName: "Ordered Time", width: 200 },
-    { field: "status", headerName: "Status", width: 120 },
+    { field: "pid", headerName: "ID", width: 80 },
+    { field: "orderid", headerName: "Ordered Time", width: 200 },
+    { field: "orderStatus", headerName: "Status", width: 120 },
+    { field: "code", headerName: "Code", width: 120 },
+    { field: "note", headerName: "Note", width: 120 },
+    { field: "note", headerName: "Note", width: 200 },
     {
         field: "customer",
         headerName: "Customer",
         width: 220,
         renderCell: (params) => (
             <div>
-                <div><b>{params.row.customer?.customername}</b></div>
-                <div>{params.row.customer?.phonenumber}</div>
+                <div><b>{params.row.customer?.name}</b></div>
+                <div>{params.row.customer?.number}</div>
                 <div>{params.row.customer?.address}</div>
             </div>
         )
     },
-    { field: "note", headerName: "Note", width: 200 },
     {
-        field: "orderitems",
+        field: "products",
         headerName: "Products",
         width: 250,
         renderCell: (params) => (
             <div>
-                {params.row.orderitems.map((item) => (
-                    <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
+                {params.row.orderitems.map((item, index) => (
+                    <div key={index} style={{ display: "flex", alignItems: "center" }}>
                         <img
-                            src={item.img}
-                            alt={item.productname}
+                            src={item?.img}
+                            alt={item?.productname}
                             width="20"
                             style={{ marginRight: 5 }}
                         />
-                        {item.productname}
+                        {item?.productname}
                     </div>
                 ))}
             </div>
-        )
-    },
-    { field: "successrate", headerName: "Success Rate", width: 140 },
-    {
-        field: "tag",
-        headerName: "Tags",
-        width: 200,
-        renderCell: (params) => (
-            params.row.tag.map((tag, index) => (
-                <p key={index}>{tag}</p>
-            ))
         )
     },
     { field: "site", headerName: "Site", width: 160 },
@@ -81,8 +65,8 @@ const rows = [
         },
         note: "Please deliver fast",
         orderitems: [
-            { img: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce", id: 1, productname: "Laptop" },
-            { img: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce", id: 2, productname: "Mouse" }
+            { img: "/images/product1.png", id: 1, productname: "Laptop" },
+            { img: "/images/product2.png", id: 2, productname: "Mouse" }
         ],
         successrate: 90,
         tag: ["electronics", "priority"],
@@ -100,7 +84,7 @@ const rows = [
         },
         note: "Gift wrap this item",
         orderitems: [
-            { img: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce", id: 3, productname: "Mobile Phone" }
+            {id:1, img: "/images/product3.png", id: 3, productname: "Mobile Phone" }
         ],
         successrate: 100,
         tag: ["mobile", "gift"],
@@ -108,7 +92,6 @@ const rows = [
         action: "edit"
     }
 ];
-
 
 const statusbuttons = [
     { name: "PROCESSING", number: 9, params: "PROCESSING" },
@@ -122,11 +105,10 @@ const statusbuttons = [
     { name: "ALL", number: 36300, params: "ALL" },
 ];
 
-
 export default function WebOrder() {
     return (
         <div>
-            <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons}/>
+            <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons} />
         </div>
     )
 }

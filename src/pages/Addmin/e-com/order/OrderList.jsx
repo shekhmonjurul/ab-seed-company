@@ -1,52 +1,45 @@
-import { Link,} from "react-router-dom";
+import { Link, } from "react-router-dom";
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
+import { useState, useEffect } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "ordered", headerName: "Ordered Time", width: 200 },
-    { field: "status", headerName: "Status", width: 120 },
+    { field: "pid", headerName: "ID", width: 80 },
+    { field: "orderid", headerName: "Ordered Time", width: 200 },
+    { field: "orderStatus", headerName: "Status", width: 120 },
+    { field: "code", headerName: "Code", width: 120 },
+    { field: "note", headerName: "Note", width: 120 },
+    { field: "note", headerName: "Note", width: 200 },
     {
         field: "customer",
         headerName: "Customer",
         width: 220,
         renderCell: (params) => (
             <div>
-                <div><b>{params.row.customer?.customername}</b></div>
-                <div>{params.row.customer?.phonenumber}</div>
+                <div><b>{params.row.customer?.name}</b></div>
+                <div>{params.row.customer?.number}</div>
                 <div>{params.row.customer?.address}</div>
             </div>
         )
     },
-    { field: "note", headerName: "Note", width: 200 },
     {
-        field: "orderitems",
+        field: "products",
         headerName: "Products",
         width: 250,
         renderCell: (params) => (
             <div>
-                {params.row.orderitems.map((item) => (
-                    <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
+                {params.row.orderitems.map((item, index) => (
+                    <div key={index} style={{ display: "flex", alignItems: "center" }}>
                         <img
-                            src={item.img}
-                            alt={item.productname}
+                            src={item?.img}
+                            alt={item?.productname}
                             width="20"
                             style={{ marginRight: 5 }}
                         />
-                        {item.productname}
+                        {item?.productname}
                     </div>
                 ))}
             </div>
-        )
-    },
-    { field: "successrate", headerName: "Success Rate", width: 140 },
-    {
-        field: "tag",
-        headerName: "Tags",
-        width: 200,
-        renderCell: (params) => (
-            params.row.tag.map((tag, index) => (
-                <p key={index}>{tag}</p>
-            ))
         )
     },
     { field: "site", headerName: "Site", width: 160 },
@@ -104,24 +97,36 @@ const rows = [
 
 
 const statusbuttons = [
-  { name: "Pending", number: 6, params: "Pending" },
-  { name: "RTS", number: 100, params: "RTS" },
-  { name: "Shipped", number: 468, params: "Shipped" },
-  { name: "Delivered", number: 20895, params: "Delivered" },
-  { name: "Pending_Return", number: 77, params: "Pending_Return" },
-  { name: "Returned", number: 1859, params: "Returned" },
-  { name: "Partial", number: 25, params: "Partial" },
-  { name: "Cancelled", number: 380, params: "Cancelled" },
-  { name: "Pending_Cancel", number: 0, params: "Pending_Cancel" },
-  { name: "Preorder", number: 26, params: "Preorder" },
-  { name: "Lost", number: 0, params: "Lost" },
+    { name: "Pending", number: 6, params: "Pending" },
+    { name: "RTS", number: 100, params: "RTS" },
+    { name: "Shipped", number: 468, params: "Shipped" },
+    { name: "Delivered", number: 20895, params: "Delivered" },
+    { name: "Pending_Return", number: 77, params: "Pending_Return" },
+    { name: "Returned", number: 1859, params: "Returned" },
+    { name: "Partial", number: 25, params: "Partial" },
+    { name: "Cancelled", number: 380, params: "Cancelled" },
+    { name: "Pending_Cancel", number: 0, params: "Pending_Cancel" },
+    { name: "Preorder", number: 26, params: "Preorder" },
+    { name: "Lost", number: 0, params: "Lost" },
 ];
 
 
 export default function WebOrder() {
-   return (
-    <div>
-        <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons}/>
-    </div>
-   )
+    // const [rows, setRows] = useState([])
+    // useEffect(() => {
+    //     fetch("http://localhost:5000/api/orders")
+    //         .then(res => res.json())
+    //         .then((data) => {
+    //             setRows(data.data)
+    //             console.log("data: ", data.data)
+    //         })
+
+    // }, [])
+    return (
+        <div>
+            <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons} />
+        </div>
+
+
+)
 }
