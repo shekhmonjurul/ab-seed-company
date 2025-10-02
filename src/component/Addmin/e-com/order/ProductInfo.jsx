@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react"
 import Input from "./Input"
 
-export default function ProductInfo({ variant, sendData}) {
+export default function ProductInfo({ variant, info = {} }) {
     const [total, setTotal] = useState(90)
     const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState(1)
-   
 
-    const sendSubtotal = () => {
-        sendData(total)
-    }
 
     useEffect(() => {
         setTotal(quantity * price)
@@ -27,23 +23,26 @@ export default function ProductInfo({ variant, sendData}) {
                 {/* product info */}
                 <div className="w-full flex gap-3 bg-white p-4 rounded-2xl drop-shadow-xl  transition cursor-pointer">
 
-                    <div className="w-[130px] h-[100px] rounded-[8px]">
+                    <div className={`w-[130px] h-[100px] rounded-[8px]`}>
                         <img
-                            src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"
-                            alt="product imge"
+                            src={info?.images[0].src || "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"}
+                            alt={info?.images[0].alt || "product imge"}
                             className="w-full h-full rounded-[8px]"
+                            srcSet={info?.images[0].srcset}
                         />
                     </div>
 
                     <div className="text-left text-[12px]">
-                        <p className="font-bold text-[13px]">Arabian Sosha, Dutch Type Arabian shosa </p>
-                        <p className="w-[80%] text-justify text-[9px]">
-                            Arabian Cucumber Dutch Type - এরাবিয়ান শসা ( আনুমানিক ৪০+ বীজ )
+                        <p className="font-bold text-[12px] w-45 truncate ">
+                            {info?.name || `Arabian Sosha, Dutch Type Arabian shosa`}
                         </p>
-                        <p className="text-blue-700">SKU: Arabian Sosha</p>
+                        <p className="w-[80%] text-justify text-[9px]">
+                            {info?.type || `Arabian Cucumber Dutch Type - এরাবিয়ান শসা ( আনুমানিক ৪০+ বীজ )`}
+                        </p>
+                        <p className="text-blue-700">SKU: {info?.sku || `SKU: Arabian Sosha`}</p>
                         <div className="flex justify-between mr-4 text-gray-600 font-bold">
-                            <p>Price: 89 BDT</p>
-                            <p>Stock: 127</p>
+                            <p>Price: {`${info?.price} BDT` || `89 BDT`}</p>
+                            <p>Stock: {info?.stock || 0}</p>
                         </div>
                     </div>
                 </div>
@@ -58,24 +57,24 @@ export default function ProductInfo({ variant, sendData}) {
             <div className="flex gap-3 ">
                 <div className="w-[130px] h-[100px] rounded-[8px]">
                     <img
-                        src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"
-                        alt="product imge"
+                        src={info?.images[0].src || "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"}
+                        alt={info?.images[0].alt || "product imge"}
+                        srcSet={info?.images[0].srcset}
                         className="w-full h-full rounded-[8px]"
                     />
                 </div>
 
                 <div className="text-left">
-                    <p className="font-bold">
-                        Arabian Sosha, Dutch Type Arabian shosa
+                    <p className="font-bold w-70 truncate">
+                        {info?.name || `Arabian Sosha, Dutch Type Arabian shosa`}
                     </p>
                     <p className="w-[80%] text-justify text-[9px]">
-                        Arabian Cucumber Dutch Type - এরাবিয়ান শসা ( আনুমানিক ৪০+ বীজ ) প্রতি
-                        গিটে গিটে ধরে, মাত্র ৩০–৪৫ দিনে ফলন
+                       {info?.type || `Arabian Cucumber Dutch Type - এরাবিয়ান শসা ( আনুমানিক ৪০+ বীজ )`}
                     </p>
-                    <p className="text-blue-700 text-[9px]">SKU: Arabian Sosha</p>
+                    <p className="text-blue-700 text-[9px]">SKU: {info?.sku || `SKU: Arabian Sosha`}</p>
                     <div className="flex justify-between mr-4 text-gray-600 font-bold">
-                        <p>Price: 89 BDT</p>
-                        <p>Stock: 127</p>
+                        <p>Price: {`${info?.price} BDT` || `89 BDT`}</p>
+                        <p>Stock: {info?.stock || 0}</p>
                     </div>
                 </div>
             </div>

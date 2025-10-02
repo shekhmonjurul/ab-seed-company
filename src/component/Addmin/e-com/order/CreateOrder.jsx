@@ -1,6 +1,6 @@
 import Input from "./Input";
 import ProductInfo from "./ProductInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CreateOrder() {
   const [formData, setFormData] = useState({
@@ -10,6 +10,7 @@ export default function CreateOrder() {
     advance: 0,
     number: "01716550180",
   });
+  const [products, setProducts] = useState([])
 
   const [renderProduct, setRenderProduct] = useState([]);
   const [disabledIds, setDisabledIds] = useState(new Set()); // store disabled product ids
@@ -32,13 +33,19 @@ export default function CreateOrder() {
   };
 
   const handleAddProduct = (product) => {
-    setRenderProduct((prev) => [...prev, product]);
+    setRenderProduct((prev) => [...prev, product.label.
+      props.info
+    ]);
     setDisabledIds((prev) => new Set(prev).add(product.id));
     setFormData((prev) => ({
       ...prev,
       subtotal: prev.subtotal + product.price,
     }));
+
+    console.log('product: ', product)
+
   };
+
 
   const inputs = [
     { label: "Name", variant: "big-width", placeholder: "Customer Name" },
@@ -92,11 +99,39 @@ export default function CreateOrder() {
     },
   ];
 
-  const products = [
-    { id: 1, label: <ProductInfo variant={"info"}/>, price: 100 },
-    { id: 2, label: <ProductInfo variant={"info"}/>, price: 200 },
-    { id: 3, label: <ProductInfo variant={"info"}/>, price: 300 },
-  ];
+
+
+
+  useEffect(() => {
+    const url = "http://localhost:5000/api/products"
+    fetch(url)
+      .then(res => res.json())
+      .then(products => {
+
+        const productdetails = products?.data.map((details, index) => {
+          const { name, short_description, sku, price, sale_price, stock_quantity, categories, images } = details
+          const info = {
+            name,
+            type: short_description,
+            sku,
+            price: sale_price,
+            stock_quantity,
+            categories,
+            images
+          }
+          const productbutton = {
+            id: index + 1,
+            label: <ProductInfo variant={"info"} info={info} />,
+            price: parseInt(price)
+          }
+          return productbutton
+        })
+
+        setProducts(productdetails)
+
+      })
+  }, [])
+
 
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
@@ -121,7 +156,9 @@ export default function CreateOrder() {
           <h1>Ordered Products</h1>
           <div className="mt-4 w-[500px] h-[500px] overflow-scroll flex flex-col gap-4">
             {renderProduct.map((prod, index) => (
-              <ProductInfo key={index} variant="" product={prod} />
+              <ProductInfo key={index} variant="" info={prod} />
+              // console.log("pord: ", prod)
+
             ))}
           </div>
         </div>
@@ -136,12 +173,13 @@ export default function CreateOrder() {
               placeholder="Type to Search"
             />
           </div>
+
           <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
             {products.map((prod) => (
               <button
                 key={prod.id}
                 type="button"
-                className={disabledIds.has(prod.id)?"scale-95 bg-gray-200": "hover:scale-102 transition"}
+                className={disabledIds.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
                 onClick={() => handleAddProduct(prod)}
                 disabled={disabledIds.has(prod.id)}
               >
