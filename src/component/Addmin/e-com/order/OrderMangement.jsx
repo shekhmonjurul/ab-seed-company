@@ -6,23 +6,7 @@ import StatusButton from "./StatusButton";
 
 
 
-export default function OrderMangement({ rows, columns, statusbuttons }) {
-    const [search, setSearch] = useState("")
-    const [order, setOrder] = useState(rows)
-    const handelChange = (event) => {
-        const input = event.target.value
-        setSearch(input)
-
-    }
-    useEffect(() => {
-        if (search) {
-            const filterorder = rows.filter((row) => row.pid === parseInt(search) || row.customer.number === search)
-            setOrder(filterorder)
-
-        } else {
-            setOrder(rows)
-        }
-    }, [search])
+export default function OrderMangement({ rows, columns, statusbuttons, value, handelChange}) {
     return (
         <div>
             <OrderNav />
@@ -30,12 +14,11 @@ export default function OrderMangement({ rows, columns, statusbuttons }) {
                 <StatusButton statusbuttons={statusbuttons} />
                 <NewSearch
                     handelChange={handelChange}
-                    value={search}
+                    value={value}
                 />
-
                 <div>
                     <DataGrid
-                        rows={order}
+                        rows={rows}
                         columns={columns}
                         getRowHeight={() => 'auto'}
                         hideFooter
