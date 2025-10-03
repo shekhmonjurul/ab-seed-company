@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-    { field: "pid", headerName: "ID", width: 80 },
-    { field: "orderid", headerName: "Ordered Time", width: 200 },
-    { field: "orderStatus", headerName: "Status", width: 120 },
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "ordered", headerName: "Ordered Time", width: 200 },
+    { field: "status", headerName: "Status", width: 120 },
     { field: "code", headerName: "Code", width: 120 },
     { field: "note", headerName: "Note", width: 120 },
-    { field: "note", headerName: "Note", width: 200 },
     {
         field: "customer",
         headerName: "Customer",
@@ -28,7 +27,7 @@ const columns = [
         width: 250,
         renderCell: (params) => (
             <div>
-                {params.row.orderitems.map((item, index) => (
+                {params.row.products.map((item, index) => (
                     <div key={index} style={{ display: "flex", alignItems: "center" }}>
                         <img
                             src={item?.img}
@@ -44,54 +43,21 @@ const columns = [
     },
     { field: "site", headerName: "Site", width: 160 },
     {
-        field: "action",
-        headerName: "Action",
-        width: 180,
+        field: "tags",
+        headerName: "Tags",
         renderCell: (params) => (
-            <div style={{ display: "flex", gap: "5px" }}>
-                <Link to={"#"}>Open</Link>
+            <div>
+                <select>
+                    <option value="Tags">Tags</option>
+                    {
+                        params.row.tags?.map((tag, index) => (
+                            <option value={tag} key={index}>{tag}</option>
+                        ))
+
+                    }
+                </select>
             </div>
         )
-    }
-];
-
-const rows = [
-    {
-        id: 1,
-        ordered: "2025-09-21T15:30:00Z",
-        status: "pending",
-        customer: {
-            phonenumber: "017XXXXXXXX",
-            customername: "Rahim Uddin",
-            address: "Dhaka, Bangladesh"
-        },
-        note: "Please deliver fast",
-        orderitems: [
-            { img: "/images/product1.png", id: 1, productname: "Laptop" },
-            { img: "/images/product2.png", id: 2, productname: "Mouse" }
-        ],
-        successrate: 90,
-        tag: ["electronics", "priority"],
-        site: "example.com",
-        action: "view"
-    },
-    {
-        id: 2,
-        ordered: "2025-09-20T11:00:00Z",
-        status: "delivered",
-        customer: {
-            phonenumber: "018XXXXXXXX",
-            customername: "Karim Mia",
-            address: "Chattogram, Bangladesh"
-        },
-        note: "Gift wrap this item",
-        orderitems: [
-            { img: "/images/product3.png", id: 3, productname: "Mobile Phone" }
-        ],
-        successrate: 100,
-        tag: ["mobile", "gift"],
-        site: "shop.com",
-        action: "edit"
     }
 ];
 
@@ -112,21 +78,36 @@ const statusbuttons = [
 
 
 export default function WebOrder() {
-    // const [rows, setRows] = useState([])
-    // useEffect(() => {
-    //     fetch("http://localhost:5000/api/orders")
-    //         .then(res => res.json())
-    //         .then((data) => {
-    //             setRows(data.data)
-    //             console.log("data: ", data.data)
-    //         })
+    const [rows, setRows] = useState([])
+    useEffect(() => {
+        fetch("http://localhost:5000/api/orders")
+            .then(res => res.json())
+            .then((data) => {
+                const orders = data?.data.map((order, index) => {
+                    const data = {
+                        id: order?.id || index + 1,
+                        ordered: order?.time,
+                        status: order?.orderStatus,
+                        customer: order?.customer,
+                        note: order?.note,
+                        products: order?.products,
+                        successrate: 100,
+                        tags: ["Monjurul Islam", "Korim", "Rohim"],
+                        site: order?.site,
+                        code: order?.code
+                    }
+                    return data
+                })
+                setRows(orders)
+                console.log("data: ", orders)
+            })
 
-    // }, [])
+    }, [])
     return (
         <div>
             <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons} />
         </div>
 
 
-)
+    )
 }

@@ -1,6 +1,7 @@
 import Input from "./Input";
 import ProductInfo from "./ProductInfo";
 import { useEffect, useState } from "react";
+import { Atom } from "react-loading-indicators";
 
 export default function CreateOrder() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ export default function CreateOrder() {
 
   const [renderProduct, setRenderProduct] = useState([]);
   const [disabledIds, setDisabledIds] = useState(new Set()); // store disabled product ids
+  const [loding, setLoding] = useState(true)
 
   // derived value (no need for separate state)
   const grandtotal =
@@ -128,6 +130,7 @@ export default function CreateOrder() {
         })
 
         setProducts(productdetails)
+        setLoding(false)
 
       })
   }, [])
@@ -174,19 +177,22 @@ export default function CreateOrder() {
             />
           </div>
 
-          <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
-            {products.map((prod) => (
-              <button
-                key={prod.id}
-                type="button"
-                className={disabledIds.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
-                onClick={() => handleAddProduct(prod)}
-                disabled={disabledIds.has(prod.id)}
-              >
-                {prod.label}
-              </button>
-            ))}
-          </div>
+          {
+            loding ? <Atom color="#b99d93" size="medium" text="Loding your data please wait" textColor="" /> : <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
+              {products.map((prod) => (
+                <button
+                  key={prod.id}
+                  type="button"
+                  className={disabledIds.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
+                  onClick={() => handleAddProduct(prod)}
+                  disabled={disabledIds.has(prod.id)}
+                >
+                  {prod.label}
+                </button>
+              ))}
+            </div>
+          }
+
         </div>
       </div>
 
