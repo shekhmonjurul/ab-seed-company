@@ -178,19 +178,24 @@ export default function CreateOrder() {
           </div>
 
           {
-            loding ? <Atom color="#b99d93" size="medium" text="Loding your data please wait" textColor="" /> : <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
-              {products.map((prod) => (
-                <button
-                  key={prod.id}
-                  type="button"
-                  className={disabledIds.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
-                  onClick={() => handleAddProduct(prod)}
-                  disabled={disabledIds.has(prod.id)}
-                >
-                  {prod.label}
-                </button>
-              ))}
-            </div>
+            loding ?
+              <div className="mt-20">
+                <Atom color="#b99d93" size="medium" text="Loding your data please wait" textColor="" />
+              </div>
+              :
+              <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
+                {products.map((prod) => (
+                  <button
+                    key={prod.id}
+                    type="button"
+                    className={disabledIds.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
+                    onClick={() => handleAddProduct(prod)}
+                    disabled={disabledIds.has(prod.id)}
+                  >
+                    {prod.label}
+                  </button>
+                ))}
+              </div>
           }
 
         </div>
