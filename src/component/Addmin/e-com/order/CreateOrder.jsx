@@ -103,7 +103,7 @@ export default function CreateOrder() {
 
 
   useEffect(() => {
-    const url = "http://localhost:5000/api/products"
+    const url = "https://ab-seed-server-1.onrender.com/api/products"
     fetch(url)
       .then(res => res.json())
       .then(products => {
