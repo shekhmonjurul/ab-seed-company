@@ -132,7 +132,7 @@ export default function WebOrder() {
     }
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/weborders")
+        fetch("https://ab-seed-server-1.onrender.com/api/weborders")
             .then(res => res.json())
             .then((data) => {
                 const orders = data.data?.map((order, index) => {
