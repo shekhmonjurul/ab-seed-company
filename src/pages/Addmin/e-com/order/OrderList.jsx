@@ -1,7 +1,6 @@
-import { Link, } from "react-router-dom";
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
 import { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { Atom } from "react-loading-indicators";
 
 const columns = [
     { field: "id", headerName: "ID", width: 80 },
@@ -79,33 +78,89 @@ const statusbuttons = [
 
 export default function WebOrder() {
     const [rows, setRows] = useState([])
+    const [loding, setLoding] = useState(true)
+    const [search, setSearch] = useState("")
+    const [filter, setFilter] = useState([])
     useEffect(() => {
-        fetch("http://localhost:5000/api/orders")
-            .then(res => res.json())
-            .then((data) => {
-                const orders = data?.data.map((order, index) => {
-                    const data = {
-                        id: order?.id || index + 1,
-                        ordered: order?.time,
-                        status: order?.orderStatus,
-                        customer: order?.customer,
-                        note: order?.note,
-                        products: order?.products,
-                        successrate: 100,
-                        tags: ["Monjurul Islam", "Korim", "Rohim"],
-                        site: order?.site,
-                        code: order?.code
-                    }
-                    return data
-                })
-                setRows(orders)
-                console.log("data: ", orders)
-            })
+        const controller = new AbortController();
+        const signal = controller.signal;
 
-    }, [])
+        const fetchOrders = async () => {
+            try {
+                setLoding(true);
+                const res = await fetch("http://localhost:5000/api/orders", { signal });
+                const result = await res.json();
+
+                const orders = result?.data?.map((order, index) => ({
+                    id: order?.id || index + 1,
+                    ordered: order?.time,
+                    status: order?.orderStatus,
+                    customer: order?.customer,
+                    note: order?.note,
+                    products: order?.products,
+                    successrate: 100,
+                    tags: ["Monjurul Islam", "Korim", "Rohim"],
+                    site: order?.site,
+                    code: order?.code,
+                })) || [];
+
+                setRows(orders);
+                setFilter(orders);
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    console.error("Fetch orders failed:", error);
+                }
+            } finally {
+                setLoding(true);
+            }
+        };
+
+        fetchOrders();
+
+        return () => controller.abort(); // cleanup
+    }, []);
+
+
+    useEffect(() => {
+        if (search) {
+            const filterRow = rows.filter((data) => {
+                const idMatch = !isNaN(search) && data.id === Number(search);
+                const phoneMatch = data.customer.number === search;
+                return idMatch || phoneMatch;
+            });
+
+            setFilter(filterRow);
+            setLoding(filterRow.length === 0);
+        } else {
+            setFilter(rows);
+            setLoding(false);
+            console.log("rows: ", rows);
+        }
+
+        return () => {
+            console.log("unmount component");
+        };
+    }, [search, rows]);
+
+
+    const handelChange = (e) => {
+        const value = e.target.value
+        setSearch(value)
+    }
     return (
-        <div>
-            <OrderMangement rows={rows} columns={columns} statusbuttons={statusbuttons} />
+        <div className="relative">
+            <OrderMangement
+                rows={filter}
+                columns={columns}
+                statusbuttons={statusbuttons}
+                handelChange={handelChange}
+                value={search}
+            />
+            {
+                loding && <div className="absolute bottom-0 left-[40%] bg-white w-[500px]">
+                    <Atom color="#b99d93" size="small" text="Loding your data please wait" textColor="" />
+                </div>
+            }
         </div>
 
 

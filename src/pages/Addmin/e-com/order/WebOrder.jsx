@@ -131,39 +131,61 @@ export default function WebOrder() {
         setSearch(input)
     }
 
-    useEffect(() => {
-        fetch("https://ab-seed-server-1.onrender.com/api/weborders")
-            .then(res => res.json())
-            .then((data) => {
-                const orders = data.data?.map((order, index) => {
-                    return {
-                        id: order?.id || index + 1,
-                        ordered: order?.date_created_gmt,
-                        customer: {
-                            name: `${order?.billing?.first_name} ${order?.billing?.last_name}`,
-                            number: order?.billing?.phone,
-                            address: `${order?.billing?.address_1}  ${order?.billing?.address_2}`
-                        },
-                        note: order?.customer_note,
-                        orderitems: order?.line_items,
-                    }
-                })
-                setRows(orders)
-                setFilterrow(orders)
-                setLoding(false)
-                console.log("ordrs: ", orders, "data: ", data.data)
-            })
+useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-    }, [])
+    const fetchOrders = async () => {
+        try {
+            setLoding(true);
+            const res = await fetch("https://ab-seed-server-1.onrender.com/api/weborders", { signal });
+            if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+            
+            const data = await res.json();
+
+            const orders = data?.data?.map((order, index) => ({
+                id: order?.id || index + 1,
+                ordered: order?.date_created_gmt,
+                customer: {
+                    name: `${order?.billing?.first_name || ""} ${order?.billing?.last_name || ""}`.trim(),
+                    number: order?.billing?.phone || "N/A",
+                    address: `${order?.billing?.address_1 || ""} ${order?.billing?.address_2 || ""}`.trim()
+                },
+                note: order?.customer_note || "",
+                orderitems: order?.line_items || []
+            })) || [];
+
+            setRows(orders);
+            setFilterrow(orders);
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                console.error("Failed to fetch orders:", error);
+            }
+        } finally {
+            setLoding(true);
+            console.log("hi componet", loding)
+        }
+    };
+
+    fetchOrders();
+
+    return () => controller.abort(); // cleanup on unmount
+}, []);
+
 
     useEffect(() => {
         if (search) {
             const filterorder = rows.filter((row) => row.id === parseInt(search) || row.customer.number === search)
             setFilterrow(filterorder)
+            setLoding(filterorder.length === 0)
         } else {
             setFilterrow(rows)
+            setLoding(false)
         }
-    }, [search])
+        return ()=>{
+            console.log("componet unmount")
+        }
+    }, [search, rows])
 
     return (
         <div className="relative">
@@ -175,7 +197,7 @@ export default function WebOrder() {
                 handelChange={handelChange}
             />
             {
-                loding && <div className="absolute bottom-0 left-[50%] pt-4">
+                loding && <div className="absolute bottom-0 left-[40%] bg-white w-[500px]">
                     <Atom color="#b99d93" size="small" text="Loding your data please wait" textColor="" />
                 </div>
             }
