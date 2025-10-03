@@ -14,8 +14,6 @@ export default function ProductInfo({ variant, info = {} }) {
     }, [quantity, price])
 
 
-
-
     if (variant === "info") {
         return (
 
