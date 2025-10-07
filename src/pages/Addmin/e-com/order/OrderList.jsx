@@ -86,6 +86,7 @@ export default function WebOrder() {
         const signal = controller.signal;
 
         const fetchOrders = async () => {
+            setLoding(true)
             try {
                 setLoding(true);
                 const res = await fetch("http://localhost:5000/api/orders", { signal });
@@ -111,7 +112,7 @@ export default function WebOrder() {
                     console.error("Fetch orders failed:", error);
                 }
             } finally {
-                setLoding(true);
+                setLoding(false);
             }
         };
 

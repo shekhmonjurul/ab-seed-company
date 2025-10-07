@@ -132,6 +132,7 @@ export default function WebOrder() {
     }
 
 useEffect(() => {
+    setLoding(true)
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -162,7 +163,7 @@ useEffect(() => {
                 console.error("Failed to fetch orders:", error);
             }
         } finally {
-            setLoding(true);
+            setLoding(false);
             console.log("hi componet", loding)
         }
     };
