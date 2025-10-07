@@ -137,7 +137,7 @@ export default function CreateOrder() {
 
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white text-black flex justify-center items-center">
+    <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
       {/* User Details */}
       <div className="flex flex-wrap justify-center items-center gap-x-4 font-bold w-[900px]">
         {inputs.map((input, idx) => (

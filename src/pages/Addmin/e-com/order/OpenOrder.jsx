@@ -16,7 +16,7 @@ export default function OpenOrder() {
                 <DeliveryCard />
                 <DeliveryCard />
             </div>
-            <div className="w-full flex flex-wrap bg-white">
+            <div className="w-full flex justify-center items-center bg-white">
                 <CreateOrder />
             </div>
         </div>
