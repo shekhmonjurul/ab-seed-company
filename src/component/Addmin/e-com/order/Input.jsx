@@ -1,6 +1,7 @@
 import { useLocation} from "react-router-dom"
 import CallIcon from '@mui/icons-material/Call';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
 export default function Input({ variant = "big-width", labelname, placeholder, ...props }) {
 
     const pathname = useLocation().pathname

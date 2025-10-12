@@ -10,12 +10,13 @@ export default function CreateOrder() {
     discount: 0,
     advance: 0,
     number: "01716550180",
-  });
-  const [products, setProducts] = useState([])
+  }); // add korte hobe customer name, address, note
 
-  const [renderProduct, setRenderProduct] = useState([]);
+  const [products, setProducts] = useState([]) // product set korbe from api
+  const [renderprod, setRenderprod] = useState([]) // render product after click button
   const [disabledIds, setDisabledIds] = useState(new Set()); // store disabled product ids
   const [loding, setLoding] = useState(true)
+  const [sku, setSku] = useState("")
 
   // derived value (no need for separate state)
   const grandtotal =
@@ -31,21 +32,16 @@ export default function CreateOrder() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Order Submitted:", { ...formData, grandtotal, renderProduct });
+    console.log("sub total from productInfo: ", subtotal)
   };
 
   const handleAddProduct = (product) => {
-    setRenderProduct((prev) => [...prev, product.label.
-      props.info
-    ]);
     setDisabledIds((prev) => new Set(prev).add(product.id));
     setFormData((prev) => ({
       ...prev,
       subtotal: prev.subtotal + product.price,
     }));
-
-    console.log('product: ', product)
-
+    setRenderprod(pev => [...pev, product])
   };
 
 
@@ -101,39 +97,54 @@ export default function CreateOrder() {
     },
   ];
 
+  const handelSku = (e) => {
+    const value = e.target.value
+    setSku(value)
+  }
+  const handelScroll = (e) => {
+  }
 
+  const handleGetValue = (value) => {
+
+  }
+
+  const handleproductdetails = (products) => {
+    const data = products?.data.map((details, index) => {
+      const { name, short_description, sku, price, sale_price, stock_quantity, categories, images } = details
+      const info = {
+        id: index + 1,
+        name,
+        type: short_description,
+        sku,
+        price: Number(sale_price),
+        stock_quantity,
+        categories,
+        images
+      }
+      return info
+    })
+    return data
+  }  // handle fetch call 
+
+  const handleFetch = async (url) => {
+    const res = await fetch(url)
+    const data = await res.json()
+    const setpro = handleproductdetails(data)
+    setProducts(setpro)
+    setLoding(false)
+
+  }
 
 
   useEffect(() => {
-    const url = "https://ab-seed-server-1.onrender.com/api/products"
-    fetch(url)
-      .then(res => res.json())
-      .then(products => {
-
-        const productdetails = products?.data.map((details, index) => {
-          const { name, short_description, sku, price, sale_price, stock_quantity, categories, images } = details
-          const info = {
-            name,
-            type: short_description,
-            sku,
-            price: sale_price,
-            stock_quantity,
-            categories,
-            images
-          }
-          const productbutton = {
-            id: index + 1,
-            label: <ProductInfo variant={"info"} info={info} />,
-            price: parseInt(price)
-          }
-          return productbutton
-        })
-
-        setProducts(productdetails)
-        setLoding(false)
-
-      })
-  }, [])
+    if (sku) {
+      const url = `https://ab-seed-server-1.onrender.com/api/products?search=${sku}`
+      handleFetch(url)
+    } else {
+      const url = "https://ab-seed-server-1.onrender.com/api/products/"
+      handleFetch(url)
+    }
+  }, [sku]) // fetch call for sku search
 
 
   return (
@@ -158,13 +169,16 @@ export default function CreateOrder() {
         <div className="border-gray-200 border shadow rounded-2xl p-4">
           <h1>Ordered Products</h1>
           <div className="mt-4 w-[500px] h-[500px] overflow-scroll flex flex-col gap-4">
-            {renderProduct.map((prod, index) => (
-              <ProductInfo key={index} variant="" info={prod} />
-              // console.log("pord: ", prod)
-
-            ))}
+            {
+              renderprod && renderprod?.map((product, index) => (
+                <ProductInfo variant={" "} info={product} key={index} getValue={() => { }} />
+              ))
+            }
+            {console.log("produts form rendering: ", renderprod)}
           </div>
         </div>
+
+
 
         {/* Add Products */}
         <div className="border p-2 drop-shadow border-gray-200 rounded-2xl">
@@ -174,6 +188,8 @@ export default function CreateOrder() {
               variant="small-width"
               labelname="Code/SKU"
               placeholder="Type to Search"
+              value={sku}
+              onChange={handelSku}
             />
           </div>
 
@@ -183,16 +199,16 @@ export default function CreateOrder() {
                 <Atom color="#b99d93" size="medium" text="Loding your data please wait" textColor="" />
               </div>
               :
-              <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
-                {products.map((prod) => (
+              <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition" onScroll={handelScroll}>
+                {products.map((prod, index) => (
                   <button
-                    key={prod.id}
+                    key={prod.id || index}
                     type="button"
                     className={disabledIds.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
                     onClick={() => handleAddProduct(prod)}
                     disabled={disabledIds.has(prod.id)}
                   >
-                    {prod.label}
+                    <ProductInfo variant={"button"} info={prod} />
                   </button>
                 ))}
               </div>
