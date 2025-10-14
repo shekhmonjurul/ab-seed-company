@@ -11,11 +11,9 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
         const newTotal = quantity * price
         setTotal(newTotal)
         if (typeof getValue === "function") {
-            getValue(newTotal)
+            getValue({newTotal, id: info?.id})
         }
     }, [quantity, price])
-
-
     if (variant === "button") {
         return (
 

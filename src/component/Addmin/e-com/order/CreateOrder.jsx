@@ -5,7 +5,7 @@ import { Atom } from "react-loading-indicators";
 
 export default function CreateOrder() {
   const [formData, setFormData] = useState({
-    subtotal: 89,
+    subtotal: 0,
     deliverycharge: 50,
     discount: 0,
     advance: 0,
@@ -13,10 +13,12 @@ export default function CreateOrder() {
   }); // add korte hobe customer name, address, note
 
   const [products, setProducts] = useState([]) // product set korbe from api
+  const [subtotal, setSubtotal] = useState([])
   const [renderprod, setRenderprod] = useState([]) // render product after click button
   const [disabledIds, setDisabledIds] = useState(new Set()); // store disabled product ids
   const [loding, setLoding] = useState(true)
   const [sku, setSku] = useState("")
+  const [count, setCount] = useState(1)
 
   // derived value (no need for separate state)
   const grandtotal =
@@ -32,7 +34,6 @@ export default function CreateOrder() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("sub total from productInfo: ", subtotal)
   };
 
   const handleAddProduct = (product) => {
@@ -42,6 +43,7 @@ export default function CreateOrder() {
       subtotal: prev.subtotal + product.price,
     }));
     setRenderprod(pev => [...pev, product])
+    { console.log("subtotal: ", subtotal) }
   };
 
 
@@ -106,6 +108,19 @@ export default function CreateOrder() {
 
   const handleGetValue = (value) => {
 
+    renderprod?.map((product) => {
+      const id = value?.id
+      if (id === product?.id) {
+        setSubtotal(pev => {
+          const newArr = [...pev]
+          newArr[id - 1] = value?.newTotal
+          return newArr
+        })
+      }
+      return
+    })
+    setCount(pev => pev + 1)
+    return
   }
 
   const handleproductdetails = (products) => {
@@ -146,6 +161,10 @@ export default function CreateOrder() {
     }
   }, [sku]) // fetch call for sku search
 
+  useEffect(() => {
+    const result = subtotal.reduce((sum, price) => sum + price, 0)
+    setFormData(pev=>({...pev, subtotal: result}))
+  }, [count]) // calculet subtoal
 
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
@@ -171,10 +190,9 @@ export default function CreateOrder() {
           <div className="mt-4 w-[500px] h-[500px] overflow-scroll flex flex-col gap-4">
             {
               renderprod && renderprod?.map((product, index) => (
-                <ProductInfo variant={" "} info={product} key={index} getValue={() => { }} />
+                <ProductInfo variant={" "} info={product} key={index} getValue={handleGetValue} />
               ))
             }
-            {console.log("produts form rendering: ", renderprod)}
           </div>
         </div>
 
