@@ -1,17 +1,16 @@
+
 import Input from "./Input";
 import ProductInfo from "./ProductInfo";
 import { useEffect, useState } from "react";
 import { Atom } from "react-loading-indicators";
 
-export default function CreateOrder() {
+export default function CreateOrder({ userinfo }) {
   const [formData, setFormData] = useState({
     subtotal: 0,
     deliverycharge: 50,
     discount: 0,
     advance: 0,
-    number: "01716550180",
   }); // add korte hobe customer name, address, note
-
   const [products, setProducts] = useState([]) // product set korbe from api
   const [subtotal, setSubtotal] = useState([])
   const [renderprod, setRenderprod] = useState([]) // render product after click button
@@ -20,7 +19,9 @@ export default function CreateOrder() {
   const [sku, setSku] = useState("")
   const [count, setCount] = useState(1)
 
+
   // derived value (no need for separate state)
+  console.log(userinfo)
   const grandtotal =
     formData.subtotal +
     formData.deliverycharge -
@@ -34,6 +35,7 @@ export default function CreateOrder() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("form data: ", formData)
   };
 
   const handleAddProduct = (product) => {
@@ -48,20 +50,22 @@ export default function CreateOrder() {
 
 
   const inputs = [
-    { label: "Name", variant: "big-width", placeholder: "Customer Name" },
+    { label: "Name", variant: "big-width", placeholder: "Customer Name", value: userinfo?.name, onChange: (e) => e.target.value, },
     {
       label: "Mobile Number",
       variant: "big-width",
       placeholder: "Mobile Number",
       onChange: handleChange("number"),
-      value: formData.number,
+      value: userinfo?.number,
     },
-    { label: "Address", variant: "textarea", placeholder: "Enter address" },
+    { label: "Address", variant: "textarea", placeholder: "Enter address", value: userinfo?.address, onChange: handleChange("address"), },
     {
       label: "Shipping Note",
       variant: "textarea",
       placeholder:
         "নোট  দিলে হবে (আমরা নোট ফলো করি)  বিশেষ সমস্যা হলে কল করবেন ।",
+      value: formData.note,
+      onChange: handleChange("note"),
     },
   ];
 
@@ -163,8 +167,9 @@ export default function CreateOrder() {
 
   useEffect(() => {
     const result = subtotal.reduce((sum, price) => sum + price, 0)
-    setFormData(pev=>({...pev, subtotal: result}))
+    setFormData(pev => ({ ...pev, subtotal: result }))
   }, [count]) // calculet subtoal
+
 
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
@@ -173,11 +178,11 @@ export default function CreateOrder() {
         {inputs.map((input, idx) => (
           <Input
             key={idx}
-            variant={input.variant}
-            placeholder={input.placeholder}
-            labelname={input.label}
-            onChange={input.onChange}
-            value={input.value}
+            variant={input?.variant}
+            placeholder={input?.placeholder}
+            labelname={input?.label}
+            onChange={input?.onChange}
+            value={input?.value}
           />
         ))}
       </div>

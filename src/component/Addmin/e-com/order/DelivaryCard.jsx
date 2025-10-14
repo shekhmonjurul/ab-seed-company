@@ -1,4 +1,5 @@
-export default function DeliveryCard() {
+export default function 
+() {
     return (
         <div className="w-60 border border-gray-200 rounded-2xl shadow-md  font-sans text-black text-left">
 
