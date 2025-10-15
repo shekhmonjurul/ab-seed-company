@@ -21,7 +21,6 @@ export default function CreateOrder({ userinfo }) {
 
 
   // derived value (no need for separate state)
-  console.log(userinfo)
   const grandtotal =
     formData.subtotal +
     formData.deliverycharge -
@@ -32,6 +31,25 @@ export default function CreateOrder({ userinfo }) {
     const value = field === "number" ? e.target.value : Number(e.target.value);
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  const productItems = userinfo?.productItems?.map((item, index) => {
+    const { name, short_description, sku, price, quantity
+, subtotal, categories, image } = item
+    const info = {
+      id: index + 1,
+      name,
+      type: short_description,
+      sku,
+      price: Number(price),
+      // stock_quantity,
+      categories,
+      images: image
+    }
+    return info
+  })
+  console.log("product items: ", productItems)
+  console.log("products: ", userinfo?.productItems)
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
