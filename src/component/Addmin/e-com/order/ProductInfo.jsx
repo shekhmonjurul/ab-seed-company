@@ -6,7 +6,6 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
     const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState(Number(info?.price) || 0)
 
-
     useEffect(() => {
         const newTotal = quantity * price
         setTotal(newTotal)
@@ -14,6 +13,8 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
             getValue({newTotal, id: info?.id})
         }
     }, [quantity, price])
+
+
     if (variant === "button") {
         return (
 
@@ -54,9 +55,9 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
                 <div className="flex gap-3 ">
                     <div className="w-[130px] h-[100px] rounded-[8px]">
                         <img
-                            src={info?.images[0].src || "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"}
-                            alt={info?.images[0].alt || "product imge"}
-                            srcSet={info?.images[0].srcset}
+                            src={info?.images[0]?.src || info?.images?.src}
+                            alt={info?.images[0]?.alt || "product imge"}
+                            srcSet={info?.images[0]?.srcset || info?.images?.src}
                             className="w-full h-full rounded-[8px]"
                         />
                     </div>
@@ -77,7 +78,7 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
                 </div>
 
                 <div className="mt-1 mx-4 flex justify-between  gap-4 items-center">
-                    <ProductController name={"Quantity"} defualtValue={"1"} getValue={setQuantity} />
+                    <ProductController name={"Quantity"} defualtValue={`${info?.quantity} `|| "1"} getValue={setQuantity} />
                     <ProductController name={"Price"} defualtValue={info?.price} getValue={setPrice} />
                     <div className="mb-4">
                         <Input
@@ -97,7 +98,7 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
 }
 
 function ProductController({ name, defualtValue, getValue }) {
-    const [value, setValue] = useState(Number(defualtValue) || 0) //ui er jono init value
+    const [value, setValue] = useState(Number(defualtValue) || 1) //ui er jono init value
     const handleCunter = (name) => {
         let newValue = 1
         if (name === "pluse") {

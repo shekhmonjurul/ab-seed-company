@@ -32,25 +32,26 @@ export default function CreateOrder({ userinfo }) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const productItems = userinfo?.productItems?.map((item, index) => {
-    const { name, short_description, sku, price, quantity
-, subtotal, categories, image } = item
-    const info = {
-      id: index + 1,
-      name,
-      type: short_description,
-      sku,
-      price: Number(price),
-      // stock_quantity,
-      categories,
-      images: image
-    }
-    return info
-  })
-  console.log("product items: ", productItems)
-  console.log("products: ", userinfo?.productItems)
-
-
+  const productItems = () => {
+    const products = userinfo?.productItems?.map((item, index) => {
+      const { name, short_description, sku, price, quantity
+        , subtotal, categories, image } = item
+      const info = {
+        id: index + 1,
+        name,
+        type: short_description,
+        sku,
+        price: Number(price),
+        // stock_quantity,
+        categories,
+        images: image
+      }
+      return info
+    })
+    return products
+  }
+  const items =  productItems()
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form data: ", formData)
@@ -214,6 +215,11 @@ export default function CreateOrder({ userinfo }) {
             {
               renderprod && renderprod?.map((product, index) => (
                 <ProductInfo variant={" "} info={product} key={index} getValue={handleGetValue} />
+              ))
+            }
+            {
+              items && items?.map((item, index)=>(
+                <ProductInfo variant={""} info={item} key={index} getValue={handleGetValue}/>
               ))
             }
           </div>
