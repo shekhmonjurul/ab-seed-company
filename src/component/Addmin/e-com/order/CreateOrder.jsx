@@ -50,8 +50,8 @@ export default function CreateOrder({ userinfo }) {
     })
     return products
   }
-  const items =  productItems()
-  
+  const items = productItems()
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form data: ", formData)
@@ -130,18 +130,22 @@ export default function CreateOrder({ userinfo }) {
   }
 
   const handleGetValue = (value) => {
+    handleMap(renderprod)
+    handleMap(items)
+    function handleMap(arr = []) {
+      arr?.map((product) => {
+        const id = value?.id
+        if (id === product?.id) {
+          setSubtotal(pev => {
+            const newArr = [...pev]
+            newArr[id - 1] = value?.newTotal
+            return newArr
+          })
+        }
+        return
+      })
+    }
 
-    renderprod?.map((product) => {
-      const id = value?.id
-      if (id === product?.id) {
-        setSubtotal(pev => {
-          const newArr = [...pev]
-          newArr[id - 1] = value?.newTotal
-          return newArr
-        })
-      }
-      return
-    })
     setCount(pev => pev + 1)
     return
   }
@@ -218,8 +222,8 @@ export default function CreateOrder({ userinfo }) {
               ))
             }
             {
-              items && items?.map((item, index)=>(
-                <ProductInfo variant={""} info={item} key={index} getValue={handleGetValue}/>
+              items && items?.map((item, index) => (
+                <ProductInfo variant={""} info={item} key={index} getValue={handleGetValue} />
               ))
             }
           </div>
