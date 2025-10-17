@@ -48,9 +48,11 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                 </div>
             </div>
             {/* printing info */}
-            <div className="">
+            <div className="hidden">
                 <div ref={rowsPrintRef} className={"bg-white"}>
-                    <Invoice/>
+                    <Invoice />
+                    <Invoice />
+                    <Invoice />
                 </div>
             </div>
         </div>
