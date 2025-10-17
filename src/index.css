@@ -45,7 +45,9 @@ h2 {
   text-align: left;
   line-height: 1.1;
 }
-
+button{
+  cursor: pointer;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -77,6 +79,16 @@ input[type=number]::-webkit-outer-spin-button {
 
 @media (max-width: 640px) {
   ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media print {
+  .page{
+    page-break-after: always;
+  }
+
+  .no-print{
     display: none;
   }
 }
