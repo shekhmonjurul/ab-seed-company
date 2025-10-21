@@ -192,7 +192,7 @@ export default function CreateOrder() {
             value={t.value}
             type={t.type}
             onChange={t?.onChange}
-            name={t?.name}
+            name={"number"}
             disabled={t?.disabled || false}
           />
         ))}

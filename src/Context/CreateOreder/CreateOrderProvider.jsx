@@ -41,7 +41,7 @@ export default function CreateOrderProvider({ children, customer={}, orderItems 
         setIsAdd(!isAdd)
         console.log("orderproduct: ", orderProducts)
 
-    }
+    } // add proucts on order poducts
 
     const handleSubmit = async (evnt) => {
         evnt.preventDefault()
@@ -56,7 +56,8 @@ export default function CreateOrderProvider({ children, customer={}, orderItems 
         }
         const res = await fetch(`${baseurl}/api/orders`, fetchoption)
         const data = await res.json()
-        console.log("formdata: ", formdata)
+        console.log("formdata: ", formdata,)
+        console.log('res: ', res, "data: ", data)
     } // post the data on server
 
     const handleGetValue = (value) => {
