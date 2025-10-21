@@ -13,8 +13,6 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
             getValue({newTotal, id: info?.id})
         }
     }, [quantity, price])
-
-
     if (variant === "button") {
         return (
 
@@ -125,6 +123,7 @@ function ProductController({ name, defualtValue, getValue }) {
                     className="text-[20px] mr-[1px] border-gray-200 border-2 px-2 cursor-pointer"
                     style={{ borderRadius: "5px 0 0 5px" }}
                     onClick={() => handleCunter("")}
+                    type="button"
                 >
                     -
                 </button>
@@ -141,6 +140,7 @@ function ProductController({ name, defualtValue, getValue }) {
                     className="text-[20px] ml-[1px] border-gray-200 border-2 px-2 cursor-pointer"
                     style={{ borderRadius: "0 5px 5px 0" }}
                     onClick={() => handleCunter("pluse")}
+                    type="button"
                 >
                     +
                 </button>

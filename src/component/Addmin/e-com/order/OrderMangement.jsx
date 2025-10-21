@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import NewSearch from "./NewSearch";
 import OrderNav from "./OrderNav";
 import { DataGrid } from "@mui/x-data-grid";
@@ -9,14 +9,13 @@ import Invoice from "./Invoice";
 
 
 
-export default function OrderMangement({ rows, columns, statusbuttons, value, handelChange }) {
+export default function OrderMangement({ rows, columns, statusbuttons, value, handelChange, loading }) {
     const [paginationModel, setPaginationModel] = useState({
         page: 0,
         pageSize: 5
     })
     const rowsPrintRef = useRef()
     const [printRows, setPrintRows] = useState([])
-
     const handlePrint = useReactToPrint({ contentRef: rowsPrintRef })
     return (
         <div>
@@ -39,7 +38,7 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                         page={5}
                         getRowHeight={() => "auto"}
                         pageSize={5}
-                        // loading={true}
+                        loading={loading}
                         rowCount={5}
                         paginationMode="seiver"
                         onRowSelectionModelChange={(selectionModel) => handleRowsSelection(selectionModel, rows, setPrintRows)}
@@ -50,9 +49,11 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
             {/* printing info */}
             <div className="hidden">
                 <div ref={rowsPrintRef} className={"bg-white"}>
-                    <Invoice />
-                    <Invoice />
-                    <Invoice />
+                    {
+                        printRows?.map((row, index) => (
+                            <Invoice printRow={row} />
+                        ))
+                    }
                 </div>
             </div>
         </div>

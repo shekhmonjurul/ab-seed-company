@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
 import { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Atom } from "react-loading-indicators";
+
 
 
 // const rows = [
@@ -61,8 +60,7 @@ export default function WebOrder() {
     const [rows, setRows] = useState([])
     const [filterRow, setFilterrow] = useState([])
     const [search, setSearch] = useState("")
-    const [orderId, setOrderid] = useState(0)
-    const [loding, setLoding] = useState(true)
+    const [loading, setLoading] = useState(true)
 
 
     const columns = [
@@ -132,13 +130,12 @@ export default function WebOrder() {
     }
 
 useEffect(() => {
-    setLoding(true)
+    setLoading(true)
     const controller = new AbortController();
     const signal = controller.signal;
 
     const fetchOrders = async () => {
         try {
-            setLoding(true);
             const res = await fetch("https://ab-seed-server-1.onrender.com/api/weborders", { signal });
             if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
             
@@ -158,13 +155,14 @@ useEffect(() => {
 
             setRows(orders);
             setFilterrow(orders);
+            setLoading(false)
         } catch (error) {
             if (error.name !== "AbortError") {
                 console.error("Failed to fetch orders:", error);
             }
         } finally {
-            setLoding(false);
-            console.log("hi componet", loding)
+            setLoading(true)
+            console.log("hi componet", loading)
         }
     };
 
@@ -176,12 +174,13 @@ useEffect(() => {
 
     useEffect(() => {
         if (search) {
-            const filterorder = rows.filter((row) => row.id === parseInt(search) || row.customer.number === search)
+            const filterorder = rows.filter((row) => row?.id === parseInt(search) || row?.customer?.number === search)
             setFilterrow(filterorder)
-            setLoding(filterorder.length === 0)
+            setLoading(filterorder.length === 0)
+            console.log("fillter: ", rows.includes(parseInt(search)||search))
         } else {
             setFilterrow(rows)
-            setLoding(false)
+            setLoading(false)
         }
         return ()=>{
             console.log("componet unmount")
@@ -196,12 +195,8 @@ useEffect(() => {
                 statusbuttons={statusbuttons}
                 value={search}
                 handelChange={handelChange}
+                loading={loading}
             />
-            {
-                loding && <div className="absolute bottom-0 left-[40%] bg-white w-[500px]">
-                    <Atom color="#b99d93" size="small" text="Loding your data please wait" textColor="" />
-                </div>
-            }
         </div>
     )
 }
