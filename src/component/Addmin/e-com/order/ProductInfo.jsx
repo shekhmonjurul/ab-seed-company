@@ -53,9 +53,9 @@ export default function ProductInfo({ variant, info = {}, getValue }) {
                 <div className="flex gap-3 ">
                     <div className="w-[130px] h-[100px] rounded-[8px]">
                         <img
-                            src={info?.images[0]?.src || info?.images?.src}
-                            alt={info?.images[0]?.alt || "product imge"}
-                            srcSet={info?.images[0]?.srcset || info?.images?.src}
+                            src={info?.image?.src||info?.images[0]?.src}
+                            alt={"product imge" || info?.images[0]?.alt }
+                            srcSet={ info?.image?.src || info?.images[0]?.srcset }
                             className="w-full h-full rounded-[8px]"
                         />
                     </div>

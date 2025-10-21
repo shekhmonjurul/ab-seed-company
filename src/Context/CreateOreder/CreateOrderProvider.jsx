@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const CreateOrderContex = createContext()
 
-export default function CreateOrderProvider({ children, orderItems = [] }) {
+export default function CreateOrderProvider({ children, customer={}, orderItems = [] }) {
     const [formdata, setFormData] = useState({
         customername: "",
         phone: "",
@@ -17,7 +17,7 @@ export default function CreateOrderProvider({ children, orderItems = [] }) {
         items: [],
     })
     const [disabled, setDisabled] = useState(new Set())
-    const [orderProducts, setOrderProducts] = useState(orderItems)
+    const [orderProducts, setOrderProducts] = useState([])
     const [isAdd, setIsAdd] = useState(false)
     const [count, setCount] = useState(0)
     // derived value (no need for separate state)
@@ -46,16 +46,16 @@ export default function CreateOrderProvider({ children, orderItems = [] }) {
     const handleSubmit = async (evnt) => {
         evnt.preventDefault()
         setFormData(prev => ({ ...prev, grandtotal: grandtotal }))
-        // const baseurl = "http://localhost:5000"
-        // const fetchoption = {
-        //     method: "post",
-        //     headers: {
-        //         "content-type": "application/json"
-        //     },
-        //     body: JSON.stringify(formdata)
-        // }
-        // const res = await fetch(`${baseurl}/api/orders`, fetchoption)
-        // const data = await res.json()
+        const baseurl = "http://localhost:5000"
+        const fetchoption = {
+            method: "post",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(formdata)
+        }
+        const res = await fetch(`${baseurl}/api/orders`, fetchoption)
+        const data = await res.json()
         console.log("formdata: ", formdata)
     } // post the data on server
 
@@ -76,7 +76,6 @@ export default function CreateOrderProvider({ children, orderItems = [] }) {
     // effect section
     useEffect(() => {
         let sum = 0
-        setOrderProducts(prev => [...prev, ...orderItems])
         if (orderProducts.length > 0) {
             sum = orderProducts?.reduce((sum, item) => sum + Number(item?.
                 updataPrice
@@ -85,6 +84,11 @@ export default function CreateOrderProvider({ children, orderItems = [] }) {
         setFormData(prev => ({ ...prev, items: [...orderProducts], subtotal: sum }))
         console.log("sum orderPrducts: ", orderProducts)
     }, [isAdd, count])
+
+    useEffect(() => {
+        setFormData(prev => ({...prev, customername: customer?.name, phone: customer?.phone, address: customer?.address, note: customer?.note }))
+        setOrderProducts(orderItems)
+    }, [customer?.name])
 
 
     // state section
