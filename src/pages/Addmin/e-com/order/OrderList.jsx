@@ -27,12 +27,26 @@ const columns = [
         renderCell: (params) => (
             <div>
                 {params.row.products.map((item, index) => (
-                    <div key={index} style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                        key={index}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            fontSize: "9px",
+                            textAlign: "justify",
+                            margin: "5px 0 5px 0"
+
+                        }}
+                    >
                         <img
                             src={item?.images[0]?.src}
                             alt={item?.price}
-                            width="20"
-                            style={{ marginRight: 5 }}
+                            width="40"
+                            style={{
+                                marginRight: 10,
+                                borderRadius: 5
+
+                            }}
                         />
                         {item?.name}
                         <span>{item?.quantity}</span>

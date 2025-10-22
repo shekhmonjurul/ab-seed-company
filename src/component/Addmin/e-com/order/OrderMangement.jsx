@@ -43,6 +43,19 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                         paginationMode="seiver"
                         onRowSelectionModelChange={(selectionModel) => handleRowsSelection(selectionModel, rows, setPrintRows)}
                         checkboxSelection
+                        sx={{
+                            '& .MuiDataGrid-cell': {
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                                // textAlign: 'center',
+                            },
+                            '& .MuiDataGrid-columnHeader': {
+                                display: "flex",
+                                alignItems: 'center',
+                                justifyContent: "center",
+                            },
+                        }}
                     />
                 </div>
             </div>
