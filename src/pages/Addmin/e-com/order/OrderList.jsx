@@ -29,12 +29,14 @@ const columns = [
                 {params.row.products.map((item, index) => (
                     <div key={index} style={{ display: "flex", alignItems: "center" }}>
                         <img
-                            src={item?.img}
-                            alt={item?.productname}
+                            src={item?.images[0]?.src}
+                            alt={item?.price}
                             width="20"
                             style={{ marginRight: 5 }}
                         />
-                        {item?.productname}
+                        {item?.name}
+                        <span>{item?.quantity}</span>
+                        {console.log("items: ", item)}
                     </div>
                 ))}
             </div>
@@ -92,18 +94,26 @@ export default function WebOrder() {
                 const res = await fetch("http://localhost:5000/api/orders", { signal });
                 const result = await res.json();
 
-                const orders = result?.data?.map((order, index) => ({
-                    id: order?.id || index + 1,
-                    ordered: order?.time,
-                    status: order?.orderStatus,
-                    customer: order?.customer,
-                    note: order?.note,
-                    products: order?.products,
-                    successrate: 100,
-                    tags: ["Monjurul Islam", "Korim", "Rohim"],
-                    site: order?.site,
-                    code: order?.code,
-                })) || [];
+                const orders = result?.data?.map((order, index) => {
+                    const customer = {
+                        name: order?.customer_name,
+                        number: order?.phone,
+                        address: order?.address
+                    }
+                    const data = {
+                        id: order?.id || index + 1,
+                        ordered: order?.created_at
+                        ,
+                        status: order?.orderStatus,
+                        customer: customer,
+                        note: order?.note,
+                        products: order?.items,
+                        tags: ["Monjurul Islam", "Korim", "Rohim"],
+                        site: order?.site,
+                        code: order?.code,
+                    }
+                    return data
+                }) || [];
 
                 setRows(orders);
                 setFilter(orders);
@@ -135,7 +145,6 @@ export default function WebOrder() {
         } else {
             setFilter(rows);
             setLoding(false);
-            console.log("rows: ", rows);
         }
 
         return () => {

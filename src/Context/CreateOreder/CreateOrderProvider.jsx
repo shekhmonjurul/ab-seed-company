@@ -2,19 +2,19 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const CreateOrderContex = createContext()
 
-export default function CreateOrderProvider({ children, customer={}, orderItems = [] }) {
+export default function CreateOrderProvider({ children, customer = {}, orderItems = [] }) {
     const [formdata, setFormData] = useState({
         customername: "",
         phone: "",
         address: "",
         note: "",
-        invoiceid: "",
+        invoice: "",
         subtotal: 0,
         deliverycharge: 50,
         discount: 0,
         advance: 0,
         grandtotal: 0,
-        items: [],
+        items: [{}],
     })
     const [disabled, setDisabled] = useState(new Set())
     const [orderProducts, setOrderProducts] = useState([])
@@ -32,20 +32,17 @@ export default function CreateOrderProvider({ children, customer={}, orderItems 
         const { name, value } = evnt.target
         const newvalue = name === "number" ? Number(value) : value
         setFormData(prev => ({ ...prev, [flied]: newvalue }))
-        console.log("flied: ", flied, "new value: ", newvalue, "value: ", value, evnt.target.type)
     } // input handller
 
     const handleAddProduct = (product) => {
         setDisabled(prev => new Set(prev).add(product.id))
         setOrderProducts((prev => [...prev, product]))
         setIsAdd(!isAdd)
-        console.log("orderproduct: ", orderProducts)
 
     } // add proucts on order poducts
 
     const handleSubmit = async (evnt) => {
         evnt.preventDefault()
-        setFormData(prev => ({ ...prev, grandtotal: grandtotal }))
         const baseurl = "http://localhost:5000"
         const fetchoption = {
             method: "post",
@@ -82,15 +79,17 @@ export default function CreateOrderProvider({ children, customer={}, orderItems 
                 updataPrice
             ) || Number(item?.price) || 0, 0)
         }
-        setFormData(prev => ({ ...prev, items: [...orderProducts], subtotal: sum }))
-        console.log("sum orderPrducts: ", orderProducts)
+        setFormData(prev => ({ ...prev, items: orderProducts, subtotal: sum, grandtotal: grandtotal }))
     }, [isAdd, count])
 
     useEffect(() => {
-        setFormData(prev => ({...prev, customername: customer?.name, phone: customer?.phone, address: customer?.address, note: customer?.note }))
+        setFormData(prev => ({ ...prev, customername: customer?.name, phone: customer?.phone, address: customer?.address, note: customer?.note, invoice: customer?.orderid }))
         setOrderProducts(orderItems)
     }, [customer?.name])
 
+    useEffect(()=>{
+        setFormData(prev=>({...prev, grandtotal: grandtotal}))
+    }, [formdata?.subtotal, formdata?.advance, formdata?.discount, formdata?.deliverycharge])
 
     // state section
     const value = {

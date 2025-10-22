@@ -136,7 +136,7 @@ useEffect(() => {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch("https://ab-seed-server-1.onrender.com/api/weborders", { signal });
+            const res = await fetch("http://localhost:5000/api/weborders?page=2&limit=10", { signal });
             if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
             
             const data = await res.json();

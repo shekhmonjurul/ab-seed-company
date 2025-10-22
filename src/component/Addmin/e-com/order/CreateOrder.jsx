@@ -110,7 +110,6 @@ export default function CreateOrder() {
       .then(data => {
         setProducts(data.data)
         setLoading(false)
-        console.log("products: ", data.data)
       })
   }, [])
 
