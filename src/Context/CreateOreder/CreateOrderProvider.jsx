@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const CreateOrderContex = createContext()
 
-export default function CreateOrderProvider({ children, customer = {}, orderItems = [] }) {
+export default function CreateOrderProvider({ children, customer = {}, orderItems = [], navigateUrl }) {
     const [formdata, setFormData] = useState({
         customername: "",
         phone: "",
@@ -20,6 +21,8 @@ export default function CreateOrderProvider({ children, customer = {}, orderItem
     const [orderProducts, setOrderProducts] = useState([])
     const [isAdd, setIsAdd] = useState(false)
     const [count, setCount] = useState(0)
+    const navigate = useNavigate()
+    const [submitError, setSubmitError] = useState("")
     // derived value (no need for separate state)
     const grandtotal =
         formdata.subtotal +
@@ -53,8 +56,12 @@ export default function CreateOrderProvider({ children, customer = {}, orderItem
         }
         const res = await fetch(`${baseurl}/api/orders`, fetchoption)
         const data = await res.json()
-        console.log("formdata: ", formdata,)
-        console.log('res: ', res, "data: ", data)
+        if (res.ok) {
+            console.log("order create successfuly")
+            navigate(navigateUrl)
+        } else {
+            setSubmitError("Internal server Error")
+        }
     } // post the data on server
 
     const handleGetValue = (value) => {
@@ -87,8 +94,8 @@ export default function CreateOrderProvider({ children, customer = {}, orderItem
         setOrderProducts(orderItems)
     }, [customer?.name])
 
-    useEffect(()=>{
-        setFormData(prev=>({...prev, grandtotal: grandtotal}))
+    useEffect(() => {
+        setFormData(prev => ({ ...prev, grandtotal: grandtotal }))
     }, [formdata?.subtotal, formdata?.advance, formdata?.discount, formdata?.deliverycharge])
 
     // state section
@@ -109,7 +116,7 @@ export default function CreateOrderProvider({ children, customer = {}, orderItem
         handleFormData,
         handleAddProduct,
         handleSubmit,
-        handleGetValue
+        handleGetValue,
     }
     return (
         <CreateOrderContex.Provider value={{ value, setFunction, handleFunction }}>

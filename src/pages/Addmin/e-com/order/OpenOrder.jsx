@@ -27,7 +27,7 @@ export default function OpenOrder() {
             <div className="mt-4 bg-white p-4 flex gap-4 justify-center items-center">
                 <DeliveryCard />
             </div>
-            <CreateOrderProvider customer={customer} orderItems={data?.order?.line_items || []}>
+            <CreateOrderProvider customer={customer} orderItems={data?.order?.line_items || []} navigateUrl={"/addmin/ecom/order/web"}>
                 <div className="w-full flex justify-center items-center bg-white">
                     <CreateOrder/>
                 </div>

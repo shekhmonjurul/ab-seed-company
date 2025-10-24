@@ -19,14 +19,10 @@ export default function CreateOrder() {
     grandtotal
   } = value
   const {
-    setOrderProducts,
-    setDisabled,
-  } = setFunction
-  const {
     handleSubmit,
     handleFormData,
     handleAddProduct,
-    handleGetValue
+    handleGetValue,
   } = handleFunction
 
   // inputs section: 
@@ -112,7 +108,6 @@ export default function CreateOrder() {
         setLoading(false)
       })
   }, [])
-
 
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
