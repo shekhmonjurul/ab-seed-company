@@ -50,7 +50,6 @@ const columns = [
                         />
                         {item?.name}
                         <span>{item?.quantity}</span>
-                        {console.log("items: ", item)}
                     </div>
                 ))}
             </div>

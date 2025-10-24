@@ -12,7 +12,7 @@ export default function OrderNav() {
     const urlname = useLocation().pathname;
 
     return (
-        <div className="bg-white py-5 sticky top-0 z-50">
+        <div className="bg-white py-5 sticky top-0 z-50 border-b border-gray-300">
             <div className="flex  h-10 w-[50%] gap-x-5 px-4 items-center bg-white">
                 {navlinks.map((navlink, index) => (
                     <div className={`p-1 text-[14px] rounded-2xl w-[100px] drop-shadow-2xl text-center transition 

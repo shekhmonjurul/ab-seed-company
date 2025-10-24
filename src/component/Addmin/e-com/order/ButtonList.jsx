@@ -9,7 +9,7 @@ export default function ButtonList() {
     return (
         <div >
             {
-                statusbuttons.map((statusbutton, index) => (
+                StatusButton.map((statusbutton, index) => (
                     <div className="relative" >
                         <StatusButton name={statusbutton.name} number={statusbutton.number} setParams={setParams} params={statusbutton.params} />
                         

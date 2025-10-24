@@ -2,7 +2,6 @@
 import Barcode from 'react-barcode';
 
 const Invoice = ({ printRow }) => {
-    console.log("value: ", printRow)
     return (
         <div className="bg-white min-h-screen flex items-center justify-center p-6 page">
             <div className="bg-white rounded-lg w-[777px] max-w-4xl p-8 border border-gray-200 ">
@@ -45,11 +44,11 @@ const Invoice = ({ printRow }) => {
                     {/* Product Row */}
                     {
                         // repitaed work
-                        printRow?.orderitems?.map((item, index) => (
-                            <div className="flex items-center justify-between my-5 border-b border-gray-200 pb-6" key={item?.id || index + 1}>
+                        printRow?.products?.map((item, index) => (
+                            <div className="flex items-center justify-between my-5 border-b border-gray-200 pb-6" key={index + 1}>
                                 <div className="flex items-center w-[480px] text-justify">
 
-                                    <img src={item?.image?.src} alt="product" className="w-16 h-16 object-contain mr-4 rounded shadow-sm" /> {/* Added size, rounding, and shadow */}
+                                    <img src={item?.images[0]?.src} alt="product" className="w-16 h-16 object-contain mr-4 rounded shadow-sm" /> {/* Added size, rounding, and shadow */}
                                     <div>
                                         <p className="font-semibold text-gray-900">{item?.sku}</p>
                                         <p className="text-sm text-gray-600">
@@ -65,8 +64,6 @@ const Invoice = ({ printRow }) => {
                             </div>
                         ))
                     }
-
-
                 </div>
 
                 {/* Price Calculation Section */}
