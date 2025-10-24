@@ -115,7 +115,7 @@ export default function WebOrder() {
                         address: order?.address
                     }
                     const data = {
-                        id: order?.id || index + 1,
+                        id: order?.invoice || index + 1,
                         ordered: order?.created_at
                         ,
                         status: order?.orderStatus,
