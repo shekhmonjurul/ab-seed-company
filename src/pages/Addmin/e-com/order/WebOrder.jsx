@@ -157,7 +157,7 @@ export default function WebOrder() {
                         address: `${order?.billing?.address_1 || ""} ${order?.billing?.address_2 || ""}`.trim()
                     },
                     note: order?.customer_note || "",
-                    orderitems: order?.line_items || []
+                    orderitems: order?.line_items || [],
                 })) || [];
                 setRowCount(Number(data?.data?.rowCount) || 0)
                 setRows(orders);

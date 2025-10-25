@@ -124,6 +124,9 @@ export default function WebOrder() {
                         tags: ["Monjurul Islam", "Korim", "Rohim"],
                         site: order?.site,
                         code: order?.code,
+                        currier: {
+                            ...order
+                        }
                     }
                     return data
                 }) || [];

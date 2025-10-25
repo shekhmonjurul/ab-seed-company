@@ -15,7 +15,37 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
     const handlePrint = useReactToPrint({ contentRef: rowsPrintRef })
 
 
-    const handleSteadFast = () => { }
+    const handleSteadFast = () => {
+        // const currier = {
+        //     invoice: "",
+        //     recipient_name: "",
+        //     recipient_phone: "",
+        //     alternative_phone: "",
+        //     recipient_email: "",
+        //     recipient_address: "",
+        //     cod_amount: "",
+        //     note: "",
+        //     item_description: "",
+        //     total_lot: "",
+        //     delivery_type: ""
+        // }
+
+
+        const sendCurrier = printRows?.map((currier, index) => ({
+            invoice: currier?.currier?.invoice,
+            recipient_name: currier?.currier?.customer_name,
+            recipient_phone: currier?.currier?.phone,
+            alternative_phone: currier?.currier?.alterPhone||"N/A",
+            recipient_email: currier?.currier?.email||"N/A",
+            recipient_address: currier?.currier?.address,
+            cod_amount: currier?.currier?.grand_total,
+            note: currier?.currier?.note,
+            item_description: ""||"N/A",
+            total_lot: currier?.currier?.items?.length,
+        }))
+
+        console.log("send currier:  ", sendCurrier,)
+    }
 
     const actionButtons = [
         {
@@ -61,7 +91,7 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                         rows={rows}
                         columns={columns}
                         pageSizeOptions={[5, 10, 15, 25, 100]}
-                        
+
                         getRowHeight={() => "auto"}
                         loading={loading}
                         onRowSelectionModelChange={(selectionModel) => handleRowsSelection(selectionModel, rows, setPrintRows)}
@@ -90,7 +120,7 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                 <div ref={rowsPrintRef} className={"bg-white"}>
                     {
                         printRows?.map((row, index) => (
-                            <Invoice printRow={row} />
+                            <Invoice printRow={row} key={index}/>
                         ))
                     }
                 </div>
