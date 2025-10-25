@@ -1,15 +1,19 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "./Input";
 import ProductInfo from "./ProductInfo";
 import { Atom } from "react-loading-indicators";
 import { useCreateOrderContex } from "../../../../Context/CreateOreder/CreateOrderProvider";
 import handleProductFetch from "../../../../logic/handleProductFetch";
+import { useFetcher } from "react-router-dom";
 
 export default function CreateOrder() {
   const { value, setFunction, handleFunction } = useCreateOrderContex()
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState([])
+  const loadRef = useRef(null)
+  const [page, setPage] = useState(1)
+  const [sku, setSku] = useState()
 
 
   const {
@@ -99,16 +103,47 @@ export default function CreateOrder() {
     },
   ];
 
-  useEffect(() => {
-    const url = `http://localhost:5000/api/products`
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data.data)
-        setLoading(false)
-      })
-  }, [])
 
+
+  const handleSku = (evnt) => {
+    const { value } = evnt.target
+    setSku(value)
+  }
+
+  useEffect(() => {
+    if (!sku) {
+      const url = `http://localhost:5000/api/products?page=${page}&limit=10`
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          setProducts(prev => [...prev, ...data.data])
+          setLoading(false)
+        })
+    } else {
+      const url = `http://localhost:5000/api/products??search=${sku}`
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          setProducts(data?.data)
+          setLoading(false)
+        })
+    }
+  }, [page, sku])
+
+  useEffect(() => {
+
+    const observer = new IntersectionObserver((entris) => {
+      if (entris[0].isIntersecting) {
+        setPage(prev => prev + 1)
+      }
+    }, { threshold: 1 })
+    const current = loadRef.current
+    if (current) observer.observe(current)
+    return () => {
+      if (current) observer.unobserve(current)
+    }
+
+  }, [])
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
       {/* User Details */}
@@ -149,30 +184,34 @@ export default function CreateOrder() {
               variant="small-width"
               labelname="Code/SKU"
               placeholder="Type to Search"
+              value={sku}
+              onChange={handleSku}
             />
           </div>
 
           {
-            loading ?
-              <div className="mt-20">
-                <Atom color="#b99d93" size="medium" text="Loding your data please wait" textColor="" />
-              </div>
-              :
-              <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition">
-                {products.map((prod, index) => (
-                  <button
-                    key={prod.id || index}
-                    type="button"
-                    className={disabled.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
-                    onClick={() => handleAddProduct(prod)}
-                    disabled={disabled.has(prod.id)}
-                  >
-                    <ProductInfo variant={"button"} info={prod} />
-                  </button>
-                ))}
-              </div>
-          }
+            loading &&
+            <div className="mt-20">
+              <Atom color="#b99d93" size="medium" text="Loding your data please wait" textColor="" />
+            </div>
 
+          }
+          <div className="mt-4 flex flex-col gap-2 h-[450px] overflow-scroll transition-all">
+            {products.map((prod, index) => (
+              <button
+                key={index}
+                type="button"
+                className={disabled.has(prod.id) ? "scale-95 bg-gray-200" : "hover:scale-102 transition"}
+                onClick={() => handleAddProduct(prod)}
+                disabled={disabled.has(prod.id)}
+              >
+                <ProductInfo variant={"button"} info={prod} />
+              </button>
+            ))}
+            <div ref={loadRef}>
+              Wait for product loding .....
+            </div>
+          </div>
         </div>
       </div>
 
