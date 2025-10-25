@@ -61,6 +61,11 @@ export default function WebOrder() {
     const [filterRow, setFilterrow] = useState([])
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
+    const [rowCount, setRowCount] = useState(0)
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 5
+    })
 
 
     const columns = [
@@ -129,47 +134,49 @@ export default function WebOrder() {
         setSearch(input)
     }
 
-useEffect(() => {
-    setLoading(true)
-    const controller = new AbortController();
-    const signal = controller.signal;
+    useEffect(() => {
+        setLoading(true)
+        const controller = new AbortController();
+        const signal = controller.signal;
 
-    const fetchOrders = async () => {
-        try {
-            const res = await fetch("http://localhost:5000/api/weborders?page=2&limit=10", { signal });
-            if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-            
-            const data = await res.json();
+        const fetchOrders = async () => {
+            try {
+                const page = paginationModel?.page + 1
+                console.log("page: ", page)
+                const res = await fetch(`http://localhost:5000/api/weborders?page=${page}&limit=5`, { signal });
+                if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
-            const orders = data?.data?.map((order, index) => ({
-                id: order?.id || index + 1,
-                ordered: order?.date_created_gmt,
-                customer: {
-                    name: `${order?.billing?.first_name || ""} ${order?.billing?.last_name || ""}`.trim(),
-                    number: order?.billing?.phone || "N/A",
-                    address: `${order?.billing?.address_1 || ""} ${order?.billing?.address_2 || ""}`.trim()
-                },
-                note: order?.customer_note || "",
-                orderitems: order?.line_items || []
-            })) || [];
-
-            setRows(orders);
-            setFilterrow(orders);
-            setLoading(false)
-        } catch (error) {
-            if (error.name !== "AbortError") {
-                console.error("Failed to fetch orders:", error);
+                const data = await res.json();
+                console.log("data: ", data)
+                const orders = data?.data?.orderInfo?.map((order, index) => ({
+                    id: order?.id || index + 1,
+                    ordered: order?.date_created_gmt,
+                    customer: {
+                        name: `${order?.billing?.first_name || ""} ${order?.billing?.last_name || ""}`.trim(),
+                        number: order?.billing?.phone || "N/A",
+                        address: `${order?.billing?.address_1 || ""} ${order?.billing?.address_2 || ""}`.trim()
+                    },
+                    note: order?.customer_note || "",
+                    orderitems: order?.line_items || []
+                })) || [];
+                setRowCount(Number(data?.data?.rowCount) || 0)
+                setRows(orders);
+                setFilterrow(orders);
+                setLoading(false)
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    console.error("Failed to fetch orders:", error);
+                }
+            } finally {
+                setLoading(true)
+                console.log("hi componet", loading)
             }
-        } finally {
-            setLoading(true)
-            console.log("hi componet", loading)
-        }
-    };
+        };
 
-    fetchOrders();
+        fetchOrders();
 
-    return () => controller.abort(); // cleanup on unmount
-}, []);
+        return () => controller.abort(); // cleanup on unmount
+    }, [paginationModel.page, paginationModel.pageSize]);
 
 
     useEffect(() => {
@@ -177,12 +184,12 @@ useEffect(() => {
             const filterorder = rows.filter((row) => row?.id === parseInt(search) || row?.customer?.number === search)
             setFilterrow(filterorder)
             setLoading(filterorder.length === 0)
-            console.log("fillter: ", rows.includes(parseInt(search)||search))
+            console.log("fillter: ", rows.includes(parseInt(search) || search))
         } else {
             setFilterrow(rows)
             setLoading(false)
         }
-        return ()=>{
+        return () => {
             console.log("componet unmount")
         }
     }, [search, rows])
@@ -196,6 +203,8 @@ useEffect(() => {
                 value={search}
                 handelChange={handelChange}
                 loading={loading}
+                rowCount={rowCount}
+                onPaginationModelChange={setPaginationModel}
             />
         </div>
     )

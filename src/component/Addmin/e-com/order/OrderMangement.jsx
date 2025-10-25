@@ -9,11 +9,7 @@ import Invoice from "./Invoice";
 
 
 
-export default function OrderMangement({ rows, columns, statusbuttons, value, handelChange, loading }) {
-    const [paginationModel, setPaginationModel] = useState({
-        page: 0,
-        pageSize: 5
-    })
+export default function OrderMangement({ rows, columns, statusbuttons, value, handelChange, loading, ...option }) {
     const rowsPrintRef = useRef()
     const [printRows, setPrintRows] = useState([])
     const handlePrint = useReactToPrint({ contentRef: rowsPrintRef })
@@ -51,8 +47,8 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                                         className="text-black mx-4 bg-white border border-gray-200 p-1 w-[100px] rounded-[5px] drop-shadow-xl hover:text-green-700 transition-all  hover:drop-shadow"
                                         onClick={action.handleFunction}
                                         key={action?.id}
-                                        >
-                                       {action?.name}
+                                    >
+                                        {action?.name}
                                     </button>
                                 ))
                             }
@@ -64,17 +60,14 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                     <DataGrid
                         rows={rows}
                         columns={columns}
-                        pageSizeOptions={[5, 25, 50, 100]}
-                        paginationModel={paginationModel}
-                        onPaginationModelChange={setPaginationModel}
-                        pagination
-                        page={5}
+                        pageSizeOptions={[5, 10, 15, 25, 100]}
+                        
                         getRowHeight={() => "auto"}
-                        pageSize={5}
                         loading={loading}
-                        rowCount={5}
-                        paginationMode="seiver"
                         onRowSelectionModelChange={(selectionModel) => handleRowsSelection(selectionModel, rows, setPrintRows)}
+                        pagination
+                        paginationMode="server"
+                        {...option}
                         checkboxSelection
                         sx={{
                             '& .MuiDataGrid-cell': {
