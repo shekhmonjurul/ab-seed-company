@@ -12,19 +12,19 @@ const Invoice = ({ printRow }) => {
                         <h1 className="text-3xl font-bold text-black mb-2">INVOICE</h1>
                         <img src="/vite.svg" alt="logo" className="w-24 h-24 object-contain mb-4" /> {/* Added size and object-contain for better fitting */}
                         <p className="font-semibold text-gray-700">BILLING TO:</p>
-                        <p className="text-gray-900">{printRow?.customer?.name}</p>
-                        <p className="text-gray-600">{printRow?.customer?.number}</p>
-                        <p className="text-gray-600">{printRow?.customer?.address}</p>
+                        <p className="text-gray-900">{printRow?.currier?.customer_name}</p>
+                        <p className="text-gray-600">{printRow?.currier?.phone}</p>
+                        <p className="text-gray-600">{printRow?.currier?.address}</p>
                     </div>
 
                     {/* Company Info */}
                     <div className="text-left">
-                        <Barcode value={printRow?.id} className="w-25 h-22" />
+                        <Barcode value={printRow?.currier?.invoice} className="w-25 h-22" />
                         <h4 className="text-2xl font-semibold text-gray-800 mb-1">Sent From</h4>
                         <p className="text-gray-900">AB Seed Company</p>
                         <p className="text-gray-600">09647101501</p>
                         <p className="text-gray-600">Mohammdpur, Dhaka-1207</p>
-                        <p className="text-2xl font-bold text-black mt-4">INVOICE # {printRow?.id}</p>
+                        <p className="text-2xl font-bold text-black mt-4">INVOICE # {printRow?.currier?.invoice}</p>
                         <p className="text-gray-500">Date: 15/10/25</p>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ const Invoice = ({ printRow }) => {
                     {/* Product Row */}
                     {
                         // repitaed work
-                        printRow?.products?.map((item, index) => (
+                        printRow?.currier?.items?.map((item, index) => (
                             <div className="flex items-center justify-between my-5 border-b border-gray-200 pb-6" key={index + 1}>
                                 <div className="flex items-center w-[480px] text-justify">
 
@@ -70,19 +70,19 @@ const Invoice = ({ printRow }) => {
                 <div className="border-gray-200 pt-6">
                     <div className="flex justify-between mb-2 text-gray-700">
                         <span>Subtotal</span>
-                        <span className="font-medium text-gray-900">{printRow?.bill?.subtotal}</span>
+                        <span className="font-medium text-gray-900">{printRow?.currier?.subtotal}</span>
                     </div>
                     <div className="flex justify-between mb-2 text-gray-700">
                         <span>Discount</span>
-                        <span className="font-medium text-gray-900">{printRow?.bill?.discount}</span>
+                        <span className="font-medium text-gray-900">{printRow?.currier?.discount}</span>
                     </div>
                     <div className="flex justify-between mb-2 text-gray-700">
                         <span>Shipping</span>
-                        <span className="font-medium text-gray-900">{printRow?.bill?.shipping}</span>
+                        <span className="font-medium text-gray-900">{printRow?.currier?.delivery_charge}</span>
                     </div>
                     <div className="flex justify-between font-bold text-gray-800 border-t pt-2 mt-4">
                         <span>TOTAL</span>
-                        <span >{printRow?.bill?.grandtotal}</span> {/* Highlighted TOTAL for emphasis */}
+                        <span >{printRow?.currier?.grand_total}</span> {/* Highlighted TOTAL for emphasis */}
                     </div>
                 </div>
             </div>

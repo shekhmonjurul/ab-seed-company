@@ -1,5 +1,5 @@
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Atom } from "react-loading-indicators";
 
 const columns = [
@@ -96,6 +96,8 @@ export default function WebOrder() {
     const [loding, setLoding] = useState(true)
     const [search, setSearch] = useState("")
     const [filter, setFilter] = useState([])
+    const loadRef = useRef(null)
+
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
@@ -182,11 +184,9 @@ export default function WebOrder() {
                 handelChange={handelChange}
                 value={search}
             />
-            {
-                loding && <div className="absolute bottom-0 left-[40%] bg-white w-[500px]">
-                    <Atom color="#b99d93" size="small" text="Loding your data please wait" textColor="" />
-                </div>
-            }
+            <div ref={loadRef}>
+                Load More......
+            </div>
         </div>
 
 

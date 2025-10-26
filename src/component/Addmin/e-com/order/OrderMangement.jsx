@@ -13,37 +13,34 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
     const rowsPrintRef = useRef()
     const [printRows, setPrintRows] = useState([])
     const handlePrint = useReactToPrint({ contentRef: rowsPrintRef })
+    const [page, setPage] = useState(1)
 
 
-    const handleSteadFast = () => {
-        // const currier = {
-        //     invoice: "",
-        //     recipient_name: "",
-        //     recipient_phone: "",
-        //     alternative_phone: "",
-        //     recipient_email: "",
-        //     recipient_address: "",
-        //     cod_amount: "",
-        //     note: "",
-        //     item_description: "",
-        //     total_lot: "",
-        //     delivery_type: ""
-        // }
-
-
+    const handleSteadFast = async () => {
         const sendCurrier = printRows?.map((currier, index) => ({
             invoice: currier?.currier?.invoice,
             recipient_name: currier?.currier?.customer_name,
             recipient_phone: currier?.currier?.phone,
-            alternative_phone: currier?.currier?.alterPhone||"N/A",
-            recipient_email: currier?.currier?.email||"N/A",
             recipient_address: currier?.currier?.address,
             cod_amount: currier?.currier?.grand_total,
             note: currier?.currier?.note,
-            item_description: ""||"N/A",
-            total_lot: currier?.currier?.items?.length,
         }))
 
+        const length = sendCurrier.length
+
+        const currier = (length === 1) ? sendCurrier[0] : sendCurrier
+        console.log("response data:  ", currier,)
+
+        const url = (length === 1) ? `http://localhost:5000/api/steadfast/placing_order` : `http://localhost:5000/api/steadfast/bulk_order`
+
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(currier)
+        })
+        const data = await res.json()
         console.log("send currier:  ", sendCurrier,)
     }
 
@@ -59,6 +56,9 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
             handleFunction: handleSteadFast
         }
     ]
+
+ 
+
     return (
         <div>
             <OrderNav />
@@ -94,6 +94,7 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
 
                         getRowHeight={() => "auto"}
                         loading={loading}
+                        disableRowSelectionOnClick
                         onRowSelectionModelChange={(selectionModel) => handleRowsSelection(selectionModel, rows, setPrintRows)}
                         pagination
                         paginationMode="server"
@@ -114,13 +115,14 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                         }}
                     />
                 </div>
+
             </div>
             {/* printing info */}
             <div className="hidden">
                 <div ref={rowsPrintRef} className={"bg-white"}>
                     {
                         printRows?.map((row, index) => (
-                            <Invoice printRow={row} key={index}/>
+                            <Invoice printRow={row} key={index} />
                         ))
                     }
                 </div>
