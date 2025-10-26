@@ -21,7 +21,7 @@ export default function Input({ variant = "big-width", labelname, placeholder, .
             <label className="flex flex-col justify-start items-start">
                 {labelname}
                 <input
-                    name="var"
+                    type="text"
                     placeholder={placeholder}
                     className="border-gray-200 border-2 rounded-2xl w-[120px] h-10 p-4 mt-2 focus:border-black focus:outline-0 text-center"
                     {...props}
@@ -35,7 +35,6 @@ export default function Input({ variant = "big-width", labelname, placeholder, .
 
                 <input
                     type="text"
-                    name="var"
                     placeholder={placeholder}
                     className="border-gray-200 border-1 rounded-[8px] w-[400px] h-10 p-4 mt-2 focus:border-green-700 focus:border-1 focus:outline-2 focus:outline-offset-1 text-justify"
                     {...props}
@@ -44,10 +43,10 @@ export default function Input({ variant = "big-width", labelname, placeholder, .
                     (pathname === "/addmin/ecom/order/open" && labelname === "Mobile Number") ? <div
                         className="absolute right-3 top-[50%] text-green-600"
                     >
-                        <button className="mr-3" onClick={handelCall}>
+                        <button type="button" className="mr-3" onClick={handelCall}>
                             <CallIcon />
                         </button>
-                        <button onClick={handelWathsapp}>
+                        <button type="button" onClick={handelWathsapp}>
                             <WhatsAppIcon />
                         </button>
                     </div> : ""
