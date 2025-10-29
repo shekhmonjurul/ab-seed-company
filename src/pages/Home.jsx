@@ -1,6 +1,5 @@
 import Card from "../component/Card";
 import Header from "../component/Header";
-import Loader from "../component/Loader";
 import Pluse from "../component/Pluse";
 
 
