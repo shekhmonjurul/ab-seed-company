@@ -112,7 +112,7 @@ export default function CreateOrder() {
 
   useEffect(() => {
     console.log(sku)
-    const url = (sku) ? `http://localhost:5000/api/products?sku=${sku}` : `http://localhost:5000/api/products?page=${page}&limit=10`
+    const url = (sku) ? `http://localhost:5000/api/products??search=${sku}` : `http://localhost:5000/api/products?page=${page}&limit=10`
     fetch(url)
       .then(res => res.json())
       .then(data => {
