@@ -64,7 +64,7 @@ export default function WebOrder() {
     const [rowCount, setRowCount] = useState(0)
     const [paginationModel, setPaginationModel] = useState({
         page: 0,
-        pageSize: 5
+        pageSize: 10
     })
 
 
@@ -142,8 +142,8 @@ export default function WebOrder() {
         const fetchOrders = async () => {
             try {
                 const page = paginationModel?.page + 1
-                console.log("page: ", page)
-                const res = await fetch(`http://localhost:5000/api/weborders?page=${page}&limit=5`, { signal });
+                const limit = paginationModel?.pageSize
+                const res = await fetch(`http://localhost:5000/api/weborders?page=${page}&limit=${limit}`, { signal });
                 if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
                 const data = await res.json();
@@ -159,6 +159,7 @@ export default function WebOrder() {
                     note: order?.customer_note || "",
                     orderitems: order?.line_items || [],
                 })) || [];
+
                 setRowCount(Number(data?.data?.rowCount) || 0)
                 setRows(orders);
                 setFilterrow(orders);
@@ -204,6 +205,7 @@ export default function WebOrder() {
                 handelChange={handelChange}
                 loading={loading}
                 rowCount={rowCount}
+                paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
             />
         </div>

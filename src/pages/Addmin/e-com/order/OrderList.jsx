@@ -93,22 +93,30 @@ const statusbuttons = [
 
 export default function WebOrder() {
     const [rows, setRows] = useState([])
-    const [loding, setLoding] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState("")
     const [filter, setFilter] = useState([])
-    const loadRef = useRef(null)
+    const [rowCount, setRowCount] = useState(0)
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 10
+    })
+
 
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
 
         const fetchOrders = async () => {
-            setLoding(true)
+            setLoading(true)
             try {
-                setLoding(true);
-                const res = await fetch("http://localhost:5000/api/orders", { signal });
+                setLoading(true);
+                const page = paginationModel.page + 1
+                console.log("page: ", page)
+                const limit = paginationModel.pageSize
+                const res = await fetch(`http://localhost:5000/api/orders?page=${page}&limit=${limit}`, { signal });
                 const result = await res.json();
-
+                setRowCount(Number(result?.rowCount) || 1)
                 const orders = result?.data?.map((order, index) => {
                     const customer = {
                         name: order?.customer_name,
@@ -140,14 +148,14 @@ export default function WebOrder() {
                     console.error("Fetch orders failed:", error);
                 }
             } finally {
-                setLoding(false);
+                setLoading(false);
             }
         };
 
         fetchOrders();
 
         return () => controller.abort(); // cleanup
-    }, []);
+    }, [paginationModel.page, paginationModel.pageSize]);
 
 
     useEffect(() => {
@@ -159,10 +167,10 @@ export default function WebOrder() {
             });
 
             setFilter(filterRow);
-            setLoding(filterRow.length === 0);
+            setLoading(filterRow.length === 0);
         } else {
             setFilter(rows);
-            setLoding(false);
+            setLoading(false);
         }
 
         return () => {
@@ -175,6 +183,7 @@ export default function WebOrder() {
         const value = e.target.value
         setSearch(value)
     }
+
     return (
         <div className="relative">
             <OrderMangement
@@ -183,10 +192,12 @@ export default function WebOrder() {
                 statusbuttons={statusbuttons}
                 handelChange={handelChange}
                 value={search}
+                loading={loading}
+                rowCount={rowCount}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
             />
-            <div ref={loadRef}>
-                Load More......
-            </div>
+            {console.log("pagintion moud: ", paginationModel)}
         </div>
 
 

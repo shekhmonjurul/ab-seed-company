@@ -57,8 +57,6 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
         }
     ]
 
- 
-
     return (
         <div>
             <OrderNav />
@@ -91,7 +89,6 @@ export default function OrderMangement({ rows, columns, statusbuttons, value, ha
                         rows={rows}
                         columns={columns}
                         pageSizeOptions={[5, 10, 15, 25, 100]}
-
                         getRowHeight={() => "auto"}
                         loading={loading}
                         disableRowSelectionOnClick
