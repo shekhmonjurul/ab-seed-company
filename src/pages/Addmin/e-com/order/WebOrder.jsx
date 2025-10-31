@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import OrderMangement from "../../../../component/Addmin/e-com/order/OrderMangement";
 import { useEffect, useState } from "react";
 
@@ -52,7 +52,7 @@ const statusbuttons = [
     { name: "ADVANCE_PAYMENT", number: 12, params: "ADVANCE_PAYMENT" },
     { name: "ON_HOLD", number: 42, params: "ON_HOLD" },
     { name: "COMPLETE", number: 21622, params: "COMPLETE" },
-    { name: "CANCEL", number: 14510, params: "CANCEL" },
+    { name: "CANCEL", number: 14510, params: "CANCELLED" },
     { name: "ALL", number: 36300, params: "ALL" },
 ];
 
@@ -67,7 +67,10 @@ export default function WebOrder() {
         pageSize: 10
     })
 
+    const [params, setParams] = useSearchParams()
 
+    let status = params.get("Woocom") || "PROCESSING"
+    status = status.toLowerCase().split("_").join("-")
     const columns = [
         { field: "id", headerName: "ID", width: 80 },
         { field: "ordered", headerName: "Ordered Time", width: 200 },
@@ -143,7 +146,7 @@ export default function WebOrder() {
             try {
                 const page = paginationModel?.page + 1
                 const limit = paginationModel?.pageSize
-                const res = await fetch(`http://localhost:5000/api/weborders?page=${page}&limit=${limit}`, { signal });
+                const res = await fetch(`http://localhost:5000/api/weborders?status=${status}&page=${page}&limit=${limit}`, { signal });
                 if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
                 const data = await res.json();
@@ -177,7 +180,7 @@ export default function WebOrder() {
         fetchOrders();
 
         return () => controller.abort(); // cleanup on unmount
-    }, [paginationModel.page, paginationModel.pageSize]);
+    }, [paginationModel.page, paginationModel.pageSize, status]);
 
 
     useEffect(() => {
