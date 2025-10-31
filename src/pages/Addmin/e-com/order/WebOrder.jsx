@@ -44,17 +44,6 @@ import { useEffect, useState } from "react";
 //     }
 // ];
 
-const statusbuttons = [
-    { name: "PROCESSING", number: 9, params: "PROCESSING" },
-    { name: "INCOMPLETE", number: 37, params: "INCOMPLETE" },
-    { name: "GOOD_BUT_NO_RESPONSE", number: 23, params: "GOOD_BUT_NO_RESPONSE" },
-    { name: "NO_RESPONSE", number: 45, params: "NO_RESPONSE" },
-    { name: "ADVANCE_PAYMENT", number: 12, params: "ADVANCE_PAYMENT" },
-    { name: "ON_HOLD", number: 42, params: "ON_HOLD" },
-    { name: "COMPLETE", number: 21622, params: "COMPLETE" },
-    { name: "CANCEL", number: 14510, params: "CANCELLED" },
-    { name: "ALL", number: 36300, params: "ALL" },
-];
 
 export default function WebOrder() {
     const [rows, setRows] = useState([])
@@ -66,6 +55,7 @@ export default function WebOrder() {
         page: 0,
         pageSize: 10
     })
+    const [statusNumber, setStatusNumber] = useState({})
 
     const [params, setParams] = useSearchParams()
 
@@ -197,6 +187,30 @@ export default function WebOrder() {
             console.log("componet unmount")
         }
     }, [search, rows])
+
+    useEffect(() => {
+        const countFetch = async () => {
+            const url = `http://localhost:5000/api/weborders/status_count`
+            const res = await fetch(url)
+            const data = await res.json()
+            setStatusNumber(data?.data || {})
+        }
+        countFetch()
+        console.log(statusNumber)
+    }, [status])
+
+    const statusbuttons = [
+        { name: "PROCESSING", number: statusNumber?.processing || 0, params: "PROCESSING" },
+        { name: "INCOMPLETE", number: 37, params: "INCOMPLETE" },
+        { name: "GOOD_BUT_NO_RESPONSE", number: 23, params: "GOOD_BUT_NO_RESPONSE" },
+        { name: "NO_RESPONSE", number: 45, params: "NO_RESPONSE" },
+        { name: "ADVANCE_PAYMENT", number: 12, params: "ADVANCE_PAYMENT" },
+        { name: "ON_HOLD", number: statusNumber["on-hold"] || 0, params: "ON_HOLD" },
+        { name: "COMPLETE", number: 21622, params: "COMPLETE" },
+        { name: "CANCEL", number: statusNumber?.cancelled || 0, params: "CANCELLED" },
+        { name: "ALL", number: rowCount, params: "ALL" },
+    ];
+
 
     return (
         <div className="relative">
