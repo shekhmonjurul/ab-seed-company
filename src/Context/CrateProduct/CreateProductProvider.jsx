@@ -20,7 +20,19 @@ export default function CreateProdcutProvider({ children }) {
     })
 
 
-
+    const reset = {
+        product_name: "",
+        sku: "",
+        short_description: "",
+        long_description: "",
+        category: "",
+        reguler_price: "",
+        sale_price: "",
+        stock: "",
+        category_id: "",
+        main_image: "",
+        product_photos: []
+    }
 
 
     const handleInput = field => (event) => {
@@ -33,6 +45,7 @@ export default function CreateProdcutProvider({ children }) {
 
     const value = {
         formData,
+        reset
     }
 
     const setFuntion = {
@@ -43,7 +56,7 @@ export default function CreateProdcutProvider({ children }) {
         handleInput
     }
     return (
-        <CreateProdutContext.Provider value={{value, setFuntion, handleFuntion}}>
+        <CreateProdutContext.Provider value={{ value, setFuntion, handleFuntion }}>
             {children}
         </CreateProdutContext.Provider>
     )
