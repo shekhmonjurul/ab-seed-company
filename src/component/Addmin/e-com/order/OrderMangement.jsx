@@ -7,8 +7,6 @@ import handleRowsSelection from "../../../../logic/handleRowsSelection";
 import { useReactToPrint } from "react-to-print";
 import Invoice from "./Invoice";
 
-
-
 export default function OrderMangement({ rows, columns, statusbuttons, value, handelChange, loading, ...option }) {
     const rowsPrintRef = useRef()
     const [printRows, setPrintRows] = useState([])

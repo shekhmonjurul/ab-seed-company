@@ -1,8 +1,10 @@
 import AddminAddProduct from "../../component/Addmin/AddminAddProduct"
+import CreateProdcutProvider from "../../Context/CrateProduct/CreateProductProvider"
+
 
 export default function AddProduct() {
     return (
-        <div>
+        <div  className="flex justify-center items-center">
             <div className="p-4">
                 <h1 style={{
                     fontSize: "45px",
@@ -13,7 +15,9 @@ export default function AddProduct() {
                     Add Products
                 </h1>
                 <div>
-                    <AddminAddProduct/>
+                    <CreateProdcutProvider>
+                        <AddminAddProduct />
+                    </CreateProdcutProvider>
                 </div>
             </div>
         </div>
