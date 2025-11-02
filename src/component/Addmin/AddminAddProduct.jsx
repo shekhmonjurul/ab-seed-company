@@ -5,8 +5,9 @@ import Icon from "@mui/material/Icon";
 import Pluse from "../Pluse"
 import { RiFolderOpenFill } from "react-icons/ri";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCreateProdutContext } from "../../Context/CrateProduct/CreateProductProvider";
+import { useLocation } from "react-router-dom";
 
 const caragorys = [
     { label: "Catagori", value: "Catagori" },
@@ -31,67 +32,26 @@ const caragorys = [
 
 export default function AddminAddProduct() {
 
-    const [imge, setImge] = useState("")
-
     const { value, setFuntion, handleFuntion, } = useCreateProdutContext()
     const {
-        formData
+        formData,
+        imge,
+        seccess,
+        Images
     } = value
 
+    const formRef = useRef(null)
     const {
         handleInput,
+        handelSubmit,
+        handelFile
     } = handleFuntion
 
     const {
-        setFormData
+        setFormData,
+        setImge,
+        setImages
     } = setFuntion
-
-    const handelFile = (e) => {
-        const file = e.target?.files[0]
-        if (!file) {
-            alert("select a  product imge")
-            return
-        }
-        const url = URL.createObjectURL(file)
-        setImge(url)
-        setFormData(prev => ({ ...prev, main_image: file }))
-    }
-
-    const handelSubmit = async (event) => {
-        event.preventDefault()
-        if (!imge) {
-            alert("Select A Product Imge")
-            return
-        }
-        const uploadForm = new FormData()
-        uploadForm.append("files", formData?.main_image)
-        for (let i = 0; i < formData?.product_photos?.length; i++) {
-            uploadForm.append("files", formData?.product_photos[i])
-        }
-
-
-        const keys = Object.keys(formData)
-        const length = keys.length
-        let i = 1
-        for (const key of keys) {
-            uploadForm.append(`${key}`, formData[key])
-            if (i === length - 2) {
-                break
-            }
-            i++
-        }
-        const url = `http://localhost:5000/api/products/add`
-        try {
-            const res = await fetch(url, {
-                method: "post",
-                body: uploadForm
-            })
-            const data = res.json()
-        } catch (error) {
-            console.log("Error: ", error)
-        }
-    }
-
 
     const CustomFormGroup = styled(FormGroup)({
         display: "flex",        // flex layout
@@ -131,10 +91,40 @@ export default function AddminAddProduct() {
             onChange: handleInput("stock")
         }
     ]
+
+
+    const location = useLocation()
+    const params = new URLSearchParams(location.search)
+    const id = params.get("id")
+
+    
+
+    if (id) {
+        useEffect(() => {
+            const fetchById = async () => {
+                const url = `http://localhost:5000/api/products/get?id=${id}`
+                const res = await fetch(url)
+                const data = await res.json()
+                if (res.ok) {
+                    setFormData(...data?.data?.products || {})
+                    setImge(data?.data?.products[0]?.main_image || null)
+                    const srcs = data?.data?.products[0]?.product_photos?.map((phtos, index)=> phtos.src)
+                    console.log("srcs: ", srcs)
+                    setImages( srcs|| [])
+                }
+            }
+
+            try {
+                fetchById()
+            } catch (error) {
+            }
+        }, [])
+    }
     return (
         <div>
+            {seccess && <h1 className="text-green-600">seccess</h1>}
             <div className="text-black bg-white border-2 p-4 rounded-2xl w-[926px]">
-                <form className="flex flex-col" onSubmit={handelSubmit} >
+                <form ref={formRef} className="flex flex-col" onSubmit={handelSubmit} >
                     <div className="flex flex-row">
 
                         <div className="flex flex-col">
@@ -178,13 +168,18 @@ export default function AddminAddProduct() {
 
                         </div>
 
-                        <div className="bg-[#d9d9d9] w-[300px] flex justify-center items-center p-4 mx-4 rounded-2xl flex-col">
-                            {
-                                imge ? <img src={imge || "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"} alt="product imge" className="w-[200px] h-[200px] rounded-2xl" /> : <label htmlFor="product-photo" className="text-2xl font-bold">
-                                    Select Product Photo
-                                    <input type="file" name="file" id="product-photo" className="hidden" onChange={handelFile} />
-                                </label>
-                            }
+                        <div className="bg-[#d9d9d9] w-[300px] flex justify-center items-center p-4 mx-4 rounded-2xl    flex-col">
+                            <label htmlFor="product-photo" className="text-2xl font-bold">
+                                {imge ? <img
+                                    src={imge}
+                                    alt="product imge"
+                                    className="w-[200px] h-[200px] rounded-2xl"
+                                />
+                                    :
+                                    " Select Product Photo  "
+                                }
+                            </label>
+                            <input type="file" name="file" id="product-photo" className="hidden" onChange={handelFile}/>
                             <h1 className="mt-2">
                                 <Icon component={RiFolderOpenFill} sx={{
                                     color: "green",
@@ -207,7 +202,6 @@ export default function AddminAddProduct() {
                                         label={caragory.label}
                                         key={index}
                                         value={caragory.value}
-                                    // onChange={handleInput("category")}
                                     />
                                 ))
                             }
@@ -252,8 +246,10 @@ export default function AddminAddProduct() {
                             mr: 2
                         }} />
                         Product Photo gallery
+
                     </h1>
                     <div className="flex justify-between flex-wrap gap-5">
+                       
                         <Pluse />
                     </div>
                     <div className="flex justify-center items-center">

@@ -16,7 +16,7 @@ export default function AddProduct() {
                 </h1>
                 <div>
                     <CreateProdcutProvider>
-                        <AddminAddProduct />
+                        <AddminAddProduct/>
                     </CreateProdcutProvider>
                 </div>
             </div>
