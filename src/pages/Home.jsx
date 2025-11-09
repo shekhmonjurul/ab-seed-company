@@ -1,4 +1,5 @@
 import Card from "../component/Card";
+import Fotter from "../component/Fotter";
 import Header from "../component/Header";
 import Pluse from "../component/Pluse";
 
@@ -126,9 +127,8 @@ export default function Home() {
             </div>
           ))
         }
-        {/* <Pluse /> */}
       </div>
-
+      <Fotter/>
     </>
   )
 }

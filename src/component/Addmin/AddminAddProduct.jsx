@@ -8,31 +8,12 @@ import { styled } from "@mui/material/styles";
 import { useEffect, useRef, useState } from "react";
 import { useCreateProdutContext } from "../../Context/CrateProduct/CreateProductProvider";
 import { useLocation } from "react-router-dom";
-
-const caragorys = [
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-    { label: "Catagori", value: "Catagori" },
-
-
-]
+import handleFetch from "../../logic/handleFetch";
 
 export default function AddminAddProduct() {
 
     const { value, setFuntion, handleFuntion, } = useCreateProdutContext()
+    const [categorys, setCategorys] = useState([])
     const {
         formData,
         imge,
@@ -97,7 +78,7 @@ export default function AddminAddProduct() {
     const params = new URLSearchParams(location.search)
     const id = params.get("id")
 
-    
+
 
     if (id) {
         useEffect(() => {
@@ -108,9 +89,9 @@ export default function AddminAddProduct() {
                 if (res.ok) {
                     setFormData(...data?.data?.products || {})
                     setImge(data?.data?.products[0]?.main_image || null)
-                    const srcs = data?.data?.products[0]?.product_photos?.map((phtos, index)=> phtos.src)
+                    const srcs = data?.data?.products[0]?.product_photos?.map((phtos, index) => phtos.src)
                     console.log("srcs: ", srcs)
-                    setImages( srcs|| [])
+                    setImages(srcs || [])
                 }
             }
 
@@ -120,6 +101,15 @@ export default function AddminAddProduct() {
             }
         }, [])
     }
+
+
+    useEffect(() => {
+        const url = `http://localhost:5000/api/products/catagory`
+        const promise = handleFetch(url)
+        promise.then(data => setCategorys(data?.data?.rows))
+    }, [])
+
+
     return (
         <div>
             {seccess && <h1 className="text-green-600">seccess</h1>}
@@ -179,7 +169,7 @@ export default function AddminAddProduct() {
                                     " Select Product Photo  "
                                 }
                             </label>
-                            <input type="file" name="file" id="product-photo" className="hidden" onChange={handelFile}/>
+                            <input type="file" name="file" id="product-photo" className="hidden" onChange={handelFile} />
                             <h1 className="mt-2">
                                 <Icon component={RiFolderOpenFill} sx={{
                                     color: "green",
@@ -196,15 +186,17 @@ export default function AddminAddProduct() {
                             display: "flex"
                         }}>
                             {
-                                caragorys.map((caragory, index) => (
+                                categorys?.map((caragory, index) => (
                                     <FormControlLabel
                                         control={<Checkbox />}
-                                        label={caragory.label}
+                                        label={caragory.category_name}
                                         key={index}
-                                        value={caragory.value}
+                                        value={caragory.category_name}
+                                        onChange={handleInput("category")}
                                     />
                                 ))
                             }
+
                         </CustomFormGroup>
                     </div>
                     <div className="flex justify-between mx-5
@@ -249,7 +241,7 @@ export default function AddminAddProduct() {
 
                     </h1>
                     <div className="flex justify-between flex-wrap gap-5">
-                       
+
                         <Pluse />
                     </div>
                     <div className="flex justify-center items-center">

@@ -14,7 +14,7 @@ export default function ProductCardAddmin({ productdetailes }) {
         <>
             <div className="bg-[#d9d9d9] text-black relative border-2 rounded-[25px]">
                 <Typography className="absolute z-10 right-4 top-2">
-                    <Link to={`http://localhost:5174/addmin/product/add?id=${productdetailes?.id}`}>
+                    <Link to={`http://localhost:5174/addmin/product/edit?id=${productdetailes?.id}`}>
                         <Icon component={FaEdit} />
                     </Link>
                 </Typography>
