@@ -15,7 +15,7 @@
 
 }
 
-a {
+/* a {
   font-weight: 500;
   color: black;
   text-decoration: inherit;
@@ -24,7 +24,7 @@ a {
 a:hover {
   color: green;
   filter: grayscale(100%) brightness(100%) sepia(100%) hue-rotate(90deg) saturate(500%);
-}
+} */
 
 body {
   margin: 0;
@@ -33,21 +33,12 @@ body {
   background-color: #dbffcc;
 }
 
-h1 {
-  font-size: 25px;
-  text-align: left;
-  line-height: 1.1;
-}
 
-h2 {
-  font-size: 20px;
-  padding: 10px 0 0 10px;
-  text-align: left;
-  line-height: 1.1;
-}
 button{
   cursor: pointer;
 }
+
+
 
 @media (prefers-color-scheme: light) {
   :root {
