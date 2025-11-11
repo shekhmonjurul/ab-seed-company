@@ -2,55 +2,81 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Container from '../container/Container';
 
 const OrderFrom = () => {
-    const [hide, setHide] = useState(false)
+  const [hide, setHide] = useState(false);
 
-    const handelcilick = () => {
-        setHide(!hide)
-    }
+  const handelcilick = () => {
+    setHide(!hide);
+  };
 
-    return (
-        <div className='flex justify-center w-full h-full my-4'>
-            <StyledWrapper>
-
-                <form className="form ">
-                    
-                <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-                    <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[45%]">
-                        45%
-                    </div>
+  return (
+    <div className="flex justify-center w-full h-full my-4">
+      <Container>
+        <StyledWrapper>
+          <form className="form ">
+            <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+              <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[45%]">
+                45%
+              </div>
+            </div>
+            <p className="title">Order From </p>
+            <p className="message">
+              আপনি নিশ্চিন্তে অর্ডার করুন, কিছু জানার থাকলে অথবা অর্ডার পরিবর্তন
+              করার প্রয়োজন হলে আমরা আপনাকে কল দিয়ে বিস্তারিত আলোচনা করে সমাধান
+              করবো।{' '}
+            </p>
+            <label>
+              <input
+                required
+                placeholder="Your Name*......"
+                type="text"
+                className="input"
+              />
+            </label>
+            <label>
+              <input
+                required
+                placeholder="Your Address*......"
+                type="text"
+                className="input"
+              />
+            </label>
+            <label>
+              <input
+                required
+                placeholder="Your Phone Number*........."
+                type="text"
+                className="input"
+              />
+            </label>
+            <label>
+              <div className="flex items-center justify-between">
+                <span>Show All Order</span>
+                <button type="button" onClick={handelcilick}>
+                  {' '}
+                  {hide ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                </button>
+              </div>
+              {hide && (
+                <div className="flex items-center justify-around">
+                  <img
+                    src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"
+                    alt="prodect imge"
+                    className="w-[50px] h-[50px]"
+                  />
+                  <span> Product name</span>
                 </div>
-                    <p className="title">Order From </p>
-                    <p className="message">আপনি নিশ্চিন্তে অর্ডার করুন, কিছু জানার থাকলে অথবা অর্ডার পরিবর্তন করার প্রয়োজন হলে আমরা আপনাকে কল দিয়ে বিস্তারিত আলোচনা করে সমাধান করবো। </p>
-                    <label>
-                        <input required placeholder="Your Name*......" type="text" className="input" />
-                    </label>
-                    <label>
-                        <input required placeholder="Your Address*......" type="text" className="input" />
-                    </label>
-                    <label>
-                        <input required placeholder="Your Phone Number*........." type="text" className="input" />
-                    </label>
-                    <label>
-                        <div className='flex items-center justify-between'>
-                            <span>Show All Order</span>
-                            <button type='button' onClick={handelcilick}> {hide ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</button>
-                        </div>
-                        {hide && (
-                            <div className='flex items-center justify-around'>
-                                <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce" alt="prodect imge" className='w-[50px] h-[50px]' />
-                                <span> Product name</span>
-                            </div>
-                        )}
-                    </label>
-                    <button className="submit">Submit</button>
-                </form>
-            </StyledWrapper>
-        </div>
-    );
-}
-
+              )}
+            </label>
+            <button className="submit">Submit</button>
+          </form>
+        </StyledWrapper>
+      </Container>
+    </div>
+  );
+};
 
 const StyledWrapper = styled.div`
   .form {
@@ -76,9 +102,10 @@ const StyledWrapper = styled.div`
     padding-left: 30px;
   }
 
-  .title::before,.title::after {
+  .title::before,
+  .title::after {
     position: absolute;
-    content: "";
+    content: '';
     height: 16px;
     width: 16px;
     border-radius: 50%;
@@ -98,12 +125,11 @@ const StyledWrapper = styled.div`
     animation: pulse 1s linear infinite;
   }
 
-  .message, .signin {
+  .message,
+  .signin {
     color: rgba(88, 87, 87, 0.822);
     font-size: 14px;
   }
-
-
 
   .form label {
     position: relative;
@@ -125,7 +151,7 @@ const StyledWrapper = styled.div`
     border-radius: 10px;
     color: #fff;
     font-size: 16px;
-    transform: .3s ease;
+    transform: 0.3s ease;
   }
 
   .submit:hover {
@@ -143,12 +169,12 @@ const StyledWrapper = styled.div`
       opacity: 0;
     }
   }
-    
-  @media (max-width: 600px){
-    .form{
-        width: 100%;
+
+  @media (max-width: 600px) {
+    .form {
+      width: 100%;
     }
-}
-  `;
+  }
+`;
 
 export default OrderFrom;

@@ -24,7 +24,7 @@ export default function ProductCard({ imgsrc, catagoryname, shortdecription, pri
         <h3 className="text-2xl font-semibold ">হাইব্রিড সুবর্ণ লাউ</h3>
         <p className="text-center text-[#737373]">{shortdecription || `(১০ গ্রাম/ ৫০-৬০ বীজ) বৈশিষ্ট্য: ফল লম্বাটে সবুজ ও
 সুষম আকৃতির, গায়ে সাদা ছোপ ছোপ দাগ, ৪০-৪৫ দিনে
-ফল সংগ্রহযোগ্য, গড় ওজন ২.৫-৩ কেজি, দৈর্ঘ্য ৪০-৪৫
+     ফল সংগ্রহযোগ্য, গড় ওজন ২.৫-৩ কেজি, দৈর্ঘ্য ৪০-৪৫
 সেমি, খেতে নরম ও সুস্বাদু।`}</p>
         <div className="flex justify-around items-center">
           <del className="text-md font-bold text-[#CA7572] mx-4">320 BDT</del>
