@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import appRoute from './routes/app/AppRoute'
 import orderRouters from './routes/addmin/e-com/OrderRoute'
 import Authentication from './component/auth/Authentication'
+import FillterPopup from './component/Addmin/FillterPopup'
 
 
 
@@ -29,6 +30,7 @@ function App() {
                 key={index} />
             ))
           }
+          <Route path='/popup' element={<FillterPopup/>}/>
         </Routes>
       </BrowserRouter>
     </>

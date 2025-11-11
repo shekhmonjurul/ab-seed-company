@@ -5,7 +5,7 @@ import Icon from "@mui/material/Icon";
 import Pluse from "../Pluse"
 import { RiFolderOpenFill } from "react-icons/ri";
 import { styled } from "@mui/material/styles";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useCreateProdutContext } from "../../Context/CrateProduct/CreateProductProvider";
 import { useLocation } from "react-router-dom";
 import handleFetch from "../../logic/handleFetch";
@@ -14,6 +14,7 @@ export default function AddminAddProduct() {
 
     const { value, setFuntion, handleFuntion, } = useCreateProdutContext()
     const [categorys, setCategorys] = useState([])
+    const [formCategory, setFormCategory] = useState([])
     const {
         formData,
         imge,
@@ -110,6 +111,8 @@ export default function AddminAddProduct() {
     }, [])
 
 
+
+
     return (
         <div>
             {seccess && <h1 className="text-green-600">seccess</h1>}
@@ -192,10 +195,15 @@ export default function AddminAddProduct() {
                                         label={caragory.category_name}
                                         key={index}
                                         value={caragory.category_name}
-                                        onChange={handleInput("category")}
+                                        onChange={(event) => {
+                                            const { value, checked } = event.target
+                                            setFormCategory(prev=>[...prev, value])
+                                        }}
                                     />
                                 ))
                             }
+
+                            {console.log("formCategroy: ", formCategory)}
 
                         </CustomFormGroup>
                     </div>
