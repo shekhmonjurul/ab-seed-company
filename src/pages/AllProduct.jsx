@@ -2,6 +2,7 @@ import Header from "../component/Header";
 import Button from "../component/Button"
 import RenderList from "../component/RenderList";
 import ProductCard from "../component/ProductCard";
+import Container from "../container/Container";
 
 const seedCategories = [
     { name: "সকল পণ্য", href: "#" },
@@ -21,14 +22,18 @@ const seedCategories = [
 
 export default function AllProduct() {
     return (
-        <>
-            <Header/>
+      <>
+        <section>
+          <Container>
+            <Header />
+
             <RenderList arr={seedCategories} />
             <div className="flex gap-2 flex-wrap  w-full px-4">
-                <ProductCard />
-                <ProductCard />
+              <ProductCard />
+              <ProductCard />
             </div>
-
-        </>
-    )
+          </Container>
+        </section>
+      </>
+    );
 }
