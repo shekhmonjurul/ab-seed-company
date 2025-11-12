@@ -11,11 +11,14 @@ import AddProduct from "../../pages/Addmin/AddProduct"
 import ProductList from "../../pages/Addmin/ProductList"
 import EditProduct from "../../pages/Addmin/EditProdcut"
 import Login from "../../pages/Login"
+import ProductList from "../../pages/Addmin/ProductList" 
+import CategoryPage from "../../pages/CategoryPage"
 
 const appRoute = [
   { path: "/", element: <Home /> },
   // { path: "/productlist/addmin", element: <Productlist/>},
   { path: "/allproduct", element: <AllProduct /> },
+  { path: "/category", element: <CategoryPage /> },
   { path: "/comunity", element: <Comunity /> },
   { path: "/newoffer", element: <Newoffer /> },
   { path: "ordercart", element: <OrderCart /> },
