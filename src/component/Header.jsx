@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { GrClose } from 'react-icons/gr';
 import { MdOutlineShoppingCartCheckout } from 'react-icons/md';
@@ -7,10 +6,42 @@ import { FaShoppingBag } from 'react-icons/fa';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import { useState } from 'react';
 import Container from '../container/Container';
+import ProductCard from './ProductCard';
 
 export default function Header() {
-  const routename = useLocation();
   let [active, setActive] = useState(false);
+  let [CartOpen, setCartOpen] = useState(false);
+  let [count, setCount] = useState(0);
+  let [cartData, setcartData] = useState([]);
+
+  useEffect(() => {
+    const updateTotal = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+      setCount(totalPrice);
+      setcartData(cart);
+    };
+
+    updateTotal();
+
+    window.addEventListener('selectItem', updateTotal);
+
+    return () => {
+      window.removeEventListener('selectItem', updateTotal);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (CartOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [CartOpen]);
 
   const actionbuttons = [
     { name: 'কমিউনিটি', href: '/comunity', icon: '/comunity.svg' },
@@ -21,6 +52,9 @@ export default function Header() {
     { name: 'প্রোফাইল', href: '/profile', icon: '/profile.svg' },
   ];
 
+  let handleCart = () => {
+    setCartOpen(prev => !prev);
+  };
   return (
     <>
       <section className="bg-green-300 py-4 border-b-2 border-red-600">
@@ -35,13 +69,21 @@ export default function Header() {
               >
                 {active ? <GrClose /> : <FaBars />}
               </button>
-              <h1 className="mobile:text-[24px] tablet:text-[24px] laptop:text-[32px] computer:text-[32px] font-bold text-green-800">
+              <a
+                href="/"
+                className="mobile:text-[24px] tablet:text-[24px] laptop:text-[32px] computer:text-[32px] font-bold text-green-800"
+              >
                 এ.বি. সিড
-              </h1>
+              </a>
 
-              <div className="flex items-center gap-4 border border-gray-600 px-[26px] py-[10px] rounded-md cursor-pointer">
+              <div
+                onClick={handleCart}
+                className="flex items-center gap-4 border border-gray-600 px-[26px] py-[10px] rounded-md cursor-pointer"
+              >
                 <div className="flex items-center">
-                  <span className="text-[16px] font-bold text-gray-600">0</span>
+                  <span className="text-[16px] font-bold text-gray-600">
+                    {count}
+                  </span>
                   <TbCurrencyTaka className="text-[20px] font-bold text-gray-600" />
                 </div>
                 <FaShoppingBag className="text-[20px] font-bold text-gray-600" />
@@ -104,6 +146,18 @@ export default function Header() {
               </ul>
             </div>
           </div>
+          {CartOpen && (
+            <>
+              <div className="fixed top-0 left-0 w-full h-full bg-black opacity-80 z-40"></div>
+              <h3
+                onClick={() => setCartOpen(false)}
+                className="fixed top-[10px] mobile:right-[280px] tablet:right-[300px] laptop:right-[340px] computer:right-[340px] text-black text-3xl z-[60] cursor-pointer"
+              >
+                <GrClose />
+              </h3>
+            </>
+          )}
+          {CartOpen && <ProductCard cart={cartData} />}
         </Container>
       </section>
     </>
