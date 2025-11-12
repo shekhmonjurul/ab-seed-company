@@ -1,63 +1,61 @@
-import Icon from "@mui/material/Icon";
-import { useState } from "react";
-import { IoIosArrowDropright } from "react-icons/io";
-import QuantitySelector from "./QuantitySelector";
-export default function ProductCard({ imgsrc, catagoryname, shortdecription, price }) {
+import React from 'react';
+import { GrClose } from 'react-icons/gr';
 
-  const [showquntity, setShowquntity] = useState(false)
-  
-  const handelCart = ()=>{
-    setShowquntity(true)
-  }
-
+const ProductCard = ({ cart }) => {
   return (
-    <div className="my-4 w-[400px] mobail-product-card flex flex-col items-center rounded-lg text-black bg-white mobile-card shadow-[inset_1px_1px_8px_rgba(34,197,94,0.6)]">
-       <img
-        src={imgsrc || "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce"}
-        alt="Product Image"
-        className="w-full h-[280px] object-cover rounded-t-md img-size"
-      />
-      
-      <div className="flex flex-col gap-2 justify-center items-center  my-4 p-2">
-        <h5 className="text-[#737373]">{catagoryname || `দেশি, হাইব্রিড, উচ্চফলনশীল
-`}</h5>
-        <h3 className="text-2xl font-semibold ">হাইব্রিড সুবর্ণ লাউ</h3>
-        <p className="text-center text-[#737373]">{shortdecription || `(১০ গ্রাম/ ৫০-৬০ বীজ) বৈশিষ্ট্য: ফল লম্বাটে সবুজ ও
-সুষম আকৃতির, গায়ে সাদা ছোপ ছোপ দাগ, ৪০-৪৫ দিনে
-     ফল সংগ্রহযোগ্য, গড় ওজন ২.৫-৩ কেজি, দৈর্ঘ্য ৪০-৪৫
-সেমি, খেতে নরম ও সুস্বাদু।`}</p>
-        <div className="flex justify-around items-center">
-          <del className="text-md font-bold text-[#CA7572] mx-4">320 BDT</del>
-          <h4 className="text-md font-bold ">{`${price || 120} BDT`}</h4>
+    <>
+      <section className="absolute top-0 right-0 bg-white w-[400px] h-screen z-[50] pt-[60px] pl-[20px]">
+        <div className="h-[400px] overflow-y-scroll overflow-hidden">
+          {cart.map((item, index) => (
+            <div key={index} className="border-b border-gray-700 p-[10px]">
+              <div className="flex gap-[10px]">
+                <div className="w-[120px] h-[120px] object-cover">
+                  <img
+                    className="w-full h-full"
+                    src={item.image}
+                    alt="productImage"
+                  />
+                </div>
+                <div>
+                  <h5 className="text-[16px] font-normal text-gray-600 w-[220px]">
+                    {item.name}
+                  </h5>
+                </div>
+              </div>
+              <div className="flex items-center gap-[4px] justify-center my-[20px]">
+                <h5 className="text-2xl font-semibold text-gray-600">3</h5>
+                <span className="text-2xl font-semibold text-gray-600">x</span>
+                <h5 className="text-2xl font-semibold text-gray-600">
+                  {item.price}
+                </h5>
+                <span
+                  onClick={() => {
+                    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    const updatedCart = cart.filter(
+                      cartItem => cartItem.id !== item.id
+                    );
+                    localStorage.setItem('cart', JSON.stringify(updatedCart));
+                    window.dispatchEvent(new Event('cartUpdated'));
+                  }}
+                  className="w-[35px] h-[35px] font-semibold text-2xl text-gray-800 rounded-full border border-gray-600 flex items-center justify-center ml-[50px]"
+                >
+                  <GrClose />
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
-
-        <div className="flex items-center justify-between mt-3">
-          <button className="">
-            <img src="/heart.svg" width={35} alt="cart" />
-          </button>
-          {
-            showquntity? <QuantitySelector/> : <button className="flex justify-center items-center  mx-2 p-2 bg-[#d9ffd1]" style={{
-            fontSize: "12px",
-            borderRadius: 8, 
-            border: "2px solid #097b0a"
-          }} onClick={handelCart}>
-            <img src="/ordercart.svg" alt="order cart" width={35} className="mx-2" />
-           <span className="size-font"> কার্টে যুক্ত করুন</span>
-          </button>
-          }
-          <button className="bg-[#097b0a] text-[#dbffcc] flex items-center p-1 mt-2" style={{
-            border: "1px solid #dbffcc ",
-            outline: "2px solid #097b0a",
-            borderRadius: 8,
-            fontSize: "12px"
-          }}>
-            <span className="size-font">বিস্তারিত</span>
-            <Icon component={IoIosArrowDropright} sx={{
-              fontSize: 30
-            }} />
+        <div>
+          <h4 className="text-2xl font-bold text-gray-600 border-b border-gray-700 p-[10px]">
+            Subtotal : <span> 45৳</span>
+          </h4>
+          <button className="text-[16px] font-semibold text-white bg-green-500 py-[10px] px-[120px] cursor-pointer rounded-md mt-[20px]">
+            Checkout
           </button>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
-}
+};
+
+export default ProductCard;

@@ -3,16 +3,16 @@ import Container from '../container/Container';
 
 const ProductImages = () => {
   let product = [
-    { id: 1, href: '', image: '/image.1.jpg' },
-    { id: 2, href: '', image: '/image.2.jpg' },
-    { id: 3, href: '', image: '/image.3.jpg' },
-    { id: 4, href: '', image: '/image.4.jpg' },
-    { id: 5, href: '', image: '/image.5.jpg' },
-    { id: 6, href: '', image: '/image.6.jpg' },
-    { id: 7, href: '', image: '/image.7.jpg' },
-    { id: 8, href: '', image: '/image.8.jpg' },
-    { id: 9, href: '', image: '/image.9.jpg' },
-    { id: 10, href: '', image: '/image.10.jpg' },
+    { id: 1, href: '/category', image: '/image.1.jpg' },
+    { id: 2, href: '/category', image: '/image.2.jpg' },
+    { id: 3, href: '/category', image: '/image.3.jpg' },
+    { id: 4, href: '/category', image: '/image.4.jpg' },
+    { id: 5, href: '/category', image: '/image.5.jpg' },
+    { id: 6, href: '/category', image: '/image.6.jpg' },
+    { id: 7, href: '/category', image: '/image.7.jpg' },
+    { id: 8, href: '/category', image: '/image.8.jpg' },
+    { id: 9, href: '/category', image: '/image.9.jpg' },
+    { id: 10, href: '/category', image: '/image.10.jpg' },
   ];
   return (
     <>
@@ -28,7 +28,11 @@ const ProductImages = () => {
           </h2>
           <div className="flex flex-col gap-3">
             {product.map((item, index) => (
-              <a key={index} className="mobile:w-auto tablet:w-auto laptop:w-[1030px] computer:w-[1030px] h-auto mx-auto">
+              <a
+                href={item.href}
+                key={index}
+                className="mobile:w-auto tablet:w-auto laptop:w-[1030px] computer:w-[1030px] h-auto mx-auto cursor-pointer"
+              >
                 <img
                   className="w-full h-full object-cover bg-no-repeat"
                   src={item.image}
