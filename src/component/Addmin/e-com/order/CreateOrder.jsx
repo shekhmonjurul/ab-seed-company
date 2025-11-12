@@ -4,8 +4,6 @@ import Input from "./Input";
 import ProductInfo from "./ProductInfo";
 import { Atom } from "react-loading-indicators";
 import { useCreateOrderContex } from "../../../../Context/CreateOreder/CreateOrderProvider";
-import handleProductFetch from "../../../../logic/handleProductFetch";
-import { useFetcher } from "react-router-dom";
 
 export default function CreateOrder() {
   const { value, setFunction, handleFunction } = useCreateOrderContex()

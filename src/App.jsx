@@ -2,6 +2,8 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import appRoute from './routes/app/AppRoute'
 import orderRouters from './routes/addmin/e-com/OrderRoute'
+import Authentication from './component/auth/Authentication'
+import FillterPopup from './component/Addmin/FillterPopup'
 
 
 
@@ -18,9 +20,17 @@ function App() {
           }
           {
             orderRouters.map((route, index) => (
-              <Route path={route.path} element={route.element} key={index} />
+              <Route
+                path={route.path}
+                element={
+                    <Authentication>
+                      {route.element}
+                    </Authentication>
+                }
+                key={index} />
             ))
           }
+          <Route path='/popup' element={<FillterPopup/>}/>
         </Routes>
       </BrowserRouter>
     </>

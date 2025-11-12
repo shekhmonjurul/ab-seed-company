@@ -9,7 +9,7 @@ export default function CreateProdcutProvider({ children }) {
         sku: "",
         short_description: "",
         long_description: "",
-        category: "",
+        category: [],
         reguler_price: "",
         sale_price: "",
         stock: "",
@@ -36,6 +36,10 @@ export default function CreateProdcutProvider({ children }) {
 
 
     const handleInput = field => (event) => {
+        if (field === "category") {
+            setFormData(prev => ({ ...prev, [field]: prev.category.push(event.target.checked) }))
+            return
+        }
         const { value } = event.target
         const filterValue = Number(value) || value
         setFormData(prev => ({ ...prev, [field]: filterValue }))

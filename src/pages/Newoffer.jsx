@@ -1,3 +1,4 @@
+import Fotter from "../component/Fotter";
 import Header from "../component/Header";
 
 export default function Newoffer(){
@@ -5,6 +6,7 @@ export default function Newoffer(){
         <>
             <Header/>
             <h1>Newoffer page</h1>
+            <Fotter/>
         </>
     )
 }

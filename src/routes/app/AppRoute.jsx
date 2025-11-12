@@ -8,20 +8,24 @@ import Notifaciton from "../../pages/Notifactin"
 import OrderPage from "../../pages/OrderPages"
 import Profile from "../../pages/Profile"
 import AddProduct from "../../pages/Addmin/AddProduct"
-import ProductList from "../../pages/Addmin/ProductList" 
+import ProductList from "../../pages/Addmin/ProductList"
+import EditProduct from "../../pages/Addmin/EditProdcut"
+import Login from "../../pages/Login"
 
 const appRoute = [
-  { path: "/", element: <Home/> },
-  { path: "/productlist/addmin", element: <Productlist/>},
+  { path: "/", element: <Home /> },
+  // { path: "/productlist/addmin", element: <Productlist/>},
   { path: "/allproduct", element: <AllProduct /> },
   { path: "/comunity", element: <Comunity /> },
   { path: "/newoffer", element: <Newoffer /> },
   { path: "ordercart", element: <OrderCart /> },
   { path: "/notifaction", element: <Notifaciton /> },
   { path: "/order-form", element: <OrderPage /> },
-  { path: "/profile", element: <Profile/> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/login", element: <Login /> },
   { path: "/addmin/product/list", element: <ProductList /> },
-  { path: "/addmin/product/add", element: <AddProduct /> }
+  { path: "/addmin/product/add", element: <AddProduct /> },
+  { path: "/addmin/product/edit", element: <EditProduct /> }
 ]
 
 

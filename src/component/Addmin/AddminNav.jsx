@@ -1,38 +1,60 @@
+import { useState } from "react";
+import FillterPopup from "./FillterPopup";
+import CloseIcon from '@mui/icons-material/Close';
+
+
 export default function AddminNav() {
+    const [isClick, setIsClick] = useState(null)
     const actionbutton = [
         {
+            id: 1,
             name: "Date",
-            icon: <BarIcon />
+            icon: isClick === 1 ? <CloseIcon /> : <BarIcon />,
+            
         },
         {
+            id: 2,
             name: "Category",
-            icon: <BarIcon />
+            icon: isClick === 2 ? <CloseIcon /> : <BarIcon />,
+
         },
-          {
+        {
+            id: 3,
             name: "Stock",
-            icon: <BarIcon />
+            icon: isClick === 3 ? <CloseIcon /> : <BarIcon />,
+
         },
-          {
+        {
+            id: 4,
             name: "Brand",
-            icon: <BarIcon />
+            icon: isClick === 4 ? <CloseIcon /> : <BarIcon />,
+
         },
-          {
+        {
+            id: 5,
             name: "By Sale",
-            icon: <BarIcon />
+            icon: isClick === 5 ? <CloseIcon /> : <BarIcon />,
         },
     ]
     return (
+        <div>
             <div className="flex justify-between border-2 p-4 rounded-2xl text-[#000000]  bg-[#dbffcc]">
-              {
-                actionbutton.map((action, index)=>(
-                    <Button key={index}>
-                        {action.icon}
-                        {action.name}
-                    </Button>
-                ))
-              }
+
+                {actionbutton.map((button, index) => (
+
+                    <div key={index}>
+                        <Button
+                            onClick={() => setIsClick(button.id)}
+                        >
+                            {button.icon}
+                            {button.name}
+                        </Button>
+                        {isClick && <FillterPopup info={{ name: "Catgory" }} />}
+                    </div>
+                ))}
 
             </div>
+        </div>
     )
 }
 
@@ -50,11 +72,15 @@ function BarIcon({ className = "" }) {
     );
 }
 
-function Button({ children }) {
+function Button({ children, onClick }) {
     return (
-        <button className="flex text-2xl text-gray-700 bg-[#d9d9d9] p-2" style={{
-            borderRadius: "15px"
-        }}>
+        <button
+            className="flex text-2xl text-gray-700 bg-[#d9d9d9] p-2"
+            style={{
+                borderRadius: "15px"
+            }}
+            onClick={onClick}
+        >
             {children}
         </button>
     )
