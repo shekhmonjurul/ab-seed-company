@@ -1,9 +1,7 @@
 import Home from '../../pages/Home';
 import AllProduct from '../../pages/AllProduct';
 import Comunity from '../../pages/Comunity';
-import Newoffer from '../../pages/Newoffer';
 import OrderCart from '../../pages/OrderCart';
-import Notifaciton from '../../pages/Notifactin';
 import OrderPage from '../../pages/OrderPages';
 import Profile from '../../pages/Profile';
 import AddProduct from '../../pages/Addmin/AddProduct';
@@ -11,6 +9,7 @@ import EditProduct from '../../pages/Addmin/EditProdcut';
 import Login from '../../pages/Login';
 import CategoryPage from '../../pages/CategoryPage';
 import ProductList from '../../pages/Addmin/ProductList';
+import OrderSuccess from '../../pages/OrderSuccess';
 
 const appRoute = [
   { path: '/', element: <Home /> },
@@ -18,10 +17,9 @@ const appRoute = [
   { path: '/allproduct', element: <AllProduct /> },
   { path: '/category', element: <CategoryPage /> },
   { path: '/comunity', element: <Comunity /> },
-  { path: '/newoffer', element: <Newoffer /> },
   { path: 'ordercart', element: <OrderCart /> },
-  { path: '/notifaction', element: <Notifaciton /> },
   { path: '/order-form', element: <OrderPage /> },
+  { path: '/OrderSucess', element: <OrderSuccess /> },
   { path: '/profile', element: <Profile /> },
   { path: '/login', element: <Login /> },
   { path: '/addmin/product/list', element: <ProductList /> },

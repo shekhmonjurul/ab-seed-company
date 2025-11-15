@@ -7,19 +7,29 @@ import { TbCurrencyTaka } from 'react-icons/tb';
 import { useState } from 'react';
 import Container from '../container/Container';
 import ProductCard from './ProductCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+  let navigate = useNavigate();
   let [active, setActive] = useState(false);
   let [CartOpen, setCartOpen] = useState(false);
+  let [Total, setTotal] = useState(0);
   let [count, setCount] = useState(0);
   let [cartData, setcartData] = useState([]);
 
   useEffect(() => {
     const updateTotal = () => {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
-      setCount(totalPrice);
-      setcartData(cart);
+      const summary = JSON.parse(localStorage.getItem('cartSummary')) || [];
+
+      const totalQty = summary.reduce((acc, item) => acc + item.qty, 0);
+      const totalPrice = summary.reduce(
+        (acc, item) => acc + item.totalPrice,
+        0
+      );
+
+      setCount(totalQty);
+      setcartData(summary);
+      setTotal(totalPrice);
     };
 
     updateTotal();
@@ -78,17 +88,23 @@ export default function Header() {
 
               <div
                 onClick={handleCart}
-                className="flex items-center gap-4 border border-gray-600 px-[26px] py-[10px] rounded-md cursor-pointer"
+                className="flex items-center gap-4 border border-gray-600 px-[26px] py-[10px] rounded-md cursor-pointer relative"
               >
-                <div className="flex items-center">
+                <div className="flex items-center ">
                   <span className="text-[16px] font-bold text-gray-600">
-                    {count}
+                    {Total}
                   </span>
                   <TbCurrencyTaka className="text-[20px] font-bold text-gray-600" />
                 </div>
                 <FaShoppingBag className="text-[20px] font-bold text-gray-600" />
+                <div className="absolute top-0 right-[15px] bg-red-500 w-5 h-5 z-30 rounded-full flex items-center justify-center">
+                  {count}
+                </div>
               </div>
-              <div className="flex items-center bg-green-700 text-white mobile:px-[68px] tablet:px-[100px] laptop:px-[100px] mobile:mt-5 tablet:mt-5 laptop:mt-0 computer:mt-0 mobile:mx-auto tablet:mx-auto laptop:mx-0 computer:mx-0 computer:px-[100px] py-[10px] rounded-md cursor-pointer hover:bg-green-600">
+              <div
+                onClick={() => navigate('/order-form')}
+                className="flex items-center bg-green-700 text-white mobile:px-[68px] tablet:px-[100px] laptop:px-[100px] mobile:mt-5 tablet:mt-5 laptop:mt-0 computer:mt-0 mobile:mx-auto tablet:mx-auto laptop:mx-0 computer:mx-0 computer:px-[100px] py-[10px] rounded-md cursor-pointer hover:bg-green-600"
+              >
                 <span className="mr-2 text-[20px]">
                   <MdOutlineShoppingCartCheckout />
                 </span>
