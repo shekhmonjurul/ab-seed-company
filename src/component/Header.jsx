@@ -15,7 +15,6 @@ export default function Header() {
   let [CartOpen, setCartOpen] = useState(false);
   let [Total, setTotal] = useState(0);
   let [count, setCount] = useState(0);
-  let [cartData, setcartData] = useState([]);
 
   useEffect(() => {
     const updateTotal = () => {
@@ -28,16 +27,15 @@ export default function Header() {
       );
 
       setCount(totalQty);
-      setcartData(summary);
       setTotal(totalPrice);
     };
 
     updateTotal();
 
-    window.addEventListener('selectItem', updateTotal);
+    window.addEventListener('cartUpdated', updateTotal);
 
     return () => {
-      window.removeEventListener('selectItem', updateTotal);
+      window.removeEventListener('cartUpdated', updateTotal);
     };
   }, []);
 
@@ -67,7 +65,7 @@ export default function Header() {
   };
   return (
     <>
-      <section className="bg-green-300 py-4 border-b-2 border-red-600">
+      <section className="fixed top-0 left-0 right-0 w-full transition-all duration-300 bg-green-300 py-4 border-b-2 z-50 mobile:px-2 tablet:px-2 laptop:px-4 computer:px-4 border-red-600">
         <Container>
           <div>
             <div className="mobile:flex tablet:flex laptop:flex computer:flex  mobile:flex-wrap tablet:flex-wrap laptop:flex-row computer:flex-row items-center justify-between ">
@@ -88,7 +86,7 @@ export default function Header() {
 
               <div
                 onClick={handleCart}
-                className="flex items-center gap-4 border border-gray-600 px-[26px] py-[10px] rounded-md cursor-pointer relative"
+                className="flex items-center gap-4 border border-gray-600 mobile:px-[10px] tablet:px-[26px] laptop:px-[26px] computer:px-[26px] py-[10px] rounded-md cursor-pointer relative"
               >
                 <div className="flex items-center ">
                   <span className="text-[16px] font-bold text-gray-600">
@@ -103,7 +101,7 @@ export default function Header() {
               </div>
               <div
                 onClick={() => navigate('/order-form')}
-                className="flex items-center bg-green-700 text-white mobile:px-[68px] tablet:px-[100px] laptop:px-[100px] mobile:mt-5 tablet:mt-5 laptop:mt-0 computer:mt-0 mobile:mx-auto tablet:mx-auto laptop:mx-0 computer:mx-0 computer:px-[100px] py-[10px] rounded-md cursor-pointer hover:bg-green-600"
+                className="flex items-center bg-green-700 text-white mobile:w-full tablet:w-[230px] laptop:w-[230px] computer:w-[230px] h-[50px] mobile:mt-5 tablet:mt-5 laptop:mt-0 computer:mt-0 mobile:mx-auto tablet:mx-auto laptop:mx-0 computer:mx-0  rounded-md cursor-pointer hover:bg-green-600 justify-center"
               >
                 <span className="mr-2 text-[20px]">
                   <MdOutlineShoppingCartCheckout />
@@ -173,7 +171,7 @@ export default function Header() {
               </h3>
             </>
           )}
-          {CartOpen && <ProductCard cart={cartData} />}
+          {CartOpen && <ProductCard />}
         </Container>
       </section>
     </>

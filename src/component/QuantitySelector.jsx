@@ -1,26 +1,9 @@
 import { useState, useEffect } from 'react';
 
-export default function QuantitySelector({ productId }) {
+export default function QuantitySelector() {
   const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
-    const cartSummary = JSON.parse(localStorage.getItem('cartSummary')) || [];
-    const product = cartSummary.find(item => item.id === productId);
-    if (product) {
-      setQuantity(product.qty);
-    }
-  }, [productId]);
 
-  const updateLocalStorage = newQty => {
-    const cartSummary = JSON.parse(localStorage.getItem('cartSummary')) || [];
-    const updatedSummary = cartSummary.map(item => {
-      if (item.id === productId) {
-        return { ...item, qty: newQty, totalPrice: newQty * item.price };
-      }
-      return item;
-    });
-    localStorage.setItem('cartSummary', JSON.stringify(updatedSummary));
-  };
 
   const handelMinus = () => {
     if (quantity > 1) {

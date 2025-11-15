@@ -15,7 +15,7 @@ const appRoute = [
   { path: '/', element: <Home /> },
   // { path: "/productlist/addmin", element: <Productlist/>},
   { path: '/allproduct', element: <AllProduct /> },
-  { path: '/category', element: <CategoryPage /> },
+  { path: '/category/:slug', element: <CategoryPage /> },
   { path: '/comunity', element: <Comunity /> },
   { path: 'ordercart', element: <OrderCart /> },
   { path: '/order-form', element: <OrderPage /> },

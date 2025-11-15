@@ -1,14 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import { GrClose } from 'react-icons/gr';
-import QuantitySelector from './QuantitySelector';
+import { FaMinus, FaPlus } from 'react-icons/fa';
 
-const ProductCard = ({ cart }) => {
+const ProductCard = () => {
   let [summary, setSummary] = useState([]);
+  let [cart, setCartData] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('cartSummary')) || [];
-    setSummary(data);
+    const load = () => {
+      const data = JSON.parse(localStorage.getItem('cartSummary')) || [];
+      setSummary(data);
+    };
+
+    load();
+
+    window.addEventListener('cartUpdated', load);
+
+    return () => {
+      window.removeEventListener('cartUpdated', load);
+    };
   }, []);
+
+  function removeFromCart(id) {
+    const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+    const updatedCart = cartData.filter(item => item.id !== id);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCartData(updatedCart);
+
+    const summaryData = JSON.parse(localStorage.getItem('cartSummary')) || [];
+    const updatedSummary = summaryData.filter(item => item.id !== id);
+    localStorage.setItem('cartSummary', JSON.stringify(updatedSummary));
+    setSummary(updatedSummary);
+
+    window.dispatchEvent(new Event('cartUpdated'));
+  }
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartData(data);
+  }, []);
+
+  let handleIncrement = (id, action) => {
+    const summaryData = JSON.parse(localStorage.getItem('cartSummary')) || [];
+
+    let updated = summaryData.map(item => {
+      if (item.id === id) {
+        let qty = item.qty;
+
+        if (action === 'Increment') {
+          qty += 1;
+        }
+
+        if (action === 'Decrement' && qty > 1) {
+          qty -= 1;
+        }
+
+        return {
+          ...item,
+          qty,
+          totalPrice: qty * item.price,
+        };
+      }
+      return item;
+    });
+
+    localStorage.setItem('cartSummary', JSON.stringify(updated));
+    setSummary(updated);
+
+    window.dispatchEvent(new Event('cartUpdated'));
+  };
 
   const getQty = id => {
     const found = summary.find(item => item.id === id);
@@ -40,7 +100,12 @@ const ProductCard = ({ cart }) => {
                   </div>
                 </div>
                 <div className="flex items-center justify-center my-[20px]">
-                  <QuantitySelector productId={item.id} />
+                  <h5
+                    onClick={() => handleIncrement(item.id, 'Decrement')}
+                    className="text-black text-2xl cursor-pointer mr-2.5"
+                  >
+                    <FaMinus />
+                  </h5>
                   <h5 className="text-2xl font-semibold text-gray-600">
                     {getQty(item.id)}
                   </h5>
@@ -50,27 +115,14 @@ const ProductCard = ({ cart }) => {
                   <h5 className="text-2xl font-semibold text-gray-600">
                     {item.price}
                   </h5>
+                  <h5
+                    onClick={() => handleIncrement(item.id, 'Increment')}
+                    className="text-black text-2xl cursor-pointer ml-2.5"
+                  >
+                    <FaPlus />
+                  </h5>
                   <span
-                    onClick={() => {
-                      const cart =
-                        JSON.parse(localStorage.getItem('cart')) || [];
-                      const updatedCart = cart.filter(
-                        cartItem => cartItem.id !== item.id
-                      );
-                      localStorage.setItem('cart', JSON.stringify(updatedCart));
-
-                      const summary =
-                        JSON.parse(localStorage.getItem('cartSummary')) || [];
-                      const updatedSummary = summary.filter(
-                        cartItem => cartItem.id !== item.id
-                      );
-                      localStorage.setItem(
-                        'cartSummary',
-                        JSON.stringify(updatedSummary)
-                      );
-
-                      window.dispatchEvent(new Event('cartUpdated'));
-                    }}
+                    onClick={() => removeFromCart(item.id)}
                     className="w-[35px] h-[35px] font-semibold text-2xl text-gray-800 rounded-full border border-gray-600 flex items-center justify-center ml-[50px] cursor-pointer"
                   >
                     <GrClose />

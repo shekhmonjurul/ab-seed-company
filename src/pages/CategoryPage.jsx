@@ -5,64 +5,44 @@ import Fotter from '../component/Footer';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import { FaCheck, FaSpinner } from 'react-icons/fa';
 
+const categories = ['fruits', 'vegetables', 'seeds'];
+
+const generateProducts = categoryName => {
+  const products = [];
+  const total = Math.floor(Math.random() * 12) + 8;
+  for (let i = 1; i <= total; i++) {
+    products.push({
+      id: i,
+      subPoint: 'ইমপোর্টকৃত',
+      name: `${categoryName} Product ${i}`,
+      href: `#/${categoryName}/${i}`,
+      price: Math.floor(Math.random() * 300) + 100,
+      DisCountPrice: Math.floor(Math.random() * 300) + 150,
+      image: `https://via.placeholder.com/300x300?text=${categoryName}+${i}`,
+    });
+  }
+  return products;
+};
+
 const CategoryPage = () => {
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [displayedProducts, setDisplayedProducts] = useState([]);
+  const [loadCount, setLoadCount] = useState(10);
   const [statusMap, setStatusMap] = useState({});
-  let cartItem = [
-    {
-      id: 1,
-      subPoint: 'ইমপোর্টকৃত',
-      name: 'শালগম, অনন্য গঠন, চকচকে সবুজ রঙ, বাজারের জন্য পারফেক্ট মানের সবজির জাত শালগম (আনুমানিক এক হাজার বীজ)',
-      href: '#',
-      price: 200,
-      DisCountPrice: 250,
-      image: '/productImage.1.jpg',
-    },
-    {
-      id: 2,
-      subPoint: 'ইমপোর্টকৃত',
-      name: 'বেগুনি শালগম, মাত্র ৪৫ দিনে ফসল, চকচকে বেগুনি শালগম (আনুমানিক ৬০০ বীজ)  (⛔️ জার্মিনেশন ঝুঁকি) গ্যারান্টি নেই',
-      href: '#',
-      price: 150,
-      DisCountPrice: 180,
-      image: '/productImage.1.jpg',
-    },
-    {
-      id: 3,
-      subPoint: 'ইমপোর্টকৃত',
-      name: 'বাঁধাকপি 🥬 কম দিনে মাথা বাঁধে! সুন্দর গোলাকৃতি বাঁধাকপি — উচ্চ ফলনশীল HRQ.S কাবেজ (২০০ বীজ)',
-      href: '#',
-      price: 110,
-      DisCountPrice: 150,
-      image: '/productImage.1.jpg',
-    },
-    {
-      id: 4,
-      subPoint: 'ইমপোর্টকৃত',
-      name: 'বেগুনি বাঁধাকপি, 🟣 মনোমুগ্ধকর রঙ ও বলিষ্ঠ গঠন—এক কথায় প্রিমিয়াম ক্লাসের বেগুনি বাঁধাকপি (২০০ বীজ)',
-      href: '#',
-      price: 250,
-      DisCountPrice: 300,
-      image: '/productImage.1.jpg',
-    },
-    {
-      id: 5,
-      subPoint: 'ইমপোর্টকৃত',
-      name: 'ব্রোকলি, ২০০ বীজ (এই ব্রোকলি জাতের গাছ মাঝারি উচ্চতা সম্পন্ন এবং কুঁড়ি সেমি-গোল গঠনবিশিষ্ট, সুগঠিত ও টাইট)',
-      href: '#',
-      price: 220,
-      DisCountPrice: 250,
-      image: '/productImage.1.jpg',
-    },
-    {
-      id: 6,
-      subPoint: 'ইমপোর্টকৃত',
-      name: 'বেগুনি রঙের অনন্য ফুলকপি, যা স্বাদে-গুণে সমৃদ্ধ এবং বাজারে বাড়তি দামে বিক্রি হয় (আনুমানিক ১০০ বীজ)',
-      href: '#',
-      price: 120,
-      DisCountPrice: 150,
-      image: '/productImage.1.jpg',
-    },
-  ];
+
+  useEffect(() => {
+    const products = generateProducts(selectedCategory);
+    setAllProducts(products);
+    setDisplayedProducts(products.slice(0, 10));
+    setLoadCount(10);
+  }, [selectedCategory]);
+
+  const handleLoadMore = () => {
+    const nextCount = loadCount + 10;
+    setDisplayedProducts(allProducts.slice(0, nextCount));
+    setLoadCount(nextCount);
+  };
 
   const handleCartItem = id => {
     if (statusMap[id] === 'added') return;
@@ -97,26 +77,26 @@ const CategoryPage = () => {
 
     localStorage.setItem('cartSummary', JSON.stringify(summary));
 
-    window.dispatchEvent(new Event('selectItem'));
+    window.dispatchEvent(new Event('cartUpdated'));
 
     setTimeout(() => {
       setStatusMap(prev => ({ ...prev, [id]: 'added' }));
-    }, 2000);
+    }, 1000);
   };
 
   return (
     <>
       <Header />
-      <section className="py-[100px]">
+      <section className="tablet:py-[100px] laptop:py-[100px] computer:py-[100px] mobile:pt-[150px] mobile:pb-[100px]">
         <Container>
           <h1 className="text-[30px] font-bold text-green-700 w-full mx-auto mb-[50px]">
-            নতুন শিপিংয়ে আসা শীতকালীন ও অন্যান্য বীজ
+            নতুন শিপিংয়ে আসা {selectedCategory} ও অন্যান্য বীজ
           </h1>
           <div className="flex items-center flex-wrap gap-5">
-            {cartItem.map((item, index) => (
+            {displayedProducts.map((item, index) => (
               <div
                 key={index}
-                className="computer:w-[310px] mobile:w-[150px] tablet:w-[285px] laptop:w-[305px] h-auto group"
+                className="computer:w-[23%] mobile:w-[47%] tablet:w-[48%] laptop:w-[32%] h-auto group"
               >
                 <div className="image w-full h-auto object-cover border-2 border-green-800 cursor-pointer relative">
                   <img className="w-full h-full" src={item.image} alt="" />
@@ -128,7 +108,7 @@ const CategoryPage = () => {
                   <h3 className="text-[13px] font-semibold text-gray-500 mb-[10px]">
                     {item.subPoint}
                   </h3>
-                  <h4 className="text-[16px] font-normal text-gray-600 text-center mb-[10px] cursor-pointer mobile:h-[190px] tablet:h-auto laptop:h-auto computer:h-auto mobile:w-[132px] tablet:w-[270px] laptop:w-[295px] computer:w-[295px]">
+                  <h4 className="text-[16px] font-normal text-gray-600 text-center mb-[10px] cursor-pointer mobile:h-[190px] tablet:h-auto laptop:h-auto computer:h-auto mobile:w-[132px] tablet:w-[270px] laptop:w-[295px] computer:w-[295px] mx-auto">
                     {item.name}
                   </h4>
                   <div className="flex items-center justify-center mb-[8px]">
@@ -159,6 +139,17 @@ const CategoryPage = () => {
               </div>
             ))}
           </div>
+
+          {displayedProducts.length < allProducts.length && (
+            <div className="mt-5 text-center">
+              <button
+                onClick={handleLoadMore}
+                className="px-6 py-2 bg-blue-500 text-white rounded-md"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </Container>
       </section>
       <Fotter />
