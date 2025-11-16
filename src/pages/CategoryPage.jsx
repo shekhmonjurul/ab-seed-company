@@ -49,7 +49,7 @@ const CategoryPage = () => {
 
     setStatusMap(prev => ({ ...prev, [id]: 'loading' }));
 
-    let selectItem = cartItem.find(item => item.id === id);
+    let selectItem = allProducts.find(item => item.id === id);
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     const exist = cart.find(item => item.id === id);
