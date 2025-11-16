@@ -115,11 +115,22 @@ export default function OrderMangement({
             // onRowSelectionModelChange={selectionModel =>
             //   handleRowsSelection(selectionModel, rows, setPrintRows)
             // }
+
             checkboxSelection
             onRowSelectionModelChange={handleCheckboxClick}
             disableRowSelectionOnClick
             pagination
             paginationMode="server"
+            initialState={{
+              filter: {
+                filterModel: {
+                  items: [],
+                },
+                panel: {
+                  open: false,
+                },
+              },
+            }}
             sx={{
               '& .MuiDataGrid-cell': {
                 display: 'flex',

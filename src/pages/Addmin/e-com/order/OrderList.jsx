@@ -1,13 +1,40 @@
 import OrderMangement from '../../../../component/Addmin/e-com/order/OrderMangement';
 import { useState, useEffect, useRef } from 'react';
+import ClearIcon from '@mui/icons-material/Clear';
+import DoneIcon from '@mui/icons-material/Done';
 import { Atom } from 'react-loading-indicators';
+import ThreeDotMenu from '../../../../component/Addmin/e-com/ThreeDotMenu';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 80 },
-  { field: 'ordered', headerName: 'Ordered Time', width: 200 },
-  { field: 'status', headerName: 'Status', width: 120 },
+  { field: 'id', headerName: 'ID', width: 80, filterable: false },
+  {
+    field: 'ordered',
+    headerName: 'Ordered Time',
+    width: 200,
+    filterable: false,
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+    width: 120,
+    filterable: false,
+  },
   { field: 'code', headerName: 'Code', width: 120 },
   { field: 'note', headerName: 'Note', width: 120 },
+  {
+    field: 'print',
+    headerName: 'print',
+    width: 120,
+    renderCell: params => (
+      <div>
+        {params.row.print ? (
+          <ClearIcon style={{ color: 'red' }} />
+        ) : (
+          <DoneIcon style={{ color: 'green' }} />
+        )}
+      </div>
+    ),
+  },
   {
     field: 'customer',
     headerName: 'Customer',
@@ -57,21 +84,31 @@ const columns = [
   },
   { field: 'site', headerName: 'Site', width: 160 },
   {
-    field: 'tags',
-    headerName: 'Tags',
-    renderCell: params => (
-      <div>
-        <select>
-          <option value="Tags">Tags</option>
-          {params.row.tags?.map((tag, index) => (
-            <option value={tag} key={index}>
-              {tag}
-            </option>
-          ))}
-        </select>
-      </div>
-    ),
+    field: 'action',
+    headerName: 'Action',
+    width: 100,
+    renderCell: params => {
+      return params.row.action === 'threeDots' ? (
+        <ThreeDotMenu row={params.row} />
+      ) : null;
+    },
   },
+  //   {
+  //     field: 'Action',
+  //     headerName: 'Action',
+  //     renderCell: params => (
+  //       <div>
+  //         {/* <select>
+  //           <option value="Tags">Tags</option>
+  //           {params.row.tags?.map((tag, index) => (
+  //             <option value={tag} key={index}>
+  //               {tag}
+  //             </option>
+  //           ))}
+  //         </select> */}
+  //       </div>
+  //     ),
+  //   },
 ];
 
 const statusbuttons = [
@@ -95,6 +132,7 @@ const initialOrders = [
     status: 'Pending',
     code: 'ABX102',
     note: 'Handle carefully',
+    print: false,
     customer: {
       name: 'Shawon Ahmed',
       number: '01711000000',
@@ -115,7 +153,7 @@ const initialOrders = [
       },
     ],
     site: 'daraz',
-    tags: ['Monjurul Islam', 'Korim', 'Rohim'],
+    action: 'threeDots',
   },
 
   {
@@ -123,7 +161,8 @@ const initialOrders = [
     ordered: '2025-01-06 02:10 PM',
     status: 'RTS',
     code: 'CDX550',
-    note: '',
+    note: 'Carefully',
+    print: true,
     customer: {
       name: 'Nayem Hasan',
       number: '01899000000',
@@ -138,7 +177,7 @@ const initialOrders = [
       },
     ],
     site: 'own-site',
-    tags: ['Monjurul Islam', 'Korim', 'Rohim'],
+    action: 'threeDots',
   },
 
   {
@@ -147,6 +186,7 @@ const initialOrders = [
     status: 'Delivered',
     code: 'EFX330',
     note: 'Paid online',
+    print: false,
     customer: {
       name: 'Sabbir Hossain',
       number: '01688000000',
@@ -167,7 +207,7 @@ const initialOrders = [
       },
     ],
     site: 'shopify',
-    tags: ['Monjurul Islam', 'Korim', 'Rohim'],
+    action: 'threeDots',
   },
 ];
 
@@ -202,7 +242,7 @@ export default function WebOrder() {
         console.log('page: ', page);
         const limit = paginationModel.pageSize;
         const res = await fetch(
-          `http://localhost:5000/api/orders?page=${page}&limit=${limit}`,
+          `${process.env.REACT_APP_BASE_URL}/api/orders?page=${page}&limit=${limit}`,
           { signal }
         );
         const result = await res.json();
@@ -244,7 +284,7 @@ export default function WebOrder() {
 
     fetchOrders();
 
-    return () => controller.abort(); // cleanup
+    return () => controller.abort();
   }, [paginationModel.page, paginationModel.pageSize]);
 
   useEffect(() => {
