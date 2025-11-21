@@ -134,7 +134,7 @@ export default function CreateOrder() {
     <>
       <form onSubmit={handleSubmit} className="p-4 bg-white text-black">
         {/* User Details */}
-        <div className="flex flex-wrap justify-center items-center gap-x-4 font-bold w-[900px]">
+        <div className="flex flex-wrap justify-between items-center font-bold w-[900px]">
           {inputs.map((input, idx) => (
             <Input
               key={idx}
@@ -151,7 +151,7 @@ export default function CreateOrder() {
           {/* Ordered Products */}
           <div className="border-gray-200 border shadow rounded-2xl p-4">
             <h1>Ordered Products</h1>
-            <div className="mt-4 w-[500px] h-[500px] overflow-scroll flex flex-col gap-4">
+            <div className=" w-[575px] h-[500px] overflow-scroll flex flex-col gap-4">
               {orderProducts &&
                 orderProducts?.map((product, index) => (
                   <ProductInfo
@@ -165,7 +165,7 @@ export default function CreateOrder() {
           </div>
 
           {/* Add Products */}
-          <div className="border p-2 drop-shadow border-gray-200 rounded-2xl">
+          <div className="w-[275px] border p-2 drop-shadow border-gray-200 rounded-2xl">
             <h1>Click To Add Products</h1>
             <div className="mt-4">
               <Input
@@ -225,7 +225,7 @@ export default function CreateOrder() {
         <div className="flex items-center  ">
           <button
             type="submit"
-            className="drop-shadow-2xl hover:drop-shadow hover:bg-amber-300 bg-green-600 p-4 text-2xl font-bold w-2xl"
+            className="drop-shadow-2xl hover:drop-shadow hover:bg-amber-300 bg-green-600 p-4 text-2xl font-bold w-[850px]"
           >
             {selectedOption ? selectedOption : 'Create Order'}
           </button>

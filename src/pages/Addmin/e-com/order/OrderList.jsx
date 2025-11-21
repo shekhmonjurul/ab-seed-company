@@ -2,7 +2,6 @@ import OrderMangement from '../../../../component/Addmin/e-com/order/OrderMangem
 import { useState, useEffect, useRef } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
-import { Atom } from 'react-loading-indicators';
 import ThreeDotMenu from '../../../../component/Addmin/e-com/ThreeDotMenu';
 
 const columns = [

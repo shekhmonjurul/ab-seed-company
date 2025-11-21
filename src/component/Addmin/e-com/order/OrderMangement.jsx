@@ -21,17 +21,22 @@ export default function OrderMangement({
   const [printRows, setPrintRows] = useState([]);
   const handlePrint = useReactToPrint({ contentRef: rowsPrintRef });
   const [page, setPage] = useState(1);
+  const [click, setClick] = useState(false);
 
-  const [openPopup, setOpenPopup] = useState(false);
+  let handlePopUp = () => {
+    setClick(!click);
+  };
+
+  // const [openPopup, setOpenPopup] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  const handleCheckboxClick = ids => {
-    if (ids.length === 0) return;
+  // const handleCheckboxClick = ids => {
+  //   if (ids.length === 0) return;
 
-    const row = rows.find(r => r.id === ids[0]);
-    setSelectedRow(row);
-    setOpenPopup(true);
-  };
+  //   const row = rows.find(r => r.id === ids[0]);
+  //   setSelectedRow(row);
+  //   setOpenPopup(true);
+  // };
 
   const handleClosePopup = () => {
     setOpenPopup(false);
@@ -89,7 +94,18 @@ export default function OrderMangement({
         <div className="sticky top-19 z-49 bg-white border-b border-gray-100">
           <StatusButton statusbuttons={statusbuttons} />
           <div className="flex justify-between items-center">
-            <NewSearch handelChange={handelChange} value={value} />
+            <div className="flex items-center gap-3">
+              <NewSearch handelChange={handelChange} value={value} />
+              <button
+                onClick={handlePopUp}
+                className="text-black mx-4 bg-white border border-gray-200 p-1 w-[100px] rounded-[5px] drop-shadow-xl hover:text-green-700 transition-all  hover:drop-shadow"
+              >
+                Action
+              </button>
+              {click && (
+                <RowPopup open={click} onClose={handlePopUp} row={printRows} />
+              )}
+            </div>
             <div className="mx-4">
               {actionButtons.map(action => (
                 <button
@@ -112,12 +128,10 @@ export default function OrderMangement({
             pageSizeOptions={[5, 10, 15, 25, 100]}
             getRowHeight={() => 'auto'}
             loading={loading}
-            // onRowSelectionModelChange={selectionModel =>
-            //   handleRowsSelection(selectionModel, rows, setPrintRows)
-            // }
-
+            onRowSelectionModelChange={selectionModel =>
+              handleRowsSelection(selectionModel, rows, setPrintRows)
+            }
             checkboxSelection
-            onRowSelectionModelChange={handleCheckboxClick}
             disableRowSelectionOnClick
             pagination
             paginationMode="server"
@@ -145,13 +159,13 @@ export default function OrderMangement({
               },
             }}
           />
-          {openPopup && (
+          {/* {openPopup && (
             <RowPopup
               open={openPopup}
               onClose={handleClosePopup}
               row={selectedRow}
             />
-          )}
+          )} */}
         </div>
       </div>
       {/* printing info */}

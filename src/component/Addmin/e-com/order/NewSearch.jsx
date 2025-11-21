@@ -10,7 +10,7 @@ export default function NewSearch({ handelChange, ...props }) {
 
 
     return (
-        <div className="bg-[#ffffff] mt-4 text-left p-4 text-black ">
+        <div className="bg-[#ffffff] text-left p-4 text-black ">
             <label htmlFor="new-search" className='w-[300px] flex items-center'>
                 <input
                     type="text"

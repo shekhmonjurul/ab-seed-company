@@ -4,49 +4,49 @@ import { useEffect, useState } from "react";
 
 
 
-// const rows = [
-//     {
-//         id: 1,
-//         ordered: "2025-09-21T15:30:00Z",
-//         status: "pending",
-//         customer: {
-//             number: "017XXXXXXXX",
-//             name: "Rahim Uddin",
-//             address: "Dhaka, Bangladesh"
-//         },
-//         note: "Please deliver fast",
-//         orderitems: [
-//             { img: "/images/product1.png", productname: "Laptop" },
-//             { img: "/images/product2.png", productname: "Mouse" }
-//         ],
-//         successrate: 90,
-//         tag: ["electronics", "priority"],
-//         site: "example.com",
-//         action: "view"
-//     },
-//     {
-//         id: 2,
-//         ordered: "2025-09-20T11:00:00Z",
-//         status: "delivered",
-//         customer: {
-//             number: "018XXXXXXXX",
-//             name: "Karim Mia",
-//             address: "Chattogram, Bangladesh"
-//         },
-//         note: "Gift wrap this item",
-//         orderitems: [
-//             { img: "/images/product3.png", id: 3, productname: "Mobile Phone" }
-//         ],
-//         successrate: 100,
-//         tag: ["mobile", "gift"],
-//         site: "shop.com",
-//         action: "edit"
-//     }
-// ];
+const fakeData = [
+    {
+        id: 1,
+        ordered: "2025-09-21T15:30:00Z",
+        status: "pending",
+        customer: {
+            number: "017XXXXXXXX",
+            name: "Rahim Uddin",
+            address: "Dhaka, Bangladesh"
+        },
+        note: "Please deliver fast",
+        orderitems: [
+            { img: "/images/product1.png", productname: "Laptop" },
+            { img: "/images/product2.png", productname: "Mouse" }
+        ],
+        successrate: 90,
+        tag: ["electronics", "priority"],
+        site: "example.com",
+        action: "view"
+    },
+    {
+        id: 2,
+        ordered: "2025-09-20T11:00:00Z",
+        status: "delivered",
+        customer: {
+            number: "018XXXXXXXX",
+            name: "Karim Mia",
+            address: "Chattogram, Bangladesh"
+        },
+        note: "Gift wrap this item",
+        orderitems: [
+            { img: "/images/product3.png", id: 3, productname: "Mobile Phone" }
+        ],
+        successrate: 100,
+        tag: ["mobile", "gift"],
+        site: "shop.com",
+        action: "edit"
+    }
+];
 
 
 export default function WebOrder() {
-    const [rows, setRows] = useState([])
+    const [rows, setRows] = useState(fakeData);
     const [filterRow, setFilterrow] = useState([])
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
@@ -220,7 +220,7 @@ export default function WebOrder() {
                 statusbuttons={statusbuttons}
                 value={search}
                 handelChange={handelChange}
-                loading={loading}
+                // loading={loading}
                 rowCount={rowCount}
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
