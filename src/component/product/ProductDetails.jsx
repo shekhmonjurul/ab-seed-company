@@ -25,15 +25,16 @@ export default function ProductDetails({
     >
       <div
         className={`
-            relative m-4 p-4 w-2/5 min-w-[40%] max-w-[40%] rounded-lg bg-white shadow-sm
+            relative m-4 p-4 computer:w-2/5 laptop:w-2/5 computer:min-w-[40%] laptop:min-w-[40%] computer:max-w-[40%] laptop:max-w-[40%] mobile:w-full
+            tablet:w-full mobile:max-w-auto tablet:max-w-auto rounded-lg bg-white shadow-sm
             transform transition-all duration-300
             ${showAnim ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
           `}
       >
         <div className="pb-4 text-xl font-medium flex items-center justify-between">
           Product Details
-          <span className='cursor-pointer'>
-            <MdOutlineClose size={28} onClick={onClose}  />
+          <span className="cursor-pointer">
+            <MdOutlineClose size={28} onClick={onClose} />
           </span>
         </div>
         <div className="w-full h-[400px] overflow-y-scroll flex flex-col gap-3 items-center mx-auto border-t p-[20px]">

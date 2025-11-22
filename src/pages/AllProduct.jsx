@@ -24,15 +24,13 @@ export default function AllProduct() {
     return (
       <>
         <section>
-          <Container>
             <Header />
 
             <RenderList arr={seedCategories} />
-            <div className="flex gap-2 flex-wrap  w-full px-4">
+            {/* <div className="flex gap-2 flex-wrap  w-full px-4">
               <ProductCard />
               <ProductCard />
-            </div>
-          </Container>
+            </div> */}
         </section>
       </>
     );

@@ -100,13 +100,14 @@ export default function QuantitySelector({ id, allProducts }) {
   const handleAddToCart = () => {
     let summary = JSON.parse(localStorage.getItem('cartSummary')) || [];
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
+    console.log(id);
     const exist = cart.find(item => item.id === id);
+    console.log('exist', exist);
     if (!exist) cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
 
     const found = summary.find(item => item.id === id);
-
+    console.log(found);
     if (!found) {
       summary.push({
         ...product,
@@ -153,7 +154,7 @@ export default function QuantitySelector({ id, allProducts }) {
       {!visible ? (
         <button
           onClick={handleAddToCart}
-          className="flex justify-center items-center px-3 py-2 bg-green-100 font-semibold "
+          className="flex justify-center items-center mobile:w-full tablet:w-[230px] laptop:w-[230px] computer:w-[230px] h-[50px] bg-green-100 font-semibold "
           style={{
             fontSize: '16px',
             borderRadius: 8,
@@ -167,7 +168,7 @@ export default function QuantitySelector({ id, allProducts }) {
       ) : (
         <div
           className="text-black border-green-700 border-2 
-          rounded-[8px] h-[50px] flex items-center justify-around font-bold p-2.5 w-[200px]"
+          rounded-[8px] h-[50px] flex items-center justify-around font-bold p-2.5 mobile:w-full tablet:w-[230px] laptop:w-[230px] computer:w-[230px]"
         >
           <span>পরিমাণ</span>
 

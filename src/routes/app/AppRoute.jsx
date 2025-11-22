@@ -14,13 +14,13 @@ import OrderSuccess from '../../pages/OrderSuccess';
 const appRoute = [
   { path: '/', element: <Home /> },
   // { path: "/productlist/addmin", element: <Productlist/>},
-  { path: '/allproduct', element: <AllProduct /> },
+  // { path: '/allproduct', element: <AllProduct /> }, // future
   { path: '/category/:slug', element: <CategoryPage /> },
-  { path: '/comunity', element: <Comunity /> },
+  // { path: '/comunity', element: <Comunity /> }, // Future
   { path: 'ordercart', element: <OrderCart /> },
   { path: '/order-form', element: <OrderPage /> },
   { path: '/OrderSucess', element: <OrderSuccess /> },
-  { path: '/profile', element: <Profile /> },
+  // { path: '/profile', element: <Profile /> }, // Future
   { path: '/login', element: <Login /> },
   { path: '/addmin/product/list', element: <ProductList /> },
   { path: '/addmin/product/add', element: <AddProduct /> },

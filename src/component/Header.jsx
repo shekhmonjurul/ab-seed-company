@@ -15,6 +15,76 @@ export default function Header() {
   let [CartOpen, setCartOpen] = useState(false);
   let [Total, setTotal] = useState(0);
   let [count, setCount] = useState(0);
+  let [isScroll, setIsScroll] = useState(false);
+
+  let FixedCategory = [
+    {
+      id: 1,
+      name: 'নতুন শিপিং আসা শীতকালীন বীজ',
+      image: '/image.1.jpg',
+    },
+    {
+      id: 2,
+      name: 'দেশি-বিদেশী সবজি',
+      image: '/image.2.jpg',
+    },
+    {
+      id: 3,
+      name: 'বরবটি-সিম',
+      image: '/image.3.jpg',
+    },
+    {
+      id: 4,
+      name: 'মরিচের বীজ',
+      image: '/image.4.jpg',
+    },
+    {
+      id: 5,
+      name: 'শসা ও করলা',
+      image: '/image.5.jpg',
+    },
+
+    {
+      id: 6,
+      name: 'টমেটোর বীজ',
+      image: '/image.6.jpg',
+    },
+    {
+      id: 7,
+      name: 'কুমড়ার বীজ',
+      image: '/image.7.jpg',
+    },
+    {
+      id: 8,
+      name: 'বেগুনের বীজ',
+      image: '/image.8.jpg',
+    },
+    {
+      id: 9,
+      name: 'তরমুজের বীজ',
+      image: '/image.9.jpg',
+    },
+    {
+      id: 10,
+      name: 'ফুলের বীজ',
+      image: '/image.10.jpg',
+    },
+  ];
+
+  useEffect(() => {
+    let scrollhandler = () => {
+      if (window.scrollY > 70) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
+
+    window.addEventListener('scroll', scrollhandler);
+    return () => {
+      window.removeEventListener('scroll', scrollhandler);
+    };
+  }, []);
 
   useEffect(() => {
     const updateTotal = () => {
@@ -51,24 +121,19 @@ export default function Header() {
     };
   }, [CartOpen]);
 
-  const actionbuttons = [
-    { name: 'কমিউনিটি', href: '/comunity', icon: '/comunity.svg' },
-    { name: 'সকল পণ্য', href: '/allproduct', icon: '/allproduct.svg' },
-    { name: 'অর্ডার কার্ট', href: '/ordercart', icon: '/ordercart.svg' },
-    { name: 'নতুন অফার', href: '/newoffer', icon: '/newoffer.svg' },
-    { name: 'নোটিফিকেশন', href: '/notifaction', icon: '/notifaction.svg' },
-    { name: 'প্রোফাইল', href: '/profile', icon: '/profile.svg' },
-  ];
-
   let handleCart = () => {
     setCartOpen(prev => !prev);
   };
   return (
     <>
-      <section className="fixed top-0 left-0 right-0 w-full transition-all duration-300 bg-green-300 py-4 border-b-2 z-50 mobile:px-2 tablet:px-2 laptop:px-4 computer:px-4 border-red-600">
+      <section
+        className={`${
+          isScroll ? 'fixed top-0 left-0 right-0 w-full ' : ''
+        } bg-green-300 py-4 transition-all duration-500 z-50 mobile:px-2 tablet:px-2 laptop:px-4 computer:px-4 `}
+      >
         <Container>
-          <div>
-            <div className="mobile:flex tablet:flex laptop:flex computer:flex  mobile:flex-wrap tablet:flex-wrap laptop:flex-row computer:flex-row items-center justify-between ">
+          <div className="w-full">
+            <div className="flex items-center mobile:justify-between tablet:justify-between laptop:justify-between computer:justify-between mb-2.5 relative z-0  ">
               <button
                 onClick={() => setActive(prev => !prev)}
                 aria-expanded={active}
@@ -86,7 +151,7 @@ export default function Header() {
 
               <div
                 onClick={handleCart}
-                className="flex items-center gap-4 border border-gray-600 mobile:px-[10px] tablet:px-[26px] laptop:px-[26px] computer:px-[26px] py-[10px] rounded-md cursor-pointer relative"
+                className="flex items-center gap-4 border border-gray-600 mobile:px-[10px] tablet:px-[26px] laptop:px-[26px] computer:px-[26px] py-[5px] rounded-md cursor-pointer relative"
               >
                 <div className="flex items-center ">
                   <span className="text-[16px] font-bold text-gray-600">
@@ -101,13 +166,39 @@ export default function Header() {
               </div>
               <div
                 onClick={() => navigate('/order-form')}
-                className="flex items-center bg-green-700 text-white mobile:w-full tablet:w-[230px] laptop:w-[230px] computer:w-[230px] h-[50px] mobile:mt-5 tablet:mt-5 laptop:mt-0 computer:mt-0 mobile:mx-auto tablet:mx-auto laptop:mx-0 computer:mx-0  rounded-md cursor-pointer hover:bg-green-600 justify-center"
+                className=" mobile:bg-none tablet:bg-none computer:bg-green-500 laptop:bg-green-500 text-white mobile:w-[80px] tablet:w-[230px] laptop:w-[230px] computer:w-[230px] h-[50px] rounded-md cursor-pointer hover:bg-green-600 gap-[5px] active:scale-[70%] transition-all duration-300"
               >
-                <span className="mr-2 text-[20px]">
-                  <MdOutlineShoppingCartCheckout />
+                <span className="mr-2 text-[20px] mobile:block tablet:block computer:hidden laptop:hidden">
+                  <img
+                    className="w-[40px] h-[40px]"
+                    src="/shopicon.png"
+                    alt=""
+                  />
                 </span>
-                <span>অডার কনফার্ম করুন</span>
+                <span className="mobile:hidden tablet:hidden laptop:block computer:block">
+                  অর্ডার কনফার্ম করুন
+                </span>
               </div>
+            </div>
+            <div className="absolute top-[65px] left-0 w-full h-[2px] z-30 bg-red-500 "></div>
+            <div
+              className={`transition-all ease-in-out duration-300 w-full ${
+                isScroll
+                  ? 'flex gap-3 py-2 items-center overflow-x-auto whitespace-nowrap '
+                  : 'grid grid-cols-5 items-center gap-2'
+              }  mt-2`}
+            >
+              {FixedCategory.map((item, index) => (
+                <div key={index} className="shrink-0">
+                  <img
+                    className={`active:scale-[80%] ${
+                      isScroll ? 'w-[40px] h-[40px]' : 'w-[30px] h-[30px]'
+                    } rounded-md object-cover bg-no-repeat`}
+                    src={item.image}
+                    alt={item.name}
+                  />
+                </div>
+              ))}
             </div>
           </div>
           {active && (
@@ -140,23 +231,36 @@ export default function Header() {
             </div>
             <div className="p-[8px]">
               <ul className="block">
-                {actionbuttons.map((action, index) => (
-                  <li key={index}>
-                    <a
-                      className="text-[16px] flex items-center gap-4 mb-2 font-bold text-black"
-                      href="#"
-                    >
-                      <div className="w-[30px] h-[30px]">
-                        <img
-                          className="w-full h-full object-cover"
-                          src={action.icon}
-                          alt=""
-                        />
-                      </div>
-                      {action.name}
-                    </a>
-                  </li>
-                ))}
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">নতুন শিপিং আসা শীতকালীন বীজ</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">দেশি-বিদেশী সবজি</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">বরবটি-সিম</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">মরিচের বীজ</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">শসা ও করলা</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">টমেটোর বীজ</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">কুমড়ার বীজ</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">বেগুনের বীজ</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">তরমুজের বীজ</a>
+                </li>
+                <li className="text-[16px] font-semibold hover:text-green-500 mb-2.5 cursor-pointer text-left">
+                  <a href="#">ফুলের বীজ</a>
+                </li>
               </ul>
             </div>
           </div>

@@ -19,7 +19,7 @@ const ProductImages = () => {
   };
 
   return (
-    <section className="py-[100px]">
+    <section className="pb-[50px]">
       <Container>
         <h1 className="mobile:text-[24px] tablet:text-[36px] laptop:text-[36px] computer:text-[36px] mobile:leading-[30px] tablet:leading-[40px] laptop:leading-[50px] computer:leading-[50px] font-bold mx-auto text-gray-600 my-[50px] mobile:w-auto tablet:w-auto laptop:w-[650px] computer:w-[650px]">
           আমরা পাইকারি দামে দিচ্ছি তাই সর্বনিম্ন ২৫০৳ অর্ডার করুন, ডেলিভারি
@@ -33,11 +33,11 @@ const ProductImages = () => {
             <a
               key={item.id}
               href={`/category/${item.categoryName}`}
-              className="cursor-pointer"
+              className="cursor-pointer border-y-3 border-green-800"
             >
               <img
                 className="w-full h-auto object-cover"
-                src={item.image}
+                src="/img.jpg"
                 alt={item.categoryName}
               />
             </a>

@@ -358,23 +358,25 @@ const CategoryPage = () => {
             ))}
           </div>
 
-          <div className="grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
+          <div className="grid mobile:grid-cols-2 tablet:grid-cols-2 laptop:grid-cols-3 computer:grid-cols-4 mobile:gap-2 tablet:gap-3 laptop:gap-4 computer:gap-5">
             {displayedProducts.map(item => {
               return (
                 <div
                   key={item.id}
-                  className="w-[400px] flex flex-col items-center rounded-lg text-black bg-white shadow-md border"
+                  className=" mobile:w-auto tablet:w-auto laptop:w-[400px] computer:w-[400px] flex flex-col items-center rounded-lg text-black bg-white shadow-md border-2 "
                 >
                   <img
-                    src={item.image}
+                    src="/img.jpg"
                     alt="Product"
-                    className="w-full h-[280px] object-cover rounded-t-md"
+                    className="w-full h-auto object-cover rounded-t-md"
                   />
 
-                  <div className="flex flex-col gap-2 justify-center items-center my-4 p-2">
+                  <div className="flex flex-col gap-2 justify-center items-center mt-4 mb-2 p-2">
                     <h5 className="text-[#737373]">{item.subPoint}</h5>
-                    <h3 className="text-2xl font-semibold">{item.name}</h3>
-                    <p className="text-center text-[#737373]">
+                    <h3 className="mobile:text-[16px] tablet:text-[18px] laptop:text-2xl computer:text-2xl font-semibold">
+                      {item.name}
+                    </h3>
+                    <p className="text-center w-auto text-[#737373]">
                       {item.shortDes}
                     </p>
 
@@ -385,7 +387,19 @@ const CategoryPage = () => {
                       <h4 className="text-md font-bold">{item.price} BDT</h4>
                     </div>
 
-                    <div className="flex items-center justify-between mt-3 gap-3">
+                    <div className="mobile:flex mobile:flex-wrap tablet:flex laptop:flex computer:flex flex-nowrap items-center mobile:justify-center tablet:justify-between laptop:justify-between computer:justify-between mt-3 gap-3 mx-auto">
+                      <button
+                        onClick={() => setModalOpen(true)}
+                        className="bg-[#097b0a] text-[#dbffcc] px-[50px] py-2 mobile:block tablet:hidden laptop:hidden computer:hidden"
+                        style={{
+                          border: '1px solid #dbffcc',
+                          outline: '2px solid #097b0a',
+                          borderRadius: 8,
+                          fontSize: '12px',
+                        }}
+                      >
+                        বিস্তারিত
+                      </button>
                       <QuantitySelector
                         id={item.id}
                         allProducts={allProducts}
@@ -427,7 +441,7 @@ const CategoryPage = () => {
                       {/* Details Button */}
                       <button
                         onClick={() => setModalOpen(true)}
-                        className="bg-[#097b0a] text-[#dbffcc] px-3 py-2"
+                        className="bg-[#097b0a] text-[#dbffcc]  px-3 py-2 mobile:hidden tablet:block laptop:block computer:block"
                         style={{
                           border: '1px solid #dbffcc',
                           outline: '2px solid #097b0a',
